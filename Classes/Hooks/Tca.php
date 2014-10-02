@@ -1,5 +1,5 @@
 <?php
-namespace Snowflake\Snowbabel\TCA;
+namespace Snowflake\Snowbabel\Hooks;
 
 /***************************************************************
  *  Copyright notice
@@ -32,7 +32,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package       TYPO3
  * @subpackage    tx_snowbabel
  */
-class TCA {
+class Tca {
 
 
 	/**

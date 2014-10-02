@@ -27,9 +27,6 @@ if(TYPO3_MODE === "BE") {
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'mod2/'
 	);
 
-	// Add TCA
-	include_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('snowbabel') . 'Classes/TCA/class.tx_snowbabel_tca.php');
-
 	// Todo: use autoinclude tca
 	// Extend Beusers For Translation Access Control
 	$tempColumns = array(
@@ -38,7 +35,7 @@ if(TYPO3_MODE === "BE") {
 			'label' => 'LLL:EXT:snowbabel/locallang_db.xlf:label.tx_snowbabel_extensions',
 			'config' => Array(
 				'type' => 'select',
-				'itemsProcFunc' => 'tx_snowbabel_TCA->getExtensions',
+				'itemsProcFunc' => 'Snowflake\Snowbabel\Hooks\Tca->getExtensions',
 				'size' => 10,
 				'maxitems' => 9999,
 				'default' => ''
@@ -49,7 +46,7 @@ if(TYPO3_MODE === "BE") {
 			'label' => 'LLL:EXT:snowbabel/locallang_db.xlf:label.tx_snowbabel_languages',
 			'config' => Array(
 				'type' => 'select',
-				'itemsProcFunc' => 'tx_snowbabel_TCA->getLanguages',
+				'itemsProcFunc' => 'Snowflake\Snowbabel\Hooks\Tca->getLanguages',
 				'size' => 10,
 				'maxitems' => 9999,
 				'default' => ''
