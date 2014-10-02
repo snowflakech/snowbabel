@@ -23,6 +23,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Snowflake\Snowbabel\Module\Translation;
 use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -39,17 +40,13 @@ require($BACK_PATH . 'template.php');
 $BE_USER->modAccess($MCONF, 1);
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
- *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * Class tx_mod1_snowbabel
  */
 class tx_mod1_snowbabel extends BaseScriptClass {
 
 
 	/**
-	 * @var tx_snowbabel_Application_Translation
+	 * @var Translation
 	 */
 	private $translation;
 
@@ -92,7 +89,7 @@ class tx_mod1_snowbabel extends BaseScriptClass {
 		$this->doc->backPath = $GLOBALS['BACK_PATH'];
 
 		// create app object
-		$this->translation = GeneralUtility::makeInstance('tx_snowbabel_Application_Translation', $this);
+		$this->translation = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Module\\Translation', $this);
 
 		// init app
 		$this->translation->init();

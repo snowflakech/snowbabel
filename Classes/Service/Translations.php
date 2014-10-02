@@ -27,17 +27,15 @@ namespace Snowflake\Snowbabel\Service;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Translations
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Service
  */
 class Translations {
 
 
 	/**
-	 * @var tx_snowbabel_configuration
+	 * @var Configuration
 	 */
 	private static $confObj;
 

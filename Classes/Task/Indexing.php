@@ -24,39 +24,34 @@ namespace Snowflake\Snowbabel\Task;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Snowflake\Snowbabel\Service\Configuration;
+use Snowflake\Snowbabel\Service\Database;
+use Snowflake\Snowbabel\Service\Translations;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Indexing
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Task
  */
 class Indexing extends AbstractTask {
 
 
 	/**
-	 * @var tx_snowbabel_Configuration
+	 * @var Configuration
 	 */
 	private static $confObj;
 
 
 	/**
-	 * @var tx_snowbabel_system_translations
+	 * @var Translations
 	 */
 	private static $SystemTranslation;
 
 
 	/**
-	 * @var tx_snowbabel_system_statistics
-	 */
-	private static $SystemStatistic;
-
-
-	/**
-	 * @var tx_snowbabel_Db
+	 * @var Database
 	 */
 	private static $Db;
 
@@ -77,10 +72,6 @@ class Indexing extends AbstractTask {
 
 		// Init System Translations
 		self::initSystemTranslations();
-
-		// Init System Statistics
-		// TODO: not yet implemented
-		self::initSystemStatistics();
 
 	}
 
@@ -199,8 +190,8 @@ class Indexing extends AbstractTask {
 	 */
 	private static function initConfiguration() {
 
-		if(!is_object(self::$confObj) && !(self::$confObj instanceof tx_snowbabel_Configuration)) {
-			self::$confObj = GeneralUtility::makeInstance('tx_snowbabel_Configuration', array());
+		if(!is_object(self::$confObj) && !(self::$confObj instanceof Configuration)) {
+			self::$confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', array());
 
 			self::$Db = self::$confObj->getDb();
 		}
@@ -212,20 +203,9 @@ class Indexing extends AbstractTask {
 	 * @return void
 	 */
 	private static function initSystemTranslations() {
-		if(!is_object(self::$SystemTranslation) && !(self::$SystemTranslation instanceof tx_snowbabel_system_translations)) {
-			self::$SystemTranslation = GeneralUtility::makeInstance('tx_snowbabel_system_translations');
+		if(!is_object(self::$SystemTranslation) && !(self::$SystemTranslation instanceof Translations)) {
+			self::$SystemTranslation = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
 			self::$SystemTranslation->init(self::$confObj);
-		}
-	}
-
-
-	/**
-	 * @return void
-	 */
-	private static function initSystemStatistics() {
-		if(!is_object(self::$SystemStatistic) && !(self::$SystemStatistic instanceof tx_snowbabel_system_statistics)) {
-			self::$SystemStatistic = GeneralUtility::makeInstance('tx_snowbabel_system_statistics');
-			self::$SystemStatistic->init(self::$confObj);
 		}
 	}
 

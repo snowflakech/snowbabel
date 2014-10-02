@@ -24,12 +24,13 @@ namespace Snowflake\Snowbabel\Record;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Snowflake\Snowbabel\Service\Configuration;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Languages
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Record
  */
 class Languages {
 
@@ -47,7 +48,7 @@ class Languages {
 
 
 	/**
-	 *
+	 * @var Configuration
 	 */
 	private $confObj;
 
@@ -103,7 +104,7 @@ class Languages {
 
 		// set flag path
 		$FlagPath = 'Resources/Public/Images/Flags/';
-		$this->AbsoluteFlagPath = t3lib_extMgm::extPath('snowbabel') . $FlagPath;
+		$this->AbsoluteFlagPath = ExtensionManagementUtility::extPath('snowbabel') . $FlagPath;
 		$this->RelativeFlagPath = '../' . $FlagPath;
 
 		$this->confObj = $confObj;

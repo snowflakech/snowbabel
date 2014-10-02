@@ -25,17 +25,15 @@ namespace Snowflake\Snowbabel\Record;
  ***************************************************************/
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Columns
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Record
  */
 class Columns {
 
 
 	/**
-	 * @var
+	 * @var \Snowflake\Snowbabel\Service\Configuration
 	 */
 	private $confObj;
 

@@ -28,11 +28,9 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Configuration
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Service
  */
 class Configuration {
 
@@ -44,7 +42,7 @@ class Configuration {
 
 
 	/**
-	 * @var tx_snowbabel_db
+	 * @var Database
 	 */
 	private $db;
 
@@ -333,7 +331,7 @@ class Configuration {
 
 
 	/**
-	 * @return tx_snowbabel_db
+	 * @return Database
 	 */
 	public function getDb() {
 		return $this->db;
@@ -673,7 +671,7 @@ class Configuration {
 	 */
 	private function loadExtensionConfiguration() {
 
-		$this->setExtensionConfiguration(t3lib_extMgm::extPath('snowbabel'), 'ExtPath');
+		$this->setExtensionConfiguration(ExtensionManagementUtility::extPath('snowbabel'), 'ExtPath');
 
 		$this->setExtensionConfigurationLoadedExtensions($GLOBALS['TYPO3_LOADED_EXT']);
 
@@ -951,8 +949,8 @@ class Configuration {
 	 */
 	private function initDatabase() {
 
-		if(!is_object($this->db) && !($this->db instanceof tx_snowbabel_Db)) {
-			$this->db = t3lib_div::makeInstance('tx_snowbabel_Db', $this->debug);
+		if(!is_object($this->db) && !($this->db instanceof Database)) {
+			$this->db = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Database', $this->debug);
 		}
 
 	}

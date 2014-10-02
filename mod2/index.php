@@ -38,19 +38,15 @@ require($BACK_PATH . 'template.php');
 $BE_USER->modAccess($MCONF, 1);
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
- *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * Class tx_mod2_snowbabel
  */
 class tx_mod2_snowbabel extends BaseScriptClass {
 
 
 	/**
-	 * @var tx_snowbabel_Application_Translation
+	 * @var \Snowflake\Snowbabel\Module\Settings
 	 */
-	private $translation;
+	private $settings;
 
 
 	/**
@@ -91,7 +87,7 @@ class tx_mod2_snowbabel extends BaseScriptClass {
 		$this->doc->backPath = $GLOBALS['BACK_PATH'];
 
 		// create app object
-		$this->settings = GeneralUtility::makeInstance('tx_snowbabel_Application_Settings', $this);
+		$this->settings = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Module\\Settings', $this);
 
 		// init app
 		$this->settings->init();

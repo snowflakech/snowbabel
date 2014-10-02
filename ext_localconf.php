@@ -10,10 +10,9 @@ if(!defined('TYPO3_MODE')) {
 );
 
 // Add Scheduler Configuration For Indexing
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['tx_snowbabel_system_indexing'] = array(
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Snowflake\\Snowbabel\\Task\\Indexing'] = array(
 	'extension' => $_EXTKEY,
 	'title' => 'Snowbabel - Indexing',
-	'description' => 'Is indexing all translation data on current installation'
+	'description' => 'Indexes all translation on current installation',
+	'additionalFields' => '',
 );
-
-?>

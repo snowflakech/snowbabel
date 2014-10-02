@@ -24,50 +24,54 @@ namespace Snowflake\Snowbabel\Connection;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Snowflake\Snowbabel\Record\Columns;
+use Snowflake\Snowbabel\Record\Extensions;
+use Snowflake\Snowbabel\Record\Labels;
+use Snowflake\Snowbabel\Record\Languages;
+use Snowflake\Snowbabel\Service\Configuration;
+use Snowflake\Snowbabel\Service\Translations;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class ExtDirectServer
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Connection
  */
 class ExtDirectServer {
 
 
 	/**
-	 * @var tx_snowbabel_configuration
+	 * @var	Configuration
 	 */
 	private $confObj;
 
 
 	/**
-	 * @var tx_snowbabel_extensions
+	 * @var	Extensions
 	 */
 	private $extObj;
 
 
 	/**
-	 * @var tx_snowbabel_labels
+	 * @var	Labels
 	 */
 	private $labelsObj;
 
 
 	/**
-	 * @var tx_snowbabel_languages
+	 * @var	Languages
 	 */
 	private $langObj;
 
 
 	/**
-	 * @var tx_snowbabel_columns
+	 * @var	Columns
 	 */
 	private $colObj;
 
 
 	/**
-	 * @var tx_snowbabel_system_translations
+	 * @var	Translations
 	 */
 	private $systemTranslationObj;
 
@@ -386,8 +390,8 @@ class ExtDirectServer {
 	 */
 	private function getConfigurationObject($extjsParams) {
 
-		if(!is_object($this->confObj) && !($this->confObj instanceof tx_snowbabel_Configuration)) {
-			$this->confObj = GeneralUtility::makeInstance('tx_snowbabel_Configuration', $extjsParams);
+		if(!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
+			$this->confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', $extjsParams);
 		}
 
 	}
@@ -397,8 +401,8 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getExtensionsObject() {
-		if(!is_object($this->extObj) && !($this->extObj instanceof tx_snowbabel_extensions)) {
-			$this->extObj = GeneralUtility::makeInstance('tx_snowbabel_extensions', $this->confObj);
+		if(!is_object($this->extObj) && !($this->extObj instanceof Extensions)) {
+			$this->extObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Extensions', $this->confObj);
 		}
 	}
 
@@ -407,8 +411,8 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getLabelsObject() {
-		if(!is_object($this->labelsObj) && !($this->labelsObj instanceof tx_snowbabel_labels)) {
-			$this->labelsObj = GeneralUtility::makeInstance('tx_snowbabel_labels', $this->confObj);
+		if(!is_object($this->labelsObj) && !($this->labelsObj instanceof Labels)) {
+			$this->labelsObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Labels', $this->confObj);
 		}
 	}
 
@@ -417,8 +421,8 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getLanguageObject() {
-		if(!is_object($this->langObj) && !($this->langObj instanceof tx_snowbabel_languages)) {
-			$this->langObj = GeneralUtility::makeInstance('tx_snowbabel_languages', $this->confObj);
+		if(!is_object($this->langObj) && !($this->langObj instanceof Languages)) {
+			$this->langObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Languages', $this->confObj);
 		}
 	}
 
@@ -427,8 +431,8 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getColumnObject() {
-		if(!is_object($this->colObj) && !($this->colObj instanceof tx_snowbabel_columns)) {
-			$this->colObj = GeneralUtility::makeInstance('tx_snowbabel_columns', $this->confObj);
+		if(!is_object($this->colObj) && !($this->colObj instanceof Columns)) {
+			$this->colObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Columns', $this->confObj);
 		}
 	}
 
@@ -437,8 +441,8 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getSystemTranslationObject() {
-		if(!is_object($this->systemTranslationObj) && !($this->systemTranslationObj instanceof tx_snowbabel_system_translations)) {
-			$this->systemTranslationObj = GeneralUtility::makeInstance('tx_snowbabel_system_translations');
+		if(!is_object($this->systemTranslationObj) && !($this->systemTranslationObj instanceof Translations)) {
+			$this->systemTranslationObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
 		}
 	}
 

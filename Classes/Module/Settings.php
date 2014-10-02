@@ -24,15 +24,14 @@ namespace Snowflake\Snowbabel\Module;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Settings
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Module
  */
 class Settings {
 
@@ -44,7 +43,7 @@ class Settings {
 
 
 	/**
-	 * @var t3lib_PageRenderer
+	 * @var PageRenderer
 	 */
 	private $pageRenderer;
 
@@ -86,9 +85,9 @@ class Settings {
 
 
 	/**
-	 * @param tx_mod2_snowbabel $parentObj
+	 * @param \tx_mod2_snowbabel $parentObj
 	 */
-	public function __construct(tx_mod2_snowbabel $parentObj) {
+	public function __construct(\tx_mod2_snowbabel $parentObj) {
 
 		// add parent object
 		$this->parentObj = $parentObj;

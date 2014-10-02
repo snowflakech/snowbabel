@@ -23,37 +23,39 @@ namespace Snowflake\Snowbabel\Record;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use Snowflake\Snowbabel\Service\Configuration;
+use Snowflake\Snowbabel\Service\Database;
+use Snowflake\Snowbabel\Service\Translations;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Labels
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Record
  */
 class Labels {
 
 
 	/**
-	 * @var tx_snowbabel_Configuration
+	 * @var Configuration
 	 */
 	private $confObj;
 
 
 	/**
-	 * @var tx_snowbabel_Languages
+	 * @var Languages
 	 */
 	private $langObj;
 
 
 	/**
-	 * @var tx_snowbabel_Db
+	 * @var Database
 	 */
 	private $Db;
 
 
 	/**
-	 * @var tx_snowbabel_system_translations
+	 * @var Translations
 	 */
 	private $SystemTranslation;
 
@@ -401,8 +403,8 @@ class Labels {
 	 *
 	 */
 	private function getLanguageObject() {
-		if(!is_object($this->langObj) && !($this->langObj instanceof tx_snowbabel_languages)) {
-			$this->langObj = t3lib_div::makeInstance('tx_snowbabel_languages', $this->confObj);
+		if(!is_object($this->langObj) && !($this->langObj instanceof Languages)) {
+			$this->langObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Languages', $this->confObj);
 		}
 	}
 
@@ -411,8 +413,8 @@ class Labels {
 	 * @return void
 	 */
 	private function initSystemTranslations() {
-		if(!is_object($this->SystemTranslation) && !($this->SystemTranslation instanceof tx_snowbabel_system_translations)) {
-			$this->SystemTranslation = t3lib_div::makeInstance('tx_snowbabel_system_translations');
+		if(!is_object($this->SystemTranslation) && !($this->SystemTranslation instanceof Translations)) {
+			$this->SystemTranslation = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
 			$this->SystemTranslation->init($this->confObj);
 		}
 	}

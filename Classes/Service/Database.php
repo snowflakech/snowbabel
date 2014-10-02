@@ -24,18 +24,18 @@ namespace Snowflake\Snowbabel\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Database\DatabaseConnection;
+
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Database
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Service
  */
 class Database {
 
 
 	/**
-	 * @var t3lib_DB
+	 * @var DatabaseConnection
 	 */
 	private $db;
 

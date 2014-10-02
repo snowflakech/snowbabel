@@ -23,26 +23,27 @@ namespace Snowflake\Snowbabel\Hook;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use Snowflake\Snowbabel\Record\Extensions;
+use Snowflake\Snowbabel\Service\Configuration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Tca
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Hook
  */
 class Tca {
 
 
 	/**
-	 * @var
+	 * @var	Configuration
 	 */
 	private $confObj;
 
 
 	/**
-	 * @var
+	 * @var	Extensions
 	 */
 	private $extObj;
 
@@ -118,8 +119,8 @@ class Tca {
 	 */
 	private function getConfigurationObject($extjsParams) {
 
-		if(!is_object($this->confObj) && !($this->confObj instanceof tx_snowbabel_Configuration)) {
-			$this->confObj = GeneralUtility::makeInstance('tx_snowbabel_Configuration', $extjsParams);
+		if(!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
+			$this->confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', $extjsParams);
 		}
 
 	}
@@ -129,8 +130,8 @@ class Tca {
 	 *
 	 */
 	private function getExtensionsObject() {
-		if(!is_object($this->extObj) && !($this->extObj instanceof tx_snowbabel_extensions)) {
-			$this->extObj = GeneralUtility::makeInstance('tx_snowbabel_extensions', $this->confObj);
+		if(!is_object($this->extObj) && !($this->extObj instanceof Extensions)) {
+			$this->extObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\Extensions', $this->confObj);
 		}
 	}
 }

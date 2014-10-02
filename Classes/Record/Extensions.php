@@ -25,23 +25,21 @@ namespace Snowflake\Snowbabel\Record;
  ***************************************************************/
 
 /**
- * Plugin 'Snowbabel' for the 'Snowbabel' extension.
+ * Class Extensions
  *
- * @author        Daniel Alder <info@snowflake.ch>
- * @package       TYPO3
- * @subpackage    tx_snowbabel
+ * @package Snowflake\Snowbabel\Record
  */
 class Extensions {
 
 
 	/**
-	 * @var tx_snowbabel_configuration
+	 * @var \Snowflake\Snowbabel\Service\Configuration
 	 */
 	private $confObj;
 
 
 	/**
-	 * @var tx_snowbabel_db
+	 * @var \Snowflake\Snowbabel\Service\Database
 	 */
 	private $Db;
 
