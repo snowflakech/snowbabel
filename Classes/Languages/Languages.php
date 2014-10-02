@@ -1,5 +1,5 @@
 <?php
-namespace Snowflake\Snowbabel\Languages;
+namespace Snowflake\Snowbabel;
 
 /***************************************************************
  *  Copyright notice
