@@ -96,7 +96,7 @@ class tx_mod2_snowbabel extends BaseScriptClass {
 		$this->settings->render();
 
 		// start template
-		$this->content .= $this->doc->startPage($GLOBALS['LANG']->getLL('globalTitle'));
+		$this->content .= $this->doc->startPage($this->getLanguageService()->getLL('globalTitle'));
 
 		$this->content .= '<div id="snowbabel_settings"></div>';
 
@@ -110,6 +110,14 @@ class tx_mod2_snowbabel extends BaseScriptClass {
 	 */
 	public function render() {
 		echo $this->content;
+	}
+
+
+	/**
+	 * @return \TYPO3\CMS\Lang\LanguageService
+	 */
+	protected static function getLanguageService() {
+		return $GLOBALS['LANG'];
 	}
 }
 
