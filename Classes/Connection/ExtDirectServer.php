@@ -284,6 +284,7 @@ class ExtDirectServer {
 	 */
 	public function getGeneralSettingsLanguages($extjsParams) {
 
+		// Todo: check logic
 		$extjsParams = array();
 
 		// Get Configuration Object
@@ -303,6 +304,7 @@ class ExtDirectServer {
 	 */
 	public function getGeneralSettingsLanguagesAdded($extjsParams) {
 
+		// todo: check logic
 		$extjsParams = array();
 
 		// Get Configuration Object
@@ -322,6 +324,7 @@ class ExtDirectServer {
 	 */
 	public function getGeneralSettingsWhitelistedExtensions($extjsParams) {
 
+		// Todo: check logic
 		$extjsParams = array();
 		$ExtensionArray = array();
 
@@ -363,6 +366,7 @@ class ExtDirectServer {
 	 */
 	public function getGeneralSettingsWhitelistedExtensionsAdded($extjsParams) {
 
+		// todo: check logic
 		$extjsParams = array();
 		$WhitelistedExtensionsArray = array();
 

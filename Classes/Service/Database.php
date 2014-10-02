@@ -35,12 +35,6 @@ class Database {
 
 
 	/**
-	 * @var DatabaseConnection
-	 */
-	private $db;
-
-
-	/**
 	 * @var
 	 */
 	private $debug;
@@ -50,9 +44,6 @@ class Database {
 	 * @param  $Debug
 	 */
 	public function __construct($Debug) {
-		// set typo3 db
-		$this->db =& $GLOBALS['TYPO3_DB'];
-
 		$this->debug = $Debug;
 	}
 
@@ -136,7 +127,7 @@ class Database {
 	public function getUserConf($name, $BeUserId) {
 		if(isset($name, $BeUserId)) {
 
-			$select = $this->db->exec_SELECTgetRows(
+			$select = $this->getDatabaseConnection()->exec_SELECTgetRows(
 				$name,
 				'tx_snowbabel_users',
 				'deleted=0 AND be_users_uid=' . $BeUserId,
@@ -161,7 +152,7 @@ class Database {
 	public function getUserConfCheck($BeUserId) {
 
 		if($BeUserId > 0) {
-			$select = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			$select = $this->getDatabaseConnection()->exec_SELECTgetRows(
 				'uid',
 				'tx_snowbabel_users',
 				'deleted=0 AND be_users_uid=' . $BeUserId,
@@ -177,40 +168,6 @@ class Database {
 			}
 		}
 
-	}
-
-
-	/**
-	 * @return null
-	 */
-	public function getSystemLanguages() {
-
-		// TODO:
-
-		$Select = $this->db->exec_SELECTgetRows(
-			'*',
-			'sys_language',
-			'',
-			'',
-			'uid'
-		);
-
-		if(!count($Select)) {
-
-			return null;
-
-		} else {
-			if(is_array($Select)) {
-
-				$Languages = array();
-
-				foreach($Select as $Key => $Language) {
-
-
-				}
-
-			}
-		}
 	}
 
 
@@ -235,7 +192,7 @@ class Database {
 			$OrderBy = 'lg_name_local';
 		}
 
-		$Select = $this->db->exec_SELECTgetRows(
+		$Select = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'*',
 			'static_languages',
 			$WhereClause,
@@ -269,10 +226,9 @@ class Database {
 					$Languages[$Key]['LanguageNameLocal'] = $Language['lg_name_local'];
 					$Languages[$Key]['LanguageKey'] = strtolower($Language['lg_iso_2']);
 
-				}
-
-				if($LanguageId) {
-					return $Languages[$Key];
+					if($LanguageId) {
+						return $Languages[$Key];
+					}
 				}
 
 				return $Languages;
@@ -292,7 +248,7 @@ class Database {
 	 * @return void
 	 */
 	public function setUserConf($Name, $Value, $BeUserId) {
-		$this->db->exec_UPDATEquery(
+		$this->getDatabaseConnection()->exec_UPDATEquery(
 			'tx_snowbabel_users',
 			'deleted=0 AND be_users_uid=' . $BeUserId,
 			array(
@@ -309,7 +265,7 @@ class Database {
 	 */
 	public function insertUserConfCheck($BeUserId) {
 
-		$this->db->exec_INSERTquery(
+		$this->getDatabaseConnection()->exec_INSERTquery(
 			'tx_snowbabel_users',
 			array(
 				'tstamp' => time(),
@@ -329,7 +285,7 @@ class Database {
 	 */
 	public function getCurrentTableId() {
 
-		$Select = $this->db->exec_SELECTgetRows(
+		$Select = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'TableId',
 			'tx_snowbabel_temp',
 			'',
@@ -342,7 +298,7 @@ class Database {
 			return $Select[0]['TableId'];
 		}
 
-		$this->db->exec_INSERTquery(
+		$this->getDatabaseConnection()->exec_INSERTquery(
 			'tx_snowbabel_temp',
 			array('TableId' => 0)
 		);
@@ -359,7 +315,7 @@ class Database {
 	public function setCurrentTableId($TableId) {
 
 		// Update Field
-		$this->db->exec_UPDATEquery(
+		$this->getDatabaseConnection()->exec_UPDATEquery(
 			'tx_snowbabel_temp',
 			'',
 			array(
@@ -370,11 +326,11 @@ class Database {
 
 
 	/**
-	 * @param      $CurrentTableId
-	 * @param bool $Conf
+	 * @param       $CurrentTableId
+	 * @param array $Conf
 	 * @return null
 	 */
-	public function getExtensions($CurrentTableId, $Conf = false) {
+	public function getExtensions($CurrentTableId, $Conf = array()) {
 
 		$Table = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
 		$Fields = '*';
@@ -383,7 +339,7 @@ class Database {
 		$GroupBy = '';
 		$Limit = '';
 
-		if(is_array($Conf)) {
+		if(is_array($Conf) && count($Conf) > 0) {
 
 			// FIELDS
 			if($Conf['Fields']) {
@@ -583,12 +539,12 @@ class Database {
 
 
 	/**
-	 * @param      $CurrentTableId
-	 * @param bool $Conf
-	 * @param bool $Count
+	 * @param       $CurrentTableId
+	 * @param array $Conf
+	 * @param bool  $Count
 	 * @return null
 	 */
-	public function getLabels($CurrentTableId, $Conf = false, $Count = false) {
+	public function getLabels($CurrentTableId, $Conf = array(), $Count = false) {
 
 		$Table1 = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
 		$Table2 = 'tx_snowbabel_indexing_files_' . $CurrentTableId;
@@ -611,7 +567,7 @@ class Database {
 		array_push($Where['AND'], $Table1 . '.uid=' . $Table2 . '.ExtensionId');
 		array_push($Where['AND'], $Table2 . '.uid=' . $Table3 . '.FileId');
 
-		if(is_array($Conf)) {
+		if(is_array($Conf) && count($Conf) > 0) {
 
 			// FIELDS
 			if($Conf['Fields']) {
@@ -690,12 +646,12 @@ class Database {
 
 	/**
 	 * @param       $CurrentTableId
-	 * @param bool  $Conf
+	 * @param array $Conf
 	 * @param array $Languages
 	 * @param bool  $Count
 	 * @return array|int|null|string
 	 */
-	public function getTranslations($CurrentTableId, $Conf = false, $Languages = array(), $Count = false) {
+	public function getTranslations($CurrentTableId, $Conf = array(), $Languages = array(), $Count = false) {
 
 		$Table1 = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
 		$Table2 = 'tx_snowbabel_indexing_files_' . $CurrentTableId;
@@ -718,7 +674,7 @@ class Database {
 		array_push($Where['AND'], $Table1 . '.uid=' . $Table2 . '.ExtensionId');
 		array_push($Where['AND'], $Table2 . '.uid=' . $Table3_Alias . '.FileId');
 
-		if(is_array($Conf)) {
+		if(is_array($Conf && count($Conf) > 0)) {
 
 			// FIELDS
 			if($Conf['Fields']) {
@@ -797,11 +753,11 @@ class Database {
 
 
 	/**
-	 * @param      $CurrentTableId
-	 * @param bool $Conf
+	 * @param       $CurrentTableId
+	 * @param array $Conf
 	 * @return array|int|null|string
 	 */
-	public function getTranslation($CurrentTableId, $Conf = false) {
+	public function getTranslation($CurrentTableId, $Conf = array()) {
 		$Table1 = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
 		$Table2 = 'tx_snowbabel_indexing_files_' . $CurrentTableId;
 		$Table3 = 'tx_snowbabel_indexing_labels_' . $CurrentTableId;
@@ -827,7 +783,7 @@ class Database {
 		array_push($Where['AND'], $Table2 . '.uid=' . $Table3 . '.FileId');
 		array_push($Where['AND'], $Table3 . '.uid=' . $Table4 . '.LabelId');
 
-		if(is_array($Conf)) {
+		if(is_array($Conf) && count($Conf) > 0) {
 
 			// FIELDS
 			if($Conf['Fields']) {
@@ -902,7 +858,7 @@ class Database {
 	 */
 	public function setTranslation($TranslationId, $TranslationValue, $CurrentTableId) {
 
-		$this->db->exec_UPDATEquery(
+		$this->getDatabaseConnection()->exec_UPDATEquery(
 			'tx_snowbabel_indexing_translations_' . $CurrentTableId,
 			'uid=' . intval($TranslationId),
 			array(
@@ -928,10 +884,10 @@ class Database {
 	private function select($Fields, $Table, $Where = '', $GroupBy = '', $OrderBy = '', $Limit = '', $Debug = false, $Count = false) {
 
 		if($Debug) {
-			return $this->db->SELECTquery($Fields, $Table, $Where, $GroupBy, $OrderBy, $Limit);
+			return $this->getDatabaseConnection()->SELECTquery($Fields, $Table, $Where, $GroupBy, $OrderBy, $Limit);
 		}
 
-		$Select = $this->db->exec_SELECTgetRows(
+		$Select = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			$Fields,
 			$Table,
 			$Where,
@@ -1019,7 +975,7 @@ class Database {
 
 				} else {
 
-					$this->db->exec_INSERTquery(
+					$this->getDatabaseConnection()->exec_INSERTquery(
 						$Table,
 						$Row
 					);
@@ -1032,7 +988,7 @@ class Database {
 				// Do Insert All At Once - Supported Since 4.4
 			if(version_compare(TYPO3_version, '4.3.99', '>')) {
 
-				$this->db->exec_INSERTmultipleRows(
+				$this->getDatabaseConnection()->exec_INSERTmultipleRows(
 					$Table,
 					$FieldNames,
 					$FieldValues
@@ -1055,7 +1011,7 @@ class Database {
 	 * @return void
 	 */
 	private function truncate($Table) {
-		$this->db->exec_TRUNCATEquery($Table);
+		$this->getDatabaseConnection()->exec_TRUNCATEquery($Table);
 	}
 
 
@@ -1106,8 +1062,16 @@ class Database {
 			$CommaSeparatedString = explode(',', $CommaSeparatedString);
 		}
 
-		$CommaSeparatedString = $this->db->fullQuoteArray($CommaSeparatedString, $Table);
+		$CommaSeparatedString = $this->getDatabaseConnection()->fullQuoteArray($CommaSeparatedString, $Table);
 
 		return implode(',', $CommaSeparatedString);
+	}
+
+
+	/**
+	 * @return DatabaseConnection
+	 */
+	private static function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }

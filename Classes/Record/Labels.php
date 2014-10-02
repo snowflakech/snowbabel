@@ -117,7 +117,7 @@ class Labels {
 	/**
 	 *
 	 */
-	private $SearchModus;
+	private $SearchMode;
 
 
 	/**
@@ -298,7 +298,7 @@ class Labels {
 	 */
 	public function getSearchGlobal() {
 
-		$this->SearchModus = 'global';
+		$this->SearchMode = 'global';
 
 		return $this->getLabels();
 
@@ -310,7 +310,7 @@ class Labels {
 	 */
 	public function getSearchExtension() {
 
-		$this->SearchModus = 'extension';
+		$this->SearchMode = 'extension';
 
 		return $this->getLabels();
 
@@ -336,7 +336,7 @@ class Labels {
 			}
 
 			$Conf = array(
-				'ExtensionId' => $this->SearchModus == 'global' ? '' : $this->ExtensionId,
+				'ExtensionId' => $this->SearchMode == 'global' ? '' : $this->ExtensionId,
 				'Sort' => $this->Sort ? $this->Sort : 'LabelName',
 				'Dir' => $this->Dir ? $this->Dir : 'ASC',
 				'Limit' => $this->ListViewStart . ',' . $this->ListViewLimit,

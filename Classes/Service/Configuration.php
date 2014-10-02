@@ -60,7 +60,7 @@ class Configuration {
 
 
 	/**
-	 * @var bool
+	 * @var mixed
 	 */
 	private $extjsParams;
 
@@ -339,13 +339,13 @@ class Configuration {
 
 
 	/**
-	 * @param  $LabelName
-	 * @return
+	 * @param $LabelName
+	 * @return string
 	 */
 	public function getLL($LabelName) {
 
 		// use typo3 system function
-		return $GLOBALS['LANG']->sL('LLL:EXT:' . $this->xmlPath . ':' . $LabelName);
+		return $this->getLanguageService()->sL('LLL:EXT:' . $this->xmlPath . ':' . $LabelName);
 
 	}
 
@@ -562,9 +562,6 @@ class Configuration {
 	 */
 	public function getLanguages($AvailableLanguagesDiff = false) {
 
-		//TODO: Get System Languages And Merge With Static
-		// $this->db->getSystemLanguages();
-
 		$Languages = $this->db->getStaticLanguages();
 
 		if($AvailableLanguagesDiff) {
@@ -767,9 +764,10 @@ class Configuration {
 
 			// Configuration Changed
 			$this->setApplicationConfiguration($LocalconfValues['ConfigurationChanged'], 'ConfigurationChanged');
-		} else {
-			return $LocalconfValues;
 		}
+
+		return $LocalconfValues;
+
 	}
 
 
@@ -953,6 +951,14 @@ class Configuration {
 			$this->db = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Database', $this->debug);
 		}
 
+	}
+
+
+	/**
+	 * @return \TYPO3\CMS\Lang\LanguageService
+	 */
+	private static function getLanguageService() {
+		return $GLOBALS['LANG'];
 	}
 
 }

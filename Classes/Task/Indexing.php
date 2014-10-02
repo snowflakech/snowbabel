@@ -41,37 +41,37 @@ class Indexing extends AbstractTask {
 	/**
 	 * @var Configuration
 	 */
-	private static $confObj;
+	private $confObj;
 
 
 	/**
 	 * @var Translations
 	 */
-	private static $SystemTranslation;
+	private $SystemTranslation;
 
 
 	/**
 	 * @var Database
 	 */
-	private static $Db;
+	private $Db;
 
 
 	/**
-	 * @var
+	 * @var number
 	 */
-	private static $CurrentTableId;
+	private $CurrentTableId;
 
 
 	/**
 	 * @return void
 	 */
-	private static function init() {
+	private function init() {
 
 		// Init Configuration
-		self::initConfiguration();
+		$this->initConfiguration();
 
 		// Init System Translations
-		self::initSystemTranslations();
+		$this->initSystemTranslations();
 
 	}
 
@@ -81,28 +81,28 @@ class Indexing extends AbstractTask {
 	 */
 	public function execute() {
 
-		self::init();
+		$this->init();
 
 		// Get Current TableId & Negate
-		self::$CurrentTableId = self::$Db->getCurrentTableId() ? 0 : 1;
+		$this->CurrentTableId = $this->Db->getCurrentTableId() ? 0 : 1;
 
 		// Indexing Extensions
-		self::indexingExtensions();
+		$this->indexingExtensions();
 
 		// Indexing Files
-		self::indexingFiles();
+		$this->indexingFiles();
 
 		// Indexing Labels
-		self::indexingLabels();
+		$this->indexingLabels();
 
 		// Indexing Translations
-		self::indexingTranslations();
+		$this->indexingTranslations();
 
 		// Switch CurrentTableId
-		self::$Db->setCurrentTableId(self::$CurrentTableId);
+		$this->Db->setCurrentTableId($this->CurrentTableId);
 
 		// Add Scheduler Check To Localconf & Mark Configuration Changes As 'OK'
-		self::$confObj->setSchedulerCheckAndChangedConfiguration();
+		$this->confObj->setSchedulerCheckAndChangedConfiguration();
 
 		return true;
 	}
@@ -111,13 +111,13 @@ class Indexing extends AbstractTask {
 	/**
 	 * @return void
 	 */
-	private static function indexingExtensions() {
+	private function indexingExtensions() {
 
 		// Get Extensions From Typo3
-		$Extensions = self::$SystemTranslation->getExtensions();
+		$Extensions = $this->SystemTranslation->getExtensions();
 
 		// Write Extensions To Database
-		self::$Db->setExtensions($Extensions, self::$CurrentTableId);
+		$this->Db->setExtensions($Extensions, $this->CurrentTableId);
 
 	}
 
@@ -125,19 +125,16 @@ class Indexing extends AbstractTask {
 	/**
 	 * @return void
 	 */
-	private static function indexingFiles() {
+	private function indexingFiles() {
 
 		// Get Extensions From Database
-		$Extensions = self::$Db->getExtensions(self::$CurrentTableId);
-
-		// Get Typo3 Version
-		$Typo3Version = self::$confObj->getTypo3Version();
+		$Extensions = $this->Db->getExtensions($this->CurrentTableId);
 
 		// Get Files From Typo3
-		$Files = self::$SystemTranslation->getFiles($Extensions, $Typo3Version);
+		$Files = $this->SystemTranslation->getFiles($Extensions);
 
 		// Write Extensions To Database
-		self::$Db->setFiles($Files, self::$CurrentTableId);
+		$this->Db->setFiles($Files, $this->CurrentTableId);
 
 	}
 
@@ -145,19 +142,16 @@ class Indexing extends AbstractTask {
 	/**
 	 * @return void
 	 */
-	private static function indexingLabels() {
+	private function indexingLabels() {
 
 		// Get Files From Database
-		$Files = self::$Db->getFiles(self::$CurrentTableId);
-
-		// Get Typo3 Version
-		$Typo3Version = self::$confObj->getTypo3Version();
+		$Files = $this->Db->getFiles($this->CurrentTableId);
 
 		// Get Labels From Typo
-		$Labels = self::$SystemTranslation->getLabels($Files, $Typo3Version);
+		$Labels = $this->SystemTranslation->getLabels($Files);
 
 		// Write Labels To Database
-		self::$Db->setLabels($Labels, self::$CurrentTableId);
+		$this->Db->setLabels($Labels, $this->CurrentTableId);
 
 	}
 
@@ -171,16 +165,13 @@ class Indexing extends AbstractTask {
 		$Conf['OrderBy'] = 'FileId';
 
 		// Get Labels From Database
-		$Labels = self::$Db->getLabels(self::$CurrentTableId, $Conf);
-
-		// Get Typo3 Version
-		$Typo3Version = self::$confObj->getTypo3Version();
+		$Labels = $this->Db->getLabels($this->CurrentTableId, $Conf);
 
 		// Get Translations From Typo
-		$Translations = self::$SystemTranslation->getTranslations($Labels, $Typo3Version);
+		$Translations = $this->SystemTranslation->getTranslations($Labels);
 
 		// Write Translations To Database
-		self::$Db->setTranslations($Translations, self::$CurrentTableId);
+		$this->Db->setTranslations($Translations, $this->CurrentTableId);
 
 	}
 
@@ -188,12 +179,12 @@ class Indexing extends AbstractTask {
 	/**
 	 * @return void
 	 */
-	private static function initConfiguration() {
+	private function initConfiguration() {
 
-		if(!is_object(self::$confObj) && !(self::$confObj instanceof Configuration)) {
-			self::$confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', array());
+		if(!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
+			$this->confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', array());
 
-			self::$Db = self::$confObj->getDb();
+			$this->Db = $this->confObj->getDb();
 		}
 
 	}
@@ -202,10 +193,10 @@ class Indexing extends AbstractTask {
 	/**
 	 * @return void
 	 */
-	private static function initSystemTranslations() {
-		if(!is_object(self::$SystemTranslation) && !(self::$SystemTranslation instanceof Translations)) {
-			self::$SystemTranslation = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
-			self::$SystemTranslation->init(self::$confObj);
+	private function initSystemTranslations() {
+		if(!is_object($this->SystemTranslation) && !($this->SystemTranslation instanceof Translations)) {
+			$this->SystemTranslation = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
+			$this->SystemTranslation->init($this->confObj);
 		}
 	}
 
