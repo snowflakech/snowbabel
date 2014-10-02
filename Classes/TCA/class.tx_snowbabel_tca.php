@@ -21,6 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Plugin 'Snowbabel' for the 'Snowbabel' extension.
@@ -116,7 +117,7 @@ class tx_snowbabel_TCA {
 	private function getConfigurationObject($extjsParams) {
 
 		if(!is_object($this->confObj) && !($this->confObj instanceof tx_snowbabel_Configuration)) {
-			$this->confObj = t3lib_div::makeInstance('tx_snowbabel_Configuration', $extjsParams);
+			$this->confObj = GeneralUtility::makeInstance('tx_snowbabel_Configuration', $extjsParams);
 		}
 
 	}
@@ -127,7 +128,7 @@ class tx_snowbabel_TCA {
 	 */
 	private function getExtensionsObject() {
 		if(!is_object($this->extObj) && !($this->extObj instanceof tx_snowbabel_extensions)) {
-			$this->extObj = t3lib_div::makeInstance('tx_snowbabel_extensions', $this->confObj);
+			$this->extObj = GeneralUtility::makeInstance('tx_snowbabel_extensions', $this->confObj);
 		}
 	}
 }
