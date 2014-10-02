@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for plugin belonging to extension 'snowbabel'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="translation_extensionmenu_Title">Extensions</label>
+			<label index="translation_extensionmenu_filterNoResult">No Match</label>
+			<label index="translation_extensionmenu_LoadingText">Loading...</label>
+			<label index="translation_extensionmenu_QtipKey">Key</label>
+			<label index="translation_extensionmenu_QtipLocation">Location</label>
+			<label index="translation_extensionmenu_QtipDescription">Description</label>
+			<label index="translation_extensionmenu_QtipCategory">Category</label>
+			<label index="translation_extensionmenu_contextMenuSync">Sync</label>
+			<label index="translation_extensionmenu_contextMenuSaveToOriginal">Save to Original</label>
+			<label index="translation_extensionmenu_contextMenuBackupAll">Backup to DB</label>
+			<label index="translation_extensionmenu_contextMenuRecoverAll">Recover from DB</label>
+			<label index="translation_extensionmenu_msgTitleSync">Sync Extension Data</label>
+			<label index="translation_extensionmenu_msgTitleSaveToOriginal">Save Extension Data To Orginal File</label>
+			<label index="translation_extensionmenu_msgTitleBackupAll">Backup Extension Data</label>
+			<label index="translation_extensionmenu_msgTitleRecoverAll">Recover Extension Data</label>
+			<label index="translation_extensionmenu_msgTextSync">Merge data from l10n and main to l10n-file?</label>
+			<label index="translation_extensionmenu_msgTextSaveToOriginal">Save data from l10n to the main-file?</label>
+			<label index="translation_extensionmenu_msgTextBackupAll">Backup extension data to database?</label>
+			<label index="translation_extensionmenu_msgTextRecoverAll">Recover extension data from database?</label>
+			<label index="translation_languageselection_Title">Language selection</label>
+			<label index="translation_languageselection_DataViewEmptyText">No languages available</label>
+			<label index="translation_columnselection_Title">Column selection</label>
+			<label index="translation_columnselection_ShowColumnId">Label Id</label>
+			<label index="translation_columnselection_ShowColumnLabel">Label Name</label>
+			<label index="translation_columnselection_ShowColumnDefault">Default Label</label>
+			<label index="translation_listview_GridSearch">Search: </label>
+			<label index="translation_listview_GridSearchToggle">Global search</label>
+			<label index="translation_listview_GroupingViewEmptyText">No Records available</label>
+			<label index="translation_listview_GridHeaderLabel">Label</label>
+			<label index="translation_listview_GridHeaderDefault">Default</label>
+			<label index="translation_listview_GridHeaderPath">Path</label>
+			<label index="translation_listview_GridHeaderLocation">Location</label>
+			<label index="translation_listview_GridHeaderExtension">Extension</label>
+			<label index="translation_listview_StatusOriginal">StatusOriginal</label>
+			<label index="translation_listview_StatusOriginalQtipOk">StatusOriginalQtipOk</label>
+			<label index="translation_listview_StatusOriginalQtipChanged">StatusOriginalQtipChanged</label>
+			<label index="translation_listview_StatusOriginalQtipUnknown">StatusOriginalQtipUnknown</label>
+			<label index="translation_msg_SaveOkTitle">Saved</label>
+			<label index="translation_msg_SaveOkMessage">Following value correctly saved:</label>
+			<label index="translation_msg_SaveErrorTitle">Not Saved</label>
+			<label index="translation_msg_SaveErrorMessage">Please try to save following label again:</label>
+			<label index="translation_msg_SchedulerTitle">Application Error</label>
+			<label index="translation_msg_SchedulerMessage">You need to run scheduler task first!</label>
+			<label index="translation_msg_ConfigurationTitle">Application Error</label>
+			<label index="translation_msg_ConfigurationMessage">Configuration has changed, you need to run scheduler again!</label>
+		</languageKey>
+	</data>
+</T3locallang>

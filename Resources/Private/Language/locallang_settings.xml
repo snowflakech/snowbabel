@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for plugin belonging to extension 'snowbabel'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="settings_formtab_Pathes">Paths</label>
+			<label index="settings_formtab_Blacklists">Blacklists</label>
+			<label index="settings_formtab_Whitelists">Whitelists</label>
+			<label index="settings_formtab_DisplayOptions">Display Options</label>
+			<label index="settings_formtab_Editing">Editing</label>
+			<label index="settings_formtab_Languages">Languages</label>
+			<label index="settings_formtab_Groups">Groups</label>
+			<label index="settings_formtab_Experimental">Experimental</label>
+			<label index="settings_formlabel_LocalExtensionPath">Local Extensions</label>
+			<label index="settings_formlabel_SystemExtensionPath">System Extensions</label>
+			<label index="settings_formlabel_GlobalExtensionPath">Global Extensions</label>
+			<label index="settings_formlabel_BlacklistedExtensions">Extensions</label>
+			<label index="settings_formlabel_BlacklistedCategories">Categories</label>
+			<label index="settings_formlabel_WhitelistedActivated">Use Whitelist</label>
+			<label index="settings_formlabel_ShowOnlyLoadedExtensions">Show Only Loaded Extensions</label>
+			<label index="settings_formlabel_CopyDefaultLanguage">Copy Default Language To English</label>
+			<label index="settings_formlabel_ShowTranslatedLanguages">Language Names In Local Language</label>
+			<label index="settings_formlabel_ShowLocalExtensions">Show Local Extensions</label>
+			<label index="settings_formlabel_ShowSystemExtensions">Show System Extensions</label>
+			<label index="settings_formlabel_ShowGlobalExtensions">Show Global Extensions</label>
+			<label index="settings_formlabel_AutoBackupCronjob">Autobackup (Cronjob)</label>
+			<label index="settings_formlabel_AutoBackupEditing">Autobackup while Editing</label>
+			<label index="settings_formlabel_AddedLanguages">Application Languages</label>
+			<label index="settings_formlabel_AddedLanguages_Available">Available</label>
+			<label index="settings_formlabel_AddedLanguages_Added">Added</label>
+			<label index="settings_formlabel_AddedExtensions">Whitelisted Extensions</label>
+			<label index="settings_formlabel_AddedExtensions_Available">Available</label>
+			<label index="settings_formlabel_AddedExtensions_Added">Added</label>
+			<label index="settings_formlabel_CacheActivated">Cache</label>
+			<label index="settings_formlabel_GroupsNew">Create New Group</label>
+			<label index="settings_formbutton_GroupsNew">Create</label>
+			<label index="settings_formtooltip_GroupsNew">Create New Group</label>
+			<label index="settings_formbutton_Save">Save</label>
+			<label index="settings_formtooltip_Save">Save Settings Below</label>
+			<label index="settings_msg_SubmitOkTitle">Saved</label>
+			<label index="settings_msg_SubmitOkMessage">Configuration correctly saved</label>
+			<label index="settings_msg_SubmitErrorTitle">Not Saved</label>
+			<label index="settings_msg_SubmitErrorMessage">Please try to save configuration again</label>
+		</languageKey>
+	</data>
+</T3locallang>

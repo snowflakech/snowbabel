@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2011-10-31T13:59:05Z" product-name="snowbabel">
+		<header/>
+		<body>
+			<trans-unit id="translation_extensionmenu_Title">
+				<source>Extensions</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_filterNoResult">
+				<source>No Match</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_LoadingText">
+				<source>Loading...</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_QtipKey">
+				<source>Key</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_QtipLocation">
+				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_QtipDescription">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_QtipCategory">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_contextMenuSync">
+				<source>Sync</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_contextMenuSaveToOriginal">
+				<source>Save to Original</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_contextMenuBackupAll">
+				<source>Backup to DB</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_contextMenuRecoverAll">
+				<source>Recover from DB</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTitleSync">
+				<source>Sync Extension Data</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTitleSaveToOriginal">
+				<source>Save Extension Data To Orginal File</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTitleBackupAll">
+				<source>Backup Extension Data</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTitleRecoverAll">
+				<source>Recover Extension Data</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTextSync">
+				<source>Merge data from l10n and main to l10n-file?</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTextSaveToOriginal">
+				<source>Save data from l10n to the main-file?</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTextBackupAll">
+				<source>Backup extension data to database?</source>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTextRecoverAll">
+				<source>Recover extension data from database?</source>
+			</trans-unit>
+			<trans-unit id="translation_languageselection_Title">
+				<source>Language selection</source>
+			</trans-unit>
+			<trans-unit id="translation_languageselection_DataViewEmptyText">
+				<source>No languages available</source>
+			</trans-unit>
+			<trans-unit id="translation_columnselection_Title">
+				<source>Column selection</source>
+			</trans-unit>
+			<trans-unit id="translation_columnselection_ShowColumnId">
+				<source>Label Id</source>
+			</trans-unit>
+			<trans-unit id="translation_columnselection_ShowColumnLabel">
+				<source>Label Name</source>
+			</trans-unit>
+			<trans-unit id="translation_columnselection_ShowColumnDefault">
+				<source>Default Label</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridSearch">
+				<source>Search: </source>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridSearchToggle">
+				<source>Global search</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_GroupingViewEmptyText">
+				<source>No Records available</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderLabel">
+				<source>Label</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderDefault">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderPath">
+				<source>Path</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderLocation">
+				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderExtension">
+				<source>Extension</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_StatusOriginal">
+				<source>StatusOriginal</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_StatusOriginalQtipOk">
+				<source>StatusOriginalQtipOk</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_StatusOriginalQtipChanged">
+				<source>StatusOriginalQtipChanged</source>
+			</trans-unit>
+			<trans-unit id="translation_listview_StatusOriginalQtipUnknown">
+				<source>StatusOriginalQtipUnknown</source>
+			</trans-unit>
+			<trans-unit id="translation_msg_SaveOkTitle">
+				<source>Saved</source>
+			</trans-unit>
+			<trans-unit id="translation_msg_SaveOkMessage">
+				<source>Following value correctly saved:</source>
+			</trans-unit>
+			<trans-unit id="translation_msg_SaveErrorTitle">
+				<source>Not Saved</source>
+			</trans-unit>
+			<trans-unit id="translation_msg_SaveErrorMessage">
+				<source>Please try to save following label again:</source>
+			</trans-unit>
+			<trans-unit id="translation_msg_SchedulerTitle">
+				<source>Application Error</source>
+			</trans-unit>
+			<trans-unit id="translation_msg_SchedulerMessage">
+				<source>You need to run scheduler task first!</source>
+			</trans-unit>
+			<trans-unit id="translation_msg_ConfigurationTitle">
+				<source>Application Error</source>
+			</trans-unit>
+			<trans-unit id="translation_msg_ConfigurationMessage">
+				<source>Configuration has changed, you need to run scheduler again!</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

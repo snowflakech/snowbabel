@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2011-10-31T13:59:05Z" product-name="snowbabel">
+		<header/>
+		<body>
+			<trans-unit id="translation_extensionmenu_Title" approved="yes">
+				<source>Extensions</source>
+				<target>Extensions DE</target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_filterNoResult" approved="yes">
+				<source>No Match</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_LoadingText" approved="yes">
+				<source>Loading...</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_QtipKey" approved="yes">
+				<source>Key</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_QtipLocation" approved="yes">
+				<source>Location</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_QtipDescription" approved="yes">
+				<source>Description</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_QtipCategory" approved="yes">
+				<source>Category</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_contextMenuSync" approved="yes">
+				<source>Sync</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_contextMenuSaveToOriginal" approved="yes">
+				<source>Save to Original</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_contextMenuBackupAll" approved="yes">
+				<source>Backup to DB</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_contextMenuRecoverAll" approved="yes">
+				<source>Recover from DB</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTitleSync" approved="yes">
+				<source>Sync Extension Data</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTitleSaveToOriginal" approved="yes">
+				<source>Save Extension Data To Orginal File</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTitleBackupAll" approved="yes">
+				<source>Backup Extension Data</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTitleRecoverAll" approved="yes">
+				<source>Recover Extension Data</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTextSync" approved="yes">
+				<source>Merge data from l10n and main to l10n-file?</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTextSaveToOriginal" approved="yes">
+				<source>Save data from l10n to the main-file?</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTextBackupAll" approved="yes">
+				<source>Backup extension data to database?</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_extensionmenu_msgTextRecoverAll" approved="yes">
+				<source>Recover extension data from database?</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_languageselection_Title" approved="yes">
+				<source>Language selection</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_languageselection_DataViewEmptyText" approved="yes">
+				<source>No languages available</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_columnselection_Title" approved="yes">
+				<source>Column selection</source>
+				<target>Column selection</target>
+			</trans-unit>
+			<trans-unit id="translation_columnselection_ShowColumnId" approved="yes">
+				<source>Label Id</source>
+				<target>Label Id</target>
+			</trans-unit>
+			<trans-unit id="translation_columnselection_ShowColumnLabel" approved="yes">
+				<source>Label Name</source>
+				<target>Label Name</target>
+			</trans-unit>
+			<trans-unit id="translation_columnselection_ShowColumnDefault" approved="yes">
+				<source>Default Label</source>
+				<target>Standart Label</target>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridSearch" approved="yes">
+				<source>Search: </source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridSearchToggle" approved="yes">
+				<source>Global search</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_GroupingViewEmptyText" approved="yes">
+				<source>No Records available</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderLabel" approved="yes">
+				<source>Label</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderDefault" approved="yes">
+				<source>Default</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderPath" approved="yes">
+				<source>Path</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderLocation" approved="yes">
+				<source>Location</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_GridHeaderExtension" approved="yes">
+				<source>Extension</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_StatusOriginal" approved="yes">
+				<source>StatusOriginal</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_StatusOriginalQtipOk" approved="yes">
+				<source>StatusOriginalQtipOk</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_StatusOriginalQtipChanged" approved="yes">
+				<source>StatusOriginalQtipChanged</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_listview_StatusOriginalQtipUnknown" approved="yes">
+				<source>StatusOriginalQtipUnknown</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_msg_SaveOkTitle" approved="yes">
+				<source>Saved</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_msg_SaveOkMessage" approved="yes">
+				<source>Following value correctly saved:</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_msg_SaveErrorTitle" approved="yes">
+				<source>Not Saved</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_msg_SaveErrorMessage" approved="yes">
+				<source>Please try to save following label again:</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_msg_SchedulerTitle" approved="yes">
+				<source>Application Error</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_msg_SchedulerMessage" approved="yes">
+				<source>You need to run scheduler task first!</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_msg_ConfigurationTitle" approved="yes">
+				<source>Application Error</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_msg_ConfigurationMessage" approved="yes">
+				<source>Configuration has changed, you need to run scheduler again!</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="translation_columnselection_ShowColumnPath" approved="yes">
+				<source></source>
+				<target>Pfad</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

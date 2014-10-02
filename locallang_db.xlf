@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2011-10-31T13:59:15Z" product-name="snowbabel">
+		<header/>
+		<body>
+			<trans-unit id="tx_translationtool_data">
+				<source>Data</source>
+			</trans-unit>
+			<trans-unit id="tx_translationtool_data.label">
+				<source>label</source>
+			</trans-unit>
+			<trans-unit id="tx_translationtool_data.text">
+				<source>text</source>
+			</trans-unit>
+			<trans-unit id="tx_translationtool_data.lang">
+				<source>lang</source>
+			</trans-unit>
+			<trans-unit id="label.tx_snowbabel_extensions">
+				<source>Translation - Extensions</source>
+			</trans-unit>
+			<trans-unit id="label.tx_snowbabel_languages">
+				<source>Translation - Languages</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

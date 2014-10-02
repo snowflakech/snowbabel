@@ -1,0 +1,17 @@
+.silk-disk {
+	background: url(../Images/Silk/disk.png) no-repeat;
+}
+
+.silk-add {
+	background: url(../Images/Silk/add.png) no-repeat;
+}
+
+.x-form .x-panel-header {
+	background: none;
+	border: none;
+	padding-left: 0;
+	padding-right: 0;
+	font: normal 10px verdana,arial,tahoma,helvetica,sans-serif;
+	color: #333;
+	font-weight: bold;
+}

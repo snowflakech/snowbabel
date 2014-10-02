@@ -1,0 +1,144 @@
+/**
+* menu styles
+*/
+
+#snowbabel-extension-menu,
+#snowbabel-language-menu,
+#snowbabel-column-menu {
+	border: 1px solid #A2AAB8;
+	background-color: #FFF;
+	background-image: url("../Images/Miscellaneous/menu.gif");
+}
+
+	#snowbabel-extension-menu .x-panel-tbar {
+		padding-bottom: 0;
+	}
+
+.snowbabel-menu {
+	background-color: transparent;
+	border: 0 none;
+	overflow: hidden;
+	padding: 2px;
+}
+
+	.snowbabel-menu .loaded0 {
+		color: #A0A0A0;
+	}
+
+.snowbabel-menu-item {
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: #222222;
+	line-height: 16px;
+	background: url(../Images/Silk/delete.png) no-repeat;
+	cursor: pointer;
+	border: 1px dotted #FFFFFF;
+	display:block;
+	padding: 1px 1px 1px 27px;
+	margin-bottom: 2px;
+}
+
+	.snowbabel-menu-item-over,
+	.snowbabel-menu-item-selected {
+		background-color: #E7E7E7;
+		border-color: #B9B9B9;
+	}
+
+
+
+	#snowbabel-language-menu .snowbabel-menu-item-selected,
+	#ExtensionMenu .snowbabel-menu-item-selected {
+		font-weight: bold;
+	}
+
+	#ColumnSelection .snowbabel-menu-item-selected {
+		background-image: url(../Images/Silk/accept.png);
+	}
+
+	#snowbabel-language-menu .snowbabel-menu-item,
+	#snowbabel-column-menu .snowbabel-menu-item {
+		background-position: 3px center;
+	}
+
+/**
+* grid
+*/
+
+.x-grid3-header {
+	font-size: 10px;
+}
+
+	.x-grid3-hd-row td {
+		line-height: 12px;
+	}
+
+.x-grid3-row {
+	border-bottom: 1px solid #EBEBEB;
+}
+
+	.x-grid3-row td {
+		line-height: 15px;
+	}
+
+/* normal cell - odd */
+.x-grid3-scroller .x-grid3-cell {
+	border-right: 1px solid #EBEBEB;
+}
+
+/* normal cell - even */
+.x-grid3-scroller .x-grid3-row-alt .x-grid3-cell {
+
+}
+
+/* editable cell*/
+.x-grid3-scroller .x-grid3-td-editable {
+
+}
+
+/* button*/
+.x-btn-pressed {
+	background-color: #BDBCBC;
+	background-image: -moz-linear-gradient(center top , #F6F6F6 10%, #BDBCBC 90%);
+	border-color: #BDBCBC;
+
+	-webkit-box-shadow:0 0 3px green;
+	-moz-box-shadow: 0 0 3px green;
+	box-shadow: 0 0 3px green;
+}
+
+/* makes cells selectable */
+.x-selectable, .x-selectable * {
+	-moz-user-select: text!important;
+	-khtml-user-select: text!important;
+}
+
+
+/**
+* this css is for the free "silk" icon library
+* http://www.fanfanfan.com
+*
+*/
+
+.silk-disk {
+	background-image: url(../Images/Silk/disk.png) !important;
+	background-repeat: no-repeat;
+}
+
+.backup-icon {
+    background-image: url(../Images/Silk/drive_disk.png);
+    background-repeat: no-repeat;
+}
+
+.recover-icon {
+    background-image: url(../Images/Silk/arrow_undo.png);
+    background-repeat: no-repeat;
+}
+
+.sync-icon {
+    background-image: url(../Images/Silk/arrow_refresh.png);
+    background-repeat: no-repeat;
+}
+
+.saveToOriginal-icon {
+    background-image: url(../Images/Silk/page_save.png);
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2011-10-31T13:58:57Z" product-name="snowbabel">
+		<header/>
+		<body>
+			<trans-unit id="settings_formtab_Pathes">
+				<source>Paths</source>
+			</trans-unit>
+			<trans-unit id="settings_formtab_Blacklists">
+				<source>Blacklists</source>
+			</trans-unit>
+			<trans-unit id="settings_formtab_Whitelists">
+				<source>Whitelists</source>
+			</trans-unit>
+			<trans-unit id="settings_formtab_DisplayOptions">
+				<source>Display Options</source>
+			</trans-unit>
+			<trans-unit id="settings_formtab_Editing">
+				<source>Editing</source>
+			</trans-unit>
+			<trans-unit id="settings_formtab_Languages">
+				<source>Languages</source>
+			</trans-unit>
+			<trans-unit id="settings_formtab_Groups">
+				<source>Groups</source>
+			</trans-unit>
+			<trans-unit id="settings_formtab_Experimental">
+				<source>Experimental</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_LocalExtensionPath">
+				<source>Local Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_SystemExtensionPath">
+				<source>System Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_GlobalExtensionPath">
+				<source>Global Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_BlacklistedExtensions">
+				<source>Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_BlacklistedCategories">
+				<source>Categories</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_WhitelistedActivated">
+				<source>Use Whitelist</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_ShowOnlyLoadedExtensions">
+				<source>Show Only Loaded Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_CopyDefaultLanguage">
+				<source>Copy Default Language To English</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_ShowTranslatedLanguages">
+				<source>Language Names In Local Language</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_ShowLocalExtensions">
+				<source>Show Local Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_ShowSystemExtensions">
+				<source>Show System Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_ShowGlobalExtensions">
+				<source>Show Global Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_AutoBackupCronjob">
+				<source>Autobackup (Cronjob)</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_AutoBackupEditing">
+				<source>Autobackup while Editing</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_AddedLanguages">
+				<source>Application Languages</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_AddedLanguages_Available">
+				<source>Available</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_AddedLanguages_Added">
+				<source>Added</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_AddedExtensions">
+				<source>Whitelisted Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_AddedExtensions_Available">
+				<source>Available</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_AddedExtensions_Added">
+				<source>Added</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_CacheActivated">
+				<source>Cache</source>
+			</trans-unit>
+			<trans-unit id="settings_formlabel_GroupsNew">
+				<source>Create New Group</source>
+			</trans-unit>
+			<trans-unit id="settings_formbutton_GroupsNew">
+				<source>Create</source>
+			</trans-unit>
+			<trans-unit id="settings_formtooltip_GroupsNew">
+				<source>Create New Group</source>
+			</trans-unit>
+			<trans-unit id="settings_formbutton_Save">
+				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="settings_formtooltip_Save">
+				<source>Save Settings Below</source>
+			</trans-unit>
+			<trans-unit id="settings_msg_SubmitOkTitle">
+				<source>Saved</source>
+			</trans-unit>
+			<trans-unit id="settings_msg_SubmitOkMessage">
+				<source>Configuration correctly saved</source>
+			</trans-unit>
+			<trans-unit id="settings_msg_SubmitErrorTitle">
+				<source>Not Saved</source>
+			</trans-unit>
+			<trans-unit id="settings_msg_SubmitErrorMessage">
+				<source>Please try to save configuration again</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
