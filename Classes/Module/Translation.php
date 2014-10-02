@@ -1,5 +1,5 @@
 <?php
-namespace Snowflake\Snowbabel\Application;
+namespace Snowflake\Snowbabel\Module;
 
 /***************************************************************
  *  Copyright notice
@@ -34,11 +34,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package       TYPO3
  * @subpackage    tx_snowbabel
  */
-class Settings {
+class Translation {
 
 
 	/**
-	 * @var \tx_mod2_snowbabel
+	 * @var \tx_mod1_snowbabel
 	 */
 	private $parentObj;
 
@@ -86,9 +86,9 @@ class Settings {
 
 
 	/**
-	 * @param tx_mod2_snowbabel $parentObj
+	 * @param tx_mod1_snowbabel $parentObj
 	 */
-	public function __construct(tx_mod2_snowbabel $parentObj) {
+	public function __construct(tx_mod1_snowbabel $parentObj) {
 
 		// add parent object
 		$this->parentObj = $parentObj;
@@ -116,7 +116,7 @@ class Settings {
 		$this->resPath = $this->parentObj->doc->backPath . ExtensionManagementUtility::extRelPath('snowbabel') . 'Resources/';
 
 		// add jsPath
-		$this->jsPath = $this->resPath . 'Public/Js/Settings/';
+		$this->jsPath = $this->resPath . 'Public/Js/Translation/';
 		$this->jsPathMiscellaneous = $this->resPath . 'Public/Js/Miscellaneous/';
 
 		// add jsExtensionPath
@@ -126,7 +126,7 @@ class Settings {
 		$this->languagePath = 'Resources/Private/Language/';
 
 		// Add XLIFF file
-		$this->languageFile = 'locallang_settings.xlf';
+		$this->languageFile = 'locallang_translation.xlf';
 
 	}
 
@@ -139,17 +139,20 @@ class Settings {
 		// extjs inline translation
 		$this->pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('snowbabel') . $this->languagePath . $this->languageFile);
 
-		$this->pageRenderer->addCssFile($this->resPath . 'Public/Css/Settings.css');
+		$this->pageRenderer->addCssFile($this->resPath . 'Public/Css/Translation.css');
 
 		// plugins
-		$this->pageRenderer->addJsFile($this->jsExtensionPath . 'MultiSelect.js');
-		$this->pageRenderer->addJsFile($this->jsExtensionPath . 'ItemSelector.js');
+		$this->pageRenderer->addJsFile($this->jsExtensionPath . 'SearchField.js');
+		$this->pageRenderer->addJsFile($this->jsExtensionPath . 'Spotlight.js');
 
 		// functions
 		$this->pageRenderer->addJsFile($this->jsPathMiscellaneous . 'snowbabel_generals.js');
 
 		// scripts
-		$this->pageRenderer->addJsFile($this->jsPath . 'snowbabel_generalsettings.js');
+		$this->pageRenderer->addJsFile($this->jsPath . 'snowbabel_listview.js');
+		$this->pageRenderer->addJsFile($this->jsPath . 'snowbabel_columnselection.js');
+		$this->pageRenderer->addJsFile($this->jsPath . 'snowbabel_languageselection.js');
+		$this->pageRenderer->addJsFile($this->jsPath . 'snowbabel_extensionmenu.js');
 		$this->pageRenderer->addJsFile($this->jsPath . 'snowbabel_viewports.js');
 
 		// start main app
@@ -160,5 +163,4 @@ class Settings {
 		}
 
 	}
-
 }

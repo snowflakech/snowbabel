@@ -1,5 +1,5 @@
 <?php
-namespace Snowflake\Snowbabel;
+namespace Snowflake\Snowbabel\Service;
 
 /***************************************************************
  *  Copyright notice
