@@ -1,105 +1,120 @@
 <?php
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2011 Daniel Alder <info@snowflake.ch>
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2011 Daniel Alder <info@snowflake.ch>
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 /**
  * Plugin 'Snowbabel' for the 'Snowbabel' extension.
  *
- * @author	Daniel Alder <info@snowflake.ch>
- * @package	TYPO3
- * @subpackage	tx_snowbabel
+ * @author        Daniel Alder <info@snowflake.ch>
+ * @package       TYPO3
+ * @subpackage    tx_snowbabel
  */
 class tx_snowbabel_Extensions {
+
 
 	/**
 	 * @var tx_snowbabel_configuration
 	 */
 	private $confObj;
 
+
 	/**
 	 * @var tx_snowbabel_db
 	 */
 	private $Db;
+
 
 	/**
 	 *
 	 */
 	private $debug;
 
+
 	/**
 	 * @var
 	 */
 	private $CurrentTableId;
+
 
 	/**
 	 *
 	 */
 	private $ShowLocalExtensions;
 
+
 	/**
 	 *
 	 */
 	private $ShowSystemExtensions;
+
 
 	/**
 	 *
 	 */
 	private $ShowGlobalExtensions;
 
+
 	/**
 	 *
 	 */
 	private $BlacklistedExtensions;
+
 
 	/**
 	 *
 	 */
 	private $BlacklistedCategories;
 
+
 	/**
 	 *
 	 */
 	private $WhitelistedActivated;
+
 
 	/**
 	 *
 	 */
 	private $WhitelistedExtensions;
 
+
 	/**
 	 *
 	 */
 	private $ShowOnlyLoadedExtensions;
+
 
 	/**
 	 *
 	 */
 	private $IsAdmin;
 
+
 	/**
 	 *
 	 */
 	private $PermittedExtensions;
+
 
 	/**
 	 * @param  $confObj
@@ -110,10 +125,10 @@ class tx_snowbabel_Extensions {
 		$this->Db = $this->confObj->getDb();
 		$this->debug = $confObj->debug;
 
-			// Get Current TableId
+		// Get Current TableId
 		$this->CurrentTableId = $this->Db->getCurrentTableId();
 
-			// get Application params
+		// get Application params
 		$this->ShowLocalExtensions = $this->confObj->getApplicationConfiguration('ShowLocalExtensions');
 		$this->ShowSystemExtensions = $this->confObj->getApplicationConfiguration('ShowSystemExtensions');
 		$this->ShowGlobalExtensions = $this->confObj->getApplicationConfiguration('ShowGlobalExtensions');
@@ -126,11 +141,12 @@ class tx_snowbabel_Extensions {
 
 		$this->ShowOnlyLoadedExtensions = $this->confObj->getApplicationConfiguration('ShowOnlyLoadedExtensions');
 
-			// get User params
+		// get User params
 		$this->IsAdmin = $this->confObj->getUserConfigurationIsAdmin();
 		$this->PermittedExtensions = $this->confObj->getUserConfiguration('PermittedExtensions');
 
 	}
+
 
 	/**
 	 * @return null
@@ -152,11 +168,10 @@ class tx_snowbabel_Extensions {
 
 		if(!$this->IsAdmin) {
 
-				// Do Not Show Anything If No Permitted Extensions Available
+			// Do Not Show Anything If No Permitted Extensions Available
 			if($this->PermittedExtensions == '') {
-				return NULL;
-			}
-			else {
+				return null;
+			} else {
 				$Conf['PermittedExtensions'] = $this->PermittedExtensions;
 			}
 		}
@@ -168,9 +183,3 @@ class tx_snowbabel_Extensions {
 	}
 
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/snowbabel/Classes/Extensions/class.tx_snowbabel_extensions_list.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/snowbabel/Classes/Extensions/class.tx_snowbabel_extensions_list.php']);
-}
-
-?>
