@@ -35,7 +35,7 @@ if(TYPO3_MODE === "BE") {
 			'label' => 'LLL:EXT:snowbabel/locallang_db.xlf:label.tx_snowbabel_extensions',
 			'config' => Array(
 				'type' => 'select',
-				'itemsProcFunc' => 'Snowflake\Snowbabel\Hooks\Tca->getExtensions',
+				'itemsProcFunc' => 'Snowflake\Snowbabel\Hook\Tca->getExtensions',
 				'size' => 10,
 				'maxitems' => 9999,
 				'default' => ''
@@ -46,7 +46,7 @@ if(TYPO3_MODE === "BE") {
 			'label' => 'LLL:EXT:snowbabel/locallang_db.xlf:label.tx_snowbabel_languages',
 			'config' => Array(
 				'type' => 'select',
-				'itemsProcFunc' => 'Snowflake\Snowbabel\Hooks\Tca->getLanguages',
+				'itemsProcFunc' => 'Snowflake\Snowbabel\Hook\Tca->getLanguages',
 				'size' => 10,
 				'maxitems' => 9999,
 				'default' => ''
