@@ -6,7 +6,7 @@ if(!defined('TYPO3_MODE')) {
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerExtDirectComponent(
 	'TYPO3.Snowbabel.ExtDirect',
-	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Classes/Connection/class.tx_snowbabel_extdirectserver.php:tx_snowbabel_ExtDirectServer'
+	'Snowflake\\Snowbabel\\Connection\ExtDirectServer'
 );
 
 // Add Scheduler Configuration For Indexing
