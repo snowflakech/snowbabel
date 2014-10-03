@@ -24,11 +24,10 @@ namespace Snowflake\Snowbabel\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * todo: use language service from TYPO3 core instead
- *
  * Class Translations
  *
  * @package Snowflake\Snowbabel\Service
@@ -1254,7 +1253,7 @@ class Translations {
 	 * Function 'doParsingFromRoot' from Class 't3lib_l10n_parser_Xliff'
 	 *
 	 * @param \SimpleXMLElement $simpleXmlObject
-	 * @param $LanguageKey
+	 * @param                   $LanguageKey
 	 * @return array
 	 */
 	private function formatSimpleXmlObject_XLS(\SimpleXMLElement $simpleXmlObject, $LanguageKey) {
@@ -1454,46 +1453,20 @@ class Translations {
 	 */
 	private function getExtensionIcon($ExtensionPath, $ExtensionKey) {
 
+		$ExtensionIcon = '';
+
 		if($ExtensionPath && $ExtensionKey) {
 
-			if(file_exists($ExtensionPath['Path'] . 'ext_icon.gif')) {
-
-				// Check The Location And Get The CSS Path
-				switch($ExtensionPath['Location']) {
-
-					case 'Local':
-
-						$ExtensionPath = $this->LocalExtensionPath;
-
-						break;
-
-					case 'Global':
-
-						$ExtensionPath = $this->GlobalExtensionPath;
-
-						break;
-
-					case 'System':
-
-						$ExtensionPath = $this->SystemExtensionPath;
-
-						break;
-				}
-
-				$ExtensionIcon = '../../../../' . $ExtensionPath . $ExtensionKey . '/ext_icon.gif';
-
-			} // Set Default Icon
-			else {
-
-				$ExtensionIcon = '../Resources/Public/Images/Miscellaneous/ext_icon.gif';
-
+			if(file_exists(ExtensionManagementUtility::extPath($ExtensionKey) . 'ext_icon.gif')) {
+				$ExtensionIcon = ExtensionManagementUtility::extRelPath($ExtensionKey) . 'ext_icon.gif';
 			}
-
-			return $ExtensionIcon;
+			else {
+				$ExtensionIcon = ExtensionManagementUtility::extRelPath('snowbabel') . 'Resources/Public/Images/Miscellaneous/ext_icon.gif';
+			}
 
 		}
 
-		return '';
+		return $ExtensionIcon;
 
 	}
 

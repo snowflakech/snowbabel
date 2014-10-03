@@ -105,7 +105,7 @@ class Languages {
 		// set flag path
 		$FlagPath = 'Resources/Public/Images/Flags/';
 		$this->AbsoluteFlagPath = ExtensionManagementUtility::extPath('snowbabel') . $FlagPath;
-		$this->RelativeFlagPath = '../' . $FlagPath;
+		$this->RelativeFlagPath = ExtensionManagementUtility::extRelPath('snowbabel') . $FlagPath;
 
 		$this->confObj = $confObj;
 
