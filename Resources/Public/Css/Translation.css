@@ -143,3 +143,10 @@
     background-image: url(../Images/Silk/page_save.png);
     background-repeat: no-repeat;
 }
+
+/** TYPO3 6.2 Bugfixes **/
+
+.x-window-body p {
+	margin: 0;
+	line-height: 1em;
+}
