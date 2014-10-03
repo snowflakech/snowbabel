@@ -5,27 +5,46 @@ if(!defined('TYPO3_MODE')) {
 
 if(TYPO3_MODE === "BE") {
 
-	// Add new module 'snowbabel'
-	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+		'Snowflake.' . $_EXTKEY,
 		'snowbabel',
 		'',
 		'',
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'mod1/'
+		array(),
+		array(
+			'access' => 'user,group',
+			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_module_snowbabel.xlf'
+		)
 	);
-	// Add submodule 'translation'
-	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
+
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+		'Snowflake.' . $_EXTKEY,
 		'snowbabel',
 		'translation',
 		'',
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'mod1/'
+		array(
+			'Translation' => 'index'
+		),
+		array(
+			'access' => 'user,group',
+			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_module_translation.xlf'
+		)
 	);
-	// Add submodule 'settings'
-	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
+
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+		'Snowflake.' . $_EXTKEY,
 		'snowbabel',
 		'settings',
 		'',
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'mod2/'
+		array(
+			'Settings' => 'index'
+		),
+		array(
+			'access' => 'user,group',
+			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_module_settings.xlf'
+		)
 	);
+
 
 	// Todo: use autoinclude tca
 	// Extend Beusers For Translation Access Control
@@ -87,4 +106,3 @@ if(TYPO3_MODE === "BE") {
 	unset($tempColumns);
 
 }
-?>

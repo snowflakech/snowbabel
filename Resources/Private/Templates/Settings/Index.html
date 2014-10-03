@@ -1,0 +1,19 @@
+{namespace snowbabel=Snowflake\Snowbabel\ViewHelpers}
+
+<snowbabel:container
+		loadExtJs="true"
+		loadExtJsTheme="false"
+		enableExtJsDebug="true"
+		includeCssFiles="{
+			0: '{f:uri.resource(path:\'Css/Settings.css\')}'
+		}"
+		includeJsFiles="{
+			0: 'ajax.php?ajaxID=ExtDirect::getAPI&namespace=TYPO3.Snowbabel',
+			1: '{f:uri.resource(path:\'Js/Ux/MultiSelect.js\')}',
+			2: '{f:uri.resource(path:\'Js/Ux/ItemSelector.js\')}',
+			3: '{f:uri.resource(path:\'Js/Miscellaneous/snowbabel_generals.js\')}',
+			4: '{f:uri.resource(path:\'Js/Settings/snowbabel_generalsettings.js\')}',
+			5: '{f:uri.resource(path:\'Js/Settings/snowbabel_viewports.js\')}',
+			9: '{f:uri.resource(path:\'Js/Settings/snowbabel_app.js\')}'
+		}"
+		addJsInlineFile="EXT:snowbabel/Resources/Private/Language/locallang_settings.xlf" />
