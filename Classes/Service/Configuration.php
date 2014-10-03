@@ -24,6 +24,7 @@ namespace Snowflake\Snowbabel\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Configuration\ConfigurationManager;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -34,6 +35,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Configuration {
 
+
+	/**
+	 * @var ConfigurationManager
+	 */
+	private $configurationManager;
 
 	/**
 	 * @var
@@ -106,7 +112,6 @@ class Configuration {
 	 */
 	public function __construct($extjsParams = false) {
 
-		// Typo3 4.6 & Above
 		$this->xmlPath = 'snowbabel/Resources/Private/Language/locallang_translation.xlf';
 
 		$this->extjsParams = $extjsParams;
@@ -597,21 +602,14 @@ class Configuration {
 	 */
 	private function writeLocalconfArray(array $LocalconfValues) {
 
-		// TODO: What is a good alternative!?!
+		if(!$this->configurationManager instanceof ConfigurationManager) {
+			$this->configurationManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Configuration\\ConfigurationManager');
+		}
 
-		// Instance of install tool
-		$instObj = new t3lib_install;
-		$instObj->allowUpdateLocalConf = 1;
-		$instObj->updateIdentity = 'Snowbabel';
-
-		// Get lines from localconf file
-		$lines = $instObj->writeToLocalconf_control();
-		$instObj->setValueInLocalconfFile($lines, '$TYPO3_CONF_VARS[\'EXT\'][\'extConf\'][\'snowbabel\']', serialize($LocalconfValues));
-		$instObj->writeToLocalconf_control($lines);
+		$this->configurationManager->setLocalConfigurationValueByPath('EXT/extConf/snowbabel', serialize($LocalconfValues));
 
 		ExtensionManagementUtility::removeCacheFiles();
-
-		// TODO:
+		
 	}
 
 
