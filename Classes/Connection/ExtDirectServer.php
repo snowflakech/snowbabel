@@ -243,11 +243,6 @@ class ExtDirectServer {
 		$FormData['data']['ShowOnlyLoadedExtensions'] = $this->confObj->getApplicationConfiguration('ShowOnlyLoadedExtensions') ? 1 : 0;
 		$FormData['data']['ShowTranslatedLanguages'] = $this->confObj->getApplicationConfiguration('ShowTranslatedLanguages') ? 1 : 0;
 
-		$FormData['data']['BlacklistedExtensions'] = $this->confObj->getApplicationConfiguration('BlacklistedExtensions');
-		$FormData['data']['BlacklistedCategories'] = $this->confObj->getApplicationConfiguration('BlacklistedCategories');
-
-		$FormData['data']['WhitelistedActivated'] = $this->confObj->getApplicationConfiguration('WhitelistedActivated') ? 1 : 0;
-
 		$FormData['data']['XmlFilter'] = $this->confObj->getApplicationConfiguration('XmlFilter') ? 1 : 0;
 
 		$FormData['data']['AutoBackupEditing'] = $this->confObj->getApplicationConfiguration('AutoBackupEditing') ? 1 : 0;
@@ -321,8 +316,10 @@ class ExtDirectServer {
 	/**
 	 * @param $extjsParams
 	 * @return array
+	 *
+	 * todo: renaming
 	 */
-	public function getGeneralSettingsWhitelistedExtensions($extjsParams) {
+	public function getGeneralSettingsApprovedExtensions($extjsParams) {
 
 		// Todo: check logic
 		$extjsParams = array();
@@ -340,15 +337,15 @@ class ExtDirectServer {
 		// Get All Available Extensions
 		$Extensions = $this->systemTranslationObj->getDirectories();
 
-		// Get Whitelisted Extensions
-		$WhitelistedExtensions = $this->confObj->getApplicationConfiguration('WhitelistedExtensions');
+		// Get Approved Extensions
+		$approvedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
 
 		// Prepare For Output
 		if(is_array($Extensions) && count($Extensions) > 0) {
 			foreach($Extensions as $Extension) {
 
-				// Do Not Add Extension If Already Whitelisted
-				if(!in_array($Extension, $WhitelistedExtensions)) {
+				// Do Not Add Extension If Already Approved
+				if(!in_array($Extension, $approvedExtensions)) {
 					array_push($ExtensionArray, array('ExtensionKey' => $Extension));
 				}
 
@@ -363,27 +360,29 @@ class ExtDirectServer {
 	/**
 	 * @param $extjsParams
 	 * @return null
+	 *
+	 * todo: renaming
 	 */
-	public function getGeneralSettingsWhitelistedExtensionsAdded($extjsParams) {
+	public function getGeneralSettingsApprovedExtensionsAdded($extjsParams) {
 
 		// todo: check logic
 		$extjsParams = array();
-		$WhitelistedExtensionsArray = array();
+		$ApprovedExtensionsArray = array();
 
 		// Get Configuration Object
 		$this->getConfigurationObject($extjsParams);
 
 		// Set Values
-		$WhitelistedExtensions = $this->confObj->getApplicationConfiguration('WhitelistedExtensions');
+		$ApprovedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
 
 		// Prepare For Output
-		if(is_array($WhitelistedExtensions) && count($WhitelistedExtensions) > 0) {
-			foreach($WhitelistedExtensions as $WhitelistedExtension) {
-				array_push($WhitelistedExtensionsArray, array('ExtensionKey' => $WhitelistedExtension));
+		if(is_array($ApprovedExtensions) && count($ApprovedExtensions) > 0) {
+			foreach($ApprovedExtensions as $ApprovedExtension) {
+				array_push($ApprovedExtensionsArray, array('ExtensionKey' => $ApprovedExtension));
 			}
 		}
 
-		return $WhitelistedExtensionsArray;
+		return $ApprovedExtensionsArray;
 
 	}
 

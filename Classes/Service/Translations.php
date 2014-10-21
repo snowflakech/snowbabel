@@ -56,25 +56,7 @@ class Translations {
 	/**
 	 * @var
 	 */
-	private $BlacklistedExtensions;
-
-
-	/**
-	 * @var
-	 */
-	private $BlacklistedCategories;
-
-
-	/**
-	 * @var
-	 */
-	private $WhitelistedActivated;
-
-
-	/**
-	 * @var
-	 */
-	private $WhitelistedExtensions;
+	private $ApprovedExtensions;
 
 
 	/**
@@ -160,10 +142,7 @@ class Translations {
 		// get Application params
 		$this->CopyDefaultLanguage = $this->confObj->getApplicationConfiguration('CopyDefaultLanguage');
 		$this->AvailableLanguages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
-		$this->BlacklistedExtensions = $this->confObj->getApplicationConfiguration('BlacklistedExtensions');
-		$this->BlacklistedCategories = explode(',', $this->confObj->getApplicationConfiguration('BlacklistedCategories'));
-		$this->WhitelistedActivated = $this->confObj->getApplicationConfiguration('WhitelistedActivated');
-		$this->WhitelistedExtensions = $this->confObj->getApplicationConfiguration('WhitelistedExtensions');
+		$this->ApprovedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
 		$this->LocalExtensionPath = $this->confObj->getApplicationConfiguration('LocalExtensionPath');
 		$this->SystemExtensionPath = $this->confObj->getApplicationConfiguration('SystemExtensionPath');
 		$this->GlobalExtensionPath = $this->confObj->getApplicationConfiguration('GlobalExtensionPath');
@@ -182,9 +161,7 @@ class Translations {
 
 		$Extensions = self::getDirectories();
 
-		$Extensions = self::removeBlacklistedExtensions($Extensions);
-
-		$Extensions = self::checkWhitelistedExtensions($Extensions);
+		$Extensions = self::checkApprovedExtensions($Extensions);
 
 		$Extensions = self::getExtensionData($Extensions);
 
@@ -360,70 +337,31 @@ class Translations {
 
 
 	/**
-	 * @param $RawExtensions
-	 * @return array
-	 */
-	private function removeBlacklistedExtensions($RawExtensions) {
-
-		$Extensions = array();
-
-		if(!$this->WhitelistedActivated) {
-			$BlacklistedExtensions = array();
-
-			// Get Blacklisted Extensions
-			if($this->BlacklistedExtensions) {
-				$BlacklistedExtensions = explode(',', $this->BlacklistedExtensions);
-			}
-
-			// Just Use Allowed Extensions
-			if(count($RawExtensions)) {
-				foreach($RawExtensions as $Extension) {
-
-					if(!in_array($Extension, $BlacklistedExtensions)) {
-						array_push($Extensions, $Extension);
-					}
-
-				}
-			}
-		} else {
-			if(count($RawExtensions)) {
-				foreach($RawExtensions as $Extension) {
-					array_push($Extensions, $Extension);
-				}
-			}
-		}
-
-		return $Extensions;
-
-	}
-
-
-	/**
 	 * @param $Extensions
 	 * @return array
+	 *
+	 * todo: renaming
 	 */
-	private function checkWhitelistedExtensions($Extensions) {
+	private function checkApprovedExtensions($Extensions) {
 
-		if($this->WhitelistedActivated) {
 
-			if(count($Extensions) > 0) {
+		if(count($Extensions) > 0) {
 
-				$ExtensionsNew = array();
+			$ExtensionsNew = array();
 
-				foreach($Extensions as $Extension) {
+			foreach($Extensions as $Extension) {
 
-					// Check If Extension Is Available
-					if(in_array($Extension, $this->WhitelistedExtensions)) {
-						array_push($ExtensionsNew, $Extension);
-					}
-
+				// Check If Extension Is Available
+				if(in_array($Extension, $this->ApprovedExtensions)) {
+					array_push($ExtensionsNew, $Extension);
 				}
 
-				// Set New Extensionlist
-				$Extensions = $ExtensionsNew;
 			}
 
+			// Set New Extensionlist
+			$Extensions = $ExtensionsNew;
 		}
+
 
 		return $Extensions;
 
@@ -471,11 +409,6 @@ class Translations {
 			// Get Extension Data From EmConf
 			$EMConf = self::getSystemEMConf($ExtensionLocation['Path']);
 
-			// If Blacklisted Category Return
-			if(self::isCategoryBlacklisted($EMConf['ExtensionCategory'])) {
-				return false;
-			}
-
 			// Add Extension Data
 			$ExtensionData = array(
 				'ExtensionKey' => $ExtensionKey,
@@ -489,26 +422,6 @@ class Translations {
 			);
 
 			return $ExtensionData;
-
-		}
-
-		return false;
-
-	}
-
-
-	/**
-	 * @param  $ExtensionCategory
-	 * @return bool
-	 */
-	private function isCategoryBlacklisted($ExtensionCategory) {
-
-		// Just Use Allowed Categories
-		if($ExtensionCategory && is_array($this->BlacklistedCategories) && !$this->WhitelistedActivated) {
-
-			if(in_array($ExtensionCategory, $this->BlacklistedCategories)) {
-				return true;
-			}
 
 		}
 
@@ -1459,8 +1372,7 @@ class Translations {
 
 			if(file_exists(ExtensionManagementUtility::extPath($ExtensionKey) . 'ext_icon.gif')) {
 				$ExtensionIcon = ExtensionManagementUtility::extRelPath($ExtensionKey) . 'ext_icon.gif';
-			}
-			else {
+			} else {
 				$ExtensionIcon = ExtensionManagementUtility::extRelPath('snowbabel') . 'Resources/Public/Images/Miscellaneous/ext_icon.gif';
 			}
 

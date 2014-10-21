@@ -62,8 +62,8 @@ TYPO3.Snowbabel.GeneralSettings = Ext.extend(Ext.form.FormPanel , {
 		});
 
 			// All Available Extensions
-		var WhitelistedExtensionsStore = new Ext.data.DirectStore( {
-			directFn: TYPO3.Snowbabel.ExtDirect.getGeneralSettingsWhitelistedExtensions,
+		var ApprovedExtensionsStore = new Ext.data.DirectStore( {
+			directFn: TYPO3.Snowbabel.ExtDirect.getGeneralSettingsApprovedExtensions,
 			paramsAsHash: true,
 			root: '',
 			sortInfo: {
@@ -74,8 +74,8 @@ TYPO3.Snowbabel.GeneralSettings = Ext.extend(Ext.form.FormPanel , {
 		});
 
 			// Added Extensions
-		var WhitelistedExtensionsAddedStore = new Ext.data.DirectStore( {
-			directFn: TYPO3.Snowbabel.ExtDirect.getGeneralSettingsWhitelistedExtensionsAdded,
+		var ApprovedExtensionsAddedStore = new Ext.data.DirectStore( {
+			directFn: TYPO3.Snowbabel.ExtDirect.getGeneralSettingsApprovedExtensionsAdded,
 			paramsAsHash: true,
 			root: '',
 			sortInfo: {
@@ -123,41 +123,13 @@ TYPO3.Snowbabel.GeneralSettings = Ext.extend(Ext.form.FormPanel , {
 						}
 					}]
 				},{
-					title: TYPO3.lang.settings_formtab_Blacklists,
+					title: TYPO3.lang.settings_formtab_Approved,
 					layout: 'form',
 					defaultType: 'textfield',
 					items: [{
-						xtype: 'textfield',
-						anchor: '80%',
-						fieldLabel: TYPO3.lang.settings_formlabel_BlacklistedExtensions,
-						name: 'BlacklistedExtensions'
-					},{
-						xtype: 'textfield',
-						anchor: '80%',
-						fieldLabel: TYPO3.lang.settings_formlabel_BlacklistedCategories,
-						name: 'BlacklistedCategories'
-					}],
-					buttonAlign: 'left',
-					buttons: [{
-						iconCls: 'silk-disk',
-						text: TYPO3.lang.settings_formbutton_Save,
-						tooltip: TYPO3.lang.settings_formtooltip_Save,
-						handler: function(){
-							TYPO3.Snowbabel.Generals.GeneralSettingsFormSubmit();
-						}
-					}]
-				},{
-					title: TYPO3.lang.settings_formtab_Whitelists,
-					layout: 'form',
-					defaultType: 'textfield',
-					items: [{
-						xtype: 'checkbox',
-						fieldLabel: TYPO3.lang.settings_formlabel_WhitelistedActivated,
-						name: 'WhitelistedActivated'
-					},{
 						xtype: 'itemselector',
 						fieldLabel: TYPO3.lang.settings_formlabel_AddedExtensions,
-						name: 'WhitelistedExtensions',
+						name: 'ApprovedExtensions',
 						imagePath: '../Resources/Public/Images/Silk/',
 						drawUpIcon: false,
 						drawDownIcon: false,
@@ -176,7 +148,7 @@ TYPO3.Snowbabel.GeneralSettings = Ext.extend(Ext.form.FormPanel , {
 							style: 'background-color:white',
 							width: 250,
 							height: 200,
-							store: WhitelistedExtensionsStore,
+							store: ApprovedExtensionsStore,
 							displayField: 'ExtensionKey',
 							valueField: 'ExtensionKey'
 						},{
@@ -184,7 +156,7 @@ TYPO3.Snowbabel.GeneralSettings = Ext.extend(Ext.form.FormPanel , {
 							style: 'background-color:white',
 							width: 250,
 							height: 200,
-							store: WhitelistedExtensionsAddedStore,
+							store: ApprovedExtensionsAddedStore,
 							displayField: 'ExtensionKey',
 							valueField: 'ExtensionKey'
 						}]
@@ -352,8 +324,8 @@ TYPO3.Snowbabel.GeneralSettings = Ext.extend(Ext.form.FormPanel , {
 					this.getForm().load();
 					LanguagesStore.load();
 					LanguagesAddedStore.load();
-					WhitelistedExtensionsStore.load();
-					WhitelistedExtensionsAddedStore.load();
+					ApprovedExtensionsStore.load();
+					ApprovedExtensionsAddedStore.load();
 				}
 			})
 		};

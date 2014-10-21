@@ -366,29 +366,11 @@ class Database {
 				array_push($Where['AND'], 'ExtensionLoaded=1');
 			}
 
-			if(!empty($Conf['BlacklistedCategories'])) {
+			if(!empty($Conf['ApprovedExtensions'])) {
 
-				$BlacklistedCategories = $this->prepareCommaSeparatedString($Conf['BlacklistedCategories'], $Table);
-				if(!empty($BlacklistedCategories)) {
-					array_push($Where['AND'], 'ExtensionCategory NOT IN (' . $BlacklistedCategories . ')');
-				}
-
-			}
-
-			if(!empty($Conf['BlacklistedExtensions'])) {
-
-				$BlacklistedExtensions = $this->prepareCommaSeparatedString($Conf['BlacklistedExtensions'], $Table);
-				if(!empty($BlacklistedExtensions)) {
-					array_push($Where['AND'], 'ExtensionKey NOT IN (' . $BlacklistedExtensions . ')');
-				}
-
-			}
-
-			if(!empty($Conf['WhitelistedExtensions'])) {
-
-				$WhitelistedExtensions = $this->prepareCommaSeparatedString($Conf['WhitelistedExtensions'], $Table);
-				if(!empty($WhitelistedExtensions)) {
-					array_push($Where['AND'], 'ExtensionKey IN (' . $WhitelistedExtensions . ')');
+				$ApprovedExtensions = $this->prepareCommaSeparatedString($Conf['ApprovedExtensions'], $Table);
+				if(!empty($ApprovedExtensions)) {
+					array_push($Where['AND'], 'ExtensionKey IN (' . $ApprovedExtensions . ')');
 				}
 
 			}

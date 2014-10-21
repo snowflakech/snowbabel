@@ -6,11 +6,8 @@
 			<trans-unit id="settings_formtab_Pathes">
 				<source>Paths</source>
 			</trans-unit>
-			<trans-unit id="settings_formtab_Blacklists">
-				<source>Blacklists</source>
-			</trans-unit>
-			<trans-unit id="settings_formtab_Whitelists">
-				<source>Whitelists</source>
+			<trans-unit id="settings_formtab_Approved">
+				<source>Extensions</source>
 			</trans-unit>
 			<trans-unit id="settings_formtab_DisplayOptions">
 				<source>Display Options</source>
@@ -41,9 +38,6 @@
 			</trans-unit>
 			<trans-unit id="settings_formlabel_BlacklistedCategories">
 				<source>Categories</source>
-			</trans-unit>
-			<trans-unit id="settings_formlabel_WhitelistedActivated">
-				<source>Use Whitelist</source>
 			</trans-unit>
 			<trans-unit id="settings_formlabel_ShowOnlyLoadedExtensions">
 				<source>Show Only Loaded Extensions</source>
@@ -79,7 +73,7 @@
 				<source>Added</source>
 			</trans-unit>
 			<trans-unit id="settings_formlabel_AddedExtensions">
-				<source>Whitelisted Extensions</source>
+				<source>Approved Extensions</source>
 			</trans-unit>
 			<trans-unit id="settings_formlabel_AddedExtensions_Available">
 				<source>Available</source>
