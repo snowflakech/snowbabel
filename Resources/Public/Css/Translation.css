@@ -10,6 +10,10 @@
 	background-image: url("../Images/Miscellaneous/menu.gif");
 }
 
+	#snowbabel-language-menu {
+		background-image: none;
+	}
+
 	#snowbabel-extension-menu .x-panel-tbar {
 		padding-bottom: 0;
 	}
@@ -38,12 +42,17 @@
 	margin-bottom: 2px;
 }
 
+	#snowbabel-language-menu .snowbabel-menu-item {
+		background-image: none;
+		padding: 1px;
+	}
+
+
 	.snowbabel-menu-item-over,
 	.snowbabel-menu-item-selected {
 		background-color: #E7E7E7;
 		border-color: #B9B9B9;
 	}
-
 
 
 	#snowbabel-language-menu .snowbabel-menu-item-selected,

@@ -25,7 +25,6 @@ namespace Snowflake\Snowbabel\Record;
  ***************************************************************/
 
 use Snowflake\Snowbabel\Service\Configuration;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Class Languages
@@ -33,18 +32,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * @package Snowflake\Snowbabel\Record
  */
 class Languages {
-
-
-	/**
-	 *
-	 */
-	private $AbsoluteFlagPath;
-
-
-	/*
-	 *
-	 */
-	private $RelativeFlagPath;
 
 
 	/**
@@ -100,13 +87,6 @@ class Languages {
 	 */
 	public function __construct($confObj) {
 
-		// TODO: Pathes Should Be Editable
-
-		// set flag path
-		$FlagPath = 'Resources/Public/Images/Flags/';
-		$this->AbsoluteFlagPath = ExtensionManagementUtility::extPath('snowbabel') . $FlagPath;
-		$this->RelativeFlagPath = ExtensionManagementUtility::extRelPath('snowbabel') . $FlagPath;
-
 		$this->confObj = $confObj;
 
 		$this->debug = $confObj->debug;
@@ -134,9 +114,6 @@ class Languages {
 
 		// Set Selected Languages
 		$this->getLanguagesSelected();
-
-		// Set Language Flags
-		$this->getLanguagesFlag();
 
 		return $this->UserLanguages;
 	}
@@ -200,41 +177,6 @@ class Languages {
 			}
 
 		}
-
-	}
-
-
-	private function getLanguagesFlag() {
-
-		if(count($this->UserLanguages) > 0) {
-
-			foreach($this->UserLanguages as $key => $UserLanguage) {
-
-				// add marker to array
-				$this->UserLanguages[$key]['LanguageFlag'] = $this->getLanguageFlag($UserLanguage['LanguageKey']);
-
-			}
-
-		}
-
-	}
-
-
-	/**
-	 * @param  $LanguageId
-	 * @return string
-	 */
-	private function getLanguageFlag($LanguageId) {
-
-		$LanguageIcon = $LanguageId . '.gif';
-
-		if(file_exists($this->AbsoluteFlagPath . $LanguageIcon)) {
-			$icon = $this->RelativeFlagPath . $LanguageIcon;
-		} else {
-			$icon = $this->RelativeFlagPath . 'unknown.gif';
-		}
-
-		return $icon;
 
 	}
 

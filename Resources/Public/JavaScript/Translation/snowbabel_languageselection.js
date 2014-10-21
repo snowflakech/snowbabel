@@ -52,7 +52,6 @@ TYPO3.Snowbabel.LanguageSelection = Ext.extend(Ext.Panel , {
 				'LanguageNameEn',
 				'LanguageNameLocal',
 				'LanguageKey',
-				'LanguageFlag',
 				'LanguageSelected'
 			]
 		});
@@ -61,7 +60,7 @@ TYPO3.Snowbabel.LanguageSelection = Ext.extend(Ext.Panel , {
 		var LanguageSelectionTpl = new Ext.XTemplate(
 			'<ul id="LanguageSelection" class="snowbabel-menu">',
 			'<tpl for=".">',
-				'<li id="LanguageSelection{LanguageId}" class="snowbabel-menu-item" style="background-image: url({LanguageFlag});">',
+				'<li id="LanguageSelection{LanguageId}" class="snowbabel-menu-item">',
 					'{LanguageName}',
 				'</li>',
 				'</li>',
