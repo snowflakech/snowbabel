@@ -1,28 +1,28 @@
 <?php
 namespace Snowflake\Snowbabel\Record;
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2011 Daniel Alder <info@snowflake.ch>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+	/***************************************************************
+	 *  Copyright notice
+	 *
+	 *  (c) 2011 Daniel Alder <info@snowflake.ch>
+	 *  All rights reserved
+	 *
+	 *  This script is part of the TYPO3 project. The TYPO3 project is
+	 *  free software; you can redistribute it and/or modify
+	 *  it under the terms of the GNU General Public License as published by
+	 *  the Free Software Foundation; either version 2 of the License, or
+	 *  (at your option) any later version.
+	 *
+	 *  The GNU General Public License can be found at
+	 *  http://www.gnu.org/copyleft/gpl.html.
+	 *
+	 *  This script is distributed in the hope that it will be useful,
+	 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	 *  GNU General Public License for more details.
+	 *
+	 *  This copyright notice MUST APPEAR in all copies of the script!
+	 ***************************************************************/
 
 /**
  * Class Extensions
@@ -77,25 +77,7 @@ class Extensions {
 	/**
 	 *
 	 */
-	private $BlacklistedExtensions;
-
-
-	/**
-	 *
-	 */
-	private $BlacklistedCategories;
-
-
-	/**
-	 *
-	 */
-	private $WhitelistedActivated;
-
-
-	/**
-	 *
-	 */
-	private $WhitelistedExtensions;
+	private $ApprovedExtensions;
 
 
 	/**
@@ -133,11 +115,7 @@ class Extensions {
 		$this->ShowSystemExtensions = $this->confObj->getApplicationConfiguration('ShowSystemExtensions');
 		$this->ShowGlobalExtensions = $this->confObj->getApplicationConfiguration('ShowGlobalExtensions');
 
-		$this->BlacklistedExtensions = $this->confObj->getApplicationConfiguration('BlacklistedExtensions');
-		$this->BlacklistedCategories = $this->confObj->getApplicationConfiguration('BlacklistedCategories');
-
-		$this->WhitelistedActivated = $this->confObj->getApplicationConfiguration('WhitelistedActivated');
-		$this->WhitelistedExtensions = $this->confObj->getApplicationConfiguration('WhitelistedExtensions');
+		$this->ApprovedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
 
 		$this->ShowOnlyLoadedExtensions = $this->confObj->getApplicationConfiguration('ShowOnlyLoadedExtensions');
 
@@ -159,9 +137,7 @@ class Extensions {
 			'System' => $this->ShowSystemExtensions,
 			'Global' => $this->ShowGlobalExtensions,
 			'OnlyLoaded' => $this->ShowOnlyLoadedExtensions,
-			'BlacklistedExtensions' => !$this->WhitelistedActivated ? $this->BlacklistedExtensions : '',
-			'BlacklistedCategories' => !$this->WhitelistedActivated ? $this->BlacklistedCategories : '',
-			'WhitelistedExtensions' => $this->WhitelistedActivated ? $this->WhitelistedExtensions : '',
+			'ApprovedExtensions' => $this->ApprovedExtensions,
 			'OrderBy' => 'ExtensionTitle',
 			'Debug' => '0',
 		);

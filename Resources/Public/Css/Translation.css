@@ -10,6 +10,10 @@
 	background-image: url("../Images/Miscellaneous/menu.gif");
 }
 
+	#snowbabel-language-menu {
+		background-image: none;
+	}
+
 	#snowbabel-extension-menu .x-panel-tbar {
 		padding-bottom: 0;
 	}
@@ -19,6 +23,7 @@
 	border: 0 none;
 	overflow: hidden;
 	padding: 2px;
+	margin: 0;
 }
 
 	.snowbabel-menu .loaded0 {
@@ -37,12 +42,17 @@
 	margin-bottom: 2px;
 }
 
+	#snowbabel-language-menu .snowbabel-menu-item {
+		background-image: none;
+		padding: 1px;
+	}
+
+
 	.snowbabel-menu-item-over,
 	.snowbabel-menu-item-selected {
 		background-color: #E7E7E7;
 		border-color: #B9B9B9;
 	}
-
 
 
 	#snowbabel-language-menu .snowbabel-menu-item-selected,
@@ -107,8 +117,12 @@
 
 /* makes cells selectable */
 .x-selectable, .x-selectable * {
-	-moz-user-select: text!important;
-	-khtml-user-select: text!important;
+	-webkit-touch-callout: text !important;
+	-webkit-user-select: text !important;;
+	-khtml-user-select: text !important;;
+	-moz-user-select: text !important;;
+	-ms-user-select: text !important;;
+	user-select: text !important;;
 }
 
 
@@ -141,4 +155,11 @@
 .saveToOriginal-icon {
     background-image: url(../Images/Silk/page_save.png);
     background-repeat: no-repeat;
+}
+
+/** TYPO3 6.2 Bugfixes **/
+
+.x-window-body p {
+	margin: 0;
+	line-height: 1em;
 }

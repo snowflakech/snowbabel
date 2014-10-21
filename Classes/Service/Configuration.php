@@ -86,11 +86,7 @@ class Configuration {
 		'ShowOnlyLoadedExtensions' => 1,
 		'ShowTranslatedLanguages' => 0,
 
-		'BlacklistedExtensions' => 't3quixplorer,indexed_search,rtehtmlarea,t3editor,sv,sys_action,t3skin,belog,ics_awstats,ics_web_awstats,phpmyadmin,terminal,api_macmade,css_styled_content',
-		'BlacklistedCategories' => 'module,services,misc,be',
-
-		'WhitelistedActivated' => 0,
-		'WhitelistedExtensions' => '',
+		'ApprovedExtensions' => '',
 
 		'XmlFilter' => 1,
 
@@ -296,10 +292,10 @@ class Configuration {
 			$NewLocalconfValues['AvailableLanguages'] = $Languages;
 		}
 
-		// Set Whitelisted Extensions If Added
-		$WhitelistedExtensions = $this->getExtjsConfiguration('WhitelistedExtensions');
-		if($WhitelistedExtensions) {
-			$NewLocalconfValues['WhitelistedExtensions'] = $WhitelistedExtensions;
+		// Set Approved Extensions If Added
+		$ApprovedExtensions = $this->getExtjsConfiguration('ApprovedExtensions');
+		if($ApprovedExtensions) {
+			$NewLocalconfValues['ApprovedExtensions'] = $ApprovedExtensions;
 		}
 
 		// Mark Configuration Changes As 'CHANGED'
@@ -520,11 +516,6 @@ class Configuration {
 		$ExtjsParams['ShowOnlyLoadedExtensions'] = $this->configuration['Extjs']['ShowOnlyLoadedExtensions'];
 		$ExtjsParams['ShowTranslatedLanguages'] = $this->configuration['Extjs']['ShowTranslatedLanguages'];
 
-		$ExtjsParams['BlacklistedExtensions'] = $this->configuration['Extjs']['BlacklistedExtensions'];
-		$ExtjsParams['BlacklistedCategories'] = $this->configuration['Extjs']['BlacklistedCategories'];
-
-		$ExtjsParams['WhitelistedActivated'] = $this->configuration['Extjs']['WhitelistedActivated'];
-
 		$ExtjsParams['XmlFilter'] = $this->configuration['Extjs']['XmlFilter'];
 
 		$ExtjsParams['AutoBackupEditing'] = $this->configuration['Extjs']['AutoBackupEditing'];
@@ -609,7 +600,7 @@ class Configuration {
 		$this->configurationManager->setLocalConfigurationValueByPath('EXT/extConf/snowbabel', serialize($LocalconfValues));
 
 		ExtensionManagementUtility::removeCacheFiles();
-		
+
 	}
 
 
@@ -722,17 +713,8 @@ class Configuration {
 			// show translated languages
 			$this->setApplicationConfiguration($LocalconfValues['ShowTranslatedLanguages'], 'ShowTranslatedLanguages');
 
-
-			// blacklist extensions
-			$this->setApplicationConfiguration($LocalconfValues['BlacklistedExtensions'], 'BlacklistedExtensions');
-			// blacklist categories
-			$this->setApplicationConfiguration($LocalconfValues['BlacklistedCategories'], 'BlacklistedCategories');
-
-			// whitelist activated
-			$this->setApplicationConfiguration($LocalconfValues['WhitelistedActivated'], 'WhitelistedActivated');
-
-			// whitelisted extensions
-			$this->setApplicationConfiguration(explode(",", $LocalconfValues['WhitelistedExtensions']), 'WhitelistedExtensions');
+			// approved extensions
+			$this->setApplicationConfiguration(explode(",", $LocalconfValues['ApprovedExtensions']), 'ApprovedExtensions');
 
 			// xml filter
 			$this->setApplicationConfiguration($LocalconfValues['XmlFilter'], 'XmlFilter');

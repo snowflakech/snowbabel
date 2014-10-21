@@ -15,3 +15,12 @@
 	color: #333;
 	font-weight: bold;
 }
+
+.x-list-body dl {
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.x-list-body dt em  {
+	line-height: 1em;
+}
