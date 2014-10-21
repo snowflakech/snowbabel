@@ -102,13 +102,13 @@ TYPO3.Snowbabel.Generals.ActionController = function(ActionParams) {
 
 	TYPO3.Snowbabel.Generals.SetLoadParams('ActionKey', Store, ActionParams);
 
-	if(ActionParams['ActionKey'] == 'LanguageSelection') {
+	if(ActionParams.ActionKey === 'LanguageSelection') {
 		TYPO3.Snowbabel.Generals.SetLoadParams('LanguageId', Store, ActionParams);
 	}
-	else if(ActionParams['ActionKey'] == 'ColumnSelection') {
+	else if(ActionParams.ActionKey === 'ColumnSelection') {
 		TYPO3.Snowbabel.Generals.SetLoadParams('ColumnId', Store, ActionParams);
 	}
-	else if(ActionParams['ActionKey'] == 'ListView_Update') {
+	else if(ActionParams.ActionKey === 'ListView_Update') {
 		TYPO3.Snowbabel.Generals.SetLoadParams('TranslationId', Store, ActionParams);
 		TYPO3.Snowbabel.Generals.SetLoadParams('TranslationValue', Store, ActionParams);
 	}
@@ -116,32 +116,32 @@ TYPO3.Snowbabel.Generals.ActionController = function(ActionParams) {
 	Store.load({
 		callback: function(r, options, success) {
 
-			if(ActionParams['ActionKey'] == 'LanguageSelection') {
-				var LoadParams = new Array();
+			var LoadParams = [];
+
+			if(ActionParams.ActionKey === 'LanguageSelection') {
 				TYPO3.Snowbabel.Generals.LoadListView(LoadParams);
 			}
-			else if(ActionParams['ActionKey'] == 'ColumnSelection') {
-				var LoadParams = new Array();
+			else if(ActionParams.ActionKey === 'ColumnSelection') {
 				TYPO3.Snowbabel.Generals.LoadListView(LoadParams);
 			}
-			else if(ActionParams['ActionKey'] == 'ListView_Update') {
+			else if(ActionParams.ActionKey === 'ListView_Update') {
 
 				if(success) {
-					ActionParams['Record'].commit();
-					TYPO3.Snowbabel.Generals.ShowMessage(2, TYPO3.lang.translation_msg_SaveOkTitle, TYPO3.lang.translation_msg_SaveOkMessage + ' ' + ActionParams['TranslationValue'], 1);
+					ActionParams.Record.commit();
+					TYPO3.Snowbabel.Generals.ShowMessage(2, TYPO3.lang.translation_msg_SaveOkTitle, TYPO3.lang.translation_msg_SaveOkMessage + ' ' + ActionParams.TranslationValue, 1);
 				}
 				else {
-					TYPO3.Snowbabel.Generals.ShowMessage(4, TYPO3.lang.translation_msg_SaveErrorTitle, TYPO3.lang.translation_msg_SaveErrorMessage + ' ' + ActionParams['TranslationValue'], 3);
+					TYPO3.Snowbabel.Generals.ShowMessage(4, TYPO3.lang.translation_msg_SaveErrorTitle, TYPO3.lang.translation_msg_SaveErrorMessage + ' ' + ActionParams.TranslationValue, 3);
 				}
 			}
-			else if(ActionParams['ActionKey'] == 'CheckScheduler') {
+			else if(ActionParams.ActionKey === 'CheckScheduler') {
 
 				if(!success) {
 					TYPO3.Snowbabel.Generals.ShowMessageBox(TYPO3.lang.translation_msg_SchedulerTitle, TYPO3.lang.translation_msg_SchedulerMessage, true);
 				}
 
 			}
-			else if(ActionParams['ActionKey'] == 'ConfigurationChanged') {
+			else if(ActionParams.ActionKey === 'ConfigurationChanged') {
 
 				if(!success) {
 					TYPO3.Snowbabel.Generals.ShowMessageBox(TYPO3.lang.translation_msg_ConfigurationTitle, TYPO3.lang.translation_msg_ConfigurationMessage, true, 65);
@@ -183,7 +183,7 @@ TYPO3.Snowbabel.Generals.SetGlobalSearchToggleButton = function(LoadParams) {
 	var GlobalSearchToggleButton = Ext.getCmp('SearchToggle');
 
 		// Enable/Disable Button
-	if(LoadParams['SearchGlobal']) {
+	if(LoadParams.SearchGlobal) {
 		GlobalSearchToggleButton.setDisabled(true);
 	}
 	else {
@@ -193,11 +193,12 @@ TYPO3.Snowbabel.Generals.SetGlobalSearchToggleButton = function(LoadParams) {
 
 /**
  *
+ * @param Store
  * @param LoadParams
  */
 TYPO3.Snowbabel.Generals.SetSearchField = function(Store, LoadParams) {
 
-	if(!LoadParams['SearchString'] && Store.baseParams.SearchString == '') {
+	if(!LoadParams.SearchString && Store.baseParams.SearchString === '') {
 
 			// Empty Search Field
 		var SearchField = Ext.getCmp('SearchField').el.dom;
@@ -231,20 +232,17 @@ TYPO3.Snowbabel.Generals.GeneralSettingsFormSubmit = function() {
 
 TYPO3.Snowbabel.Generals.GeneralSettingsGroupsCreate = function() {
 
-	Textfield = Ext.getCmp('textfieldGroupsNew');
-
-	var GroupName = Textfield.getValue();
-
+	var Textfield = Ext.getCmp('textfieldGroupsNew');
 	Textfield.setRawValue('');
 
-}
+};
 
 /**
  * Shows popup
- * @param int severity (0=notice, 1=information, 2=ok, 3=warning, 4=error)
- * @param string title
- * @param string message
- * @param float duration in sec (default 5)
+ * @param severity (0=notice, 1=information, 2=ok, 3=warning, 4=error)
+ * @param title
+ * @param message
+ * @param duration in sec (default 5)
  */
 TYPO3.Snowbabel.Generals.ShowMessage = function(severity, title, message, duration) {
 
@@ -259,10 +257,8 @@ TYPO3.Snowbabel.Generals.ShowMessageBox = function(title, message, spotlight, he
 
 		// Do Not Show MessageBox Twice
 	if(!TYPO3.Snowbabel.Generals.MessageBoxDisplayed) {
-		if(height > 0) {
-			height = height
-		}
-		else {
+
+		if(height === 0) {
 			height = 50;
 		}
 
