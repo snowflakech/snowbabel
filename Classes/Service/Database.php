@@ -674,7 +674,7 @@ class Database {
 		array_push($Where['AND'], $Table1 . '.uid=' . $Table2 . '.ExtensionId');
 		array_push($Where['AND'], $Table2 . '.uid=' . $Table3_Alias . '.FileId');
 
-		if(is_array($Conf && count($Conf) > 0)) {
+		if(is_array($Conf) && count($Conf) > 0) {
 
 			// FIELDS
 			if($Conf['Fields']) {
