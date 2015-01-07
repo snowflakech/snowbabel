@@ -1012,13 +1012,10 @@ class Translations {
 		if(is_array($TempFiles)) {
 			foreach($TempFiles as $Key => $File) {
 
-				// Check Name Convention 'locallang'
-				if(strstr($TempFiles[$Key], 'locallang') !== false) {
-					$Files[] = array(
-						'ExtensionId' => $ExtensionId,
-						'FileKey' => $TempFiles[$Key]
-					);
-				}
+				$Files[] = array(
+					'ExtensionId' => $ExtensionId,
+					'FileKey' => $TempFiles[$Key]
+				);
 
 			}
 		}
@@ -1129,8 +1126,14 @@ class Translations {
 
 		if(is_file($File)) {
 
+			// Surpress xml errors
+			libxml_use_internal_errors(true);
+
 			// Load Xls Object
-			$xml = simplexml_load_file($File, 'SimpleXMLElement', LIBXML_NOWARNING);
+			$xml = simplexml_load_file($File, 'SimpleXMLElement', \LIBXML_NOWARNING);
+
+			// Clear xml errors and activate errors again
+			libxml_use_internal_errors(false);
 
 			// Format Xls Object
 			return self::formatSimpleXmlObject_XLS($xml, $LanguageKey);
@@ -1150,8 +1153,14 @@ class Translations {
 
 		if(is_file($File)) {
 
+			// Surpress xml errors
+			libxml_use_internal_errors(true);
+
 			// Load Xml Object
-			$xml = simplexml_load_file($File, 'SimpleXMLElement', LIBXML_NOWARNING);
+			$xml = simplexml_load_file($File, 'SimpleXMLElement', \LIBXML_NOWARNING);
+
+			// Clear xml errors and activate errors again
+			libxml_use_internal_errors(false);
 
 			// Format Xml Object
 			return self::formatSimpleXmlObject_XML($xml);
