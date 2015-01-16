@@ -41,96 +41,96 @@ class Database {
 
 
 	/**
-	 * @param  $Debug
+	 * @param  $debug
 	 */
-	public function __construct($Debug) {
-		$this->debug = $Debug;
+	public function __construct($debug) {
+		$this->debug = $debug;
 	}
 
 
 	/**
-	 * @param      $LocalconfValue
-	 * @param bool $ShowTranslatedLanguages
+	 * @param $localconfValue
+	 * @param bool $showTranslatedLanguages
 	 * @return array
 	 */
-	public function getAppConfAvailableLanguages($LocalconfValue, $ShowTranslatedLanguages = false) {
+	public function getAppConfAvailableLanguages($localconfValue, $showTranslatedLanguages = FALSE) {
 
-		$Languages = array();
-		$TempLanguages = explode(",", $LocalconfValue);
+		$languages = array ();
+		$tempLanguages = explode(',', $localconfValue);
 
-		if(is_array($TempLanguages)) {
-			foreach($TempLanguages as $TempLanguageId) {
+		if (is_array($tempLanguages)) {
+			foreach ($tempLanguages as $tempLanguageId) {
 
-				$Language = $this->getStaticLanguages($TempLanguageId, $ShowTranslatedLanguages);
+				$language = $this->getStaticLanguages($tempLanguageId, $showTranslatedLanguages);
 
-				if(!empty($Language)) {
-					array_push($Languages, $Language);
+				if (!empty($language)) {
+					array_push($languages, $language);
 				}
 
 			}
 		}
 
-		return $Languages;
+		return $languages;
 	}
 
 
 	/**
-	 * @param  $BeUserId
+	 * @param  $backendUserId
 	 * @return null
 	 */
-	public function getUserConfSelectedLanguages($BeUserId) {
+	public function getUserConfSelectedLanguages($backendUserId) {
 
 		// set configuration
 		$name = 'SelectedLanguages';
 
 		// get value
-		return $this->getUserConf($name, $BeUserId);
+		return $this->getUserConf($name, $backendUserId);
 
 	}
 
 
 	/**
-	 * @param  $BeUserId
+	 * @param  $backendUserId
 	 * @return null
 	 */
-	public function getUserConfShowColumnLabel($BeUserId) {
+	public function getUserConfShowColumnLabel($backendUserId) {
 
 		// set configuration
 		$name = 'ShowColumnLabel';
 
 		// get value
-		return $this->getUserConf($name, $BeUserId);
+		return $this->getUserConf($name, $backendUserId);
 
 	}
 
 
 	/**
-	 * @param  $BeUserId
+	 * @param  $backendUserId
 	 * @return null
 	 */
-	public function getUserConfShowColumnDefault($BeUserId) {
+	public function getUserConfShowColumnDefault($backendUserId) {
 
 		// set configuration
 		$name = 'ShowColumnDefault';
 
 		// get value
-		return $this->getUserConf($name, $BeUserId);
+		return $this->getUserConf($name, $backendUserId);
 
 	}
 
 
 	/**
 	 * @param  $name
-	 * @param  $BeUserId
+	 * @param  $backendUserId
 	 * @return null
 	 */
-	public function getUserConf($name, $BeUserId) {
-		if(isset($name, $BeUserId)) {
+	public function getUserConf($name, $backendUserId) {
+		if (isset($name, $backendUserId)) {
 
 			$select = $this->getDatabaseConnection()->exec_SELECTgetRows(
 				$name,
 				'tx_snowbabel_users',
-				'deleted=0 AND be_users_uid=' . $BeUserId,
+				'deleted=0 AND be_users_uid=' . $backendUserId,
 				'',
 				'',
 				'1'
@@ -140,31 +140,31 @@ class Database {
 			return $select[0][$name];
 
 		} else {
-			return null;
+			return NULL;
 		}
 	}
 
 
 	/**
-	 * @param  $BeUserId
+	 * @param  $backendUserId
 	 * @return void
 	 */
-	public function getUserConfCheck($BeUserId) {
+	public function getUserConfCheck($backendUserId) {
 
-		if($BeUserId > 0) {
+		if ($backendUserId > 0) {
 			$select = $this->getDatabaseConnection()->exec_SELECTgetRows(
 				'uid',
 				'tx_snowbabel_users',
-				'deleted=0 AND be_users_uid=' . $BeUserId,
+				'deleted=0 AND be_users_uid=' . $backendUserId,
 				'',
 				'',
 				'1'
 			);
 
-			if(!$select) {
+			if (!$select) {
 
 				// insert database row
-				$this->insertUserConfCheck($BeUserId);
+				$this->insertUserConfCheck($backendUserId);
 			}
 		}
 
@@ -172,68 +172,68 @@ class Database {
 
 
 	/**
-	 * @param bool $LanguageId
-	 * @param bool $ShowTranslatedLanguages
+	 * @param bool $languageId
+	 * @param bool $showTranslatedLanguages
 	 * @return array|null
 	 */
-	public function getStaticLanguages($LanguageId = false, $ShowTranslatedLanguages = false) {
+	public function getStaticLanguages($languageId = FALSE, $showTranslatedLanguages = FALSE) {
 
-		$WhereClause = '';
+		$whereClause = '';
 
 		// search single language
-		if(is_numeric($LanguageId)) {
-			$WhereClause = 'uid=' . $LanguageId;
+		if (is_numeric($languageId)) {
+			$whereClause = 'uid=' . $languageId;
 		}
 
 		// sort by english or local
-		if(!$ShowTranslatedLanguages) {
-			$OrderBy = 'lg_name_en';
+		if (!$showTranslatedLanguages) {
+			$orderBy = 'lg_name_en';
 		} else {
-			$OrderBy = 'lg_name_local';
+			$orderBy = 'lg_name_local';
 		}
 
-		$Select = $this->getDatabaseConnection()->exec_SELECTgetRows(
+		$select = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'*',
 			'static_languages',
-			$WhereClause,
+			$whereClause,
 			'',
-			$OrderBy,
+			$orderBy,
 			''
 		);
 
-		if(!count($Select)) {
+		if (!count($select)) {
 
-			return null;
+			return NULL;
 
 		} else {
 
-			if(is_array($Select)) {
+			if (is_array($select)) {
 
-				$Languages = array();
+				$languages = array ();
 
-				foreach($Select as $Key => $Language) {
+				foreach ($select as $key => $language) {
 
-					$Languages[$Key]['LanguageId'] = $Language['uid'];
+					$languages[$key]['LanguageId'] = $language['uid'];
 
 					// check if languages should be displayed in english or local
-					if(!$ShowTranslatedLanguages) {
-						$Languages[$Key]['LanguageName'] = $Language['lg_name_en'];
+					if (!$showTranslatedLanguages) {
+						$languages[$key]['LanguageName'] = $language['lg_name_en'];
 					} else {
-						$Languages[$Key]['LanguageName'] = $Language['lg_name_local'];
+						$languages[$key]['LanguageName'] = $language['lg_name_local'];
 					}
 
-					$Languages[$Key]['LanguageNameEn'] = $Language['lg_name_en'];
-					$Languages[$Key]['LanguageNameLocal'] = $Language['lg_name_local'];
-					$Languages[$Key]['LanguageKey'] = strtolower($Language['lg_iso_2']);
+					$languages[$key]['LanguageNameEn'] = $language['lg_name_en'];
+					$languages[$key]['LanguageNameLocal'] = $language['lg_name_local'];
+					$languages[$key]['LanguageKey'] = strtolower($language['lg_iso_2']);
 
-					if($LanguageId) {
-						return $Languages[$Key];
+					if ($languageId) {
+						return $languages[$key];
 					}
 				}
 
-				return $Languages;
+				return $languages;
 			} else {
-				return null;
+				return NULL;
 			}
 
 		}
@@ -242,35 +242,35 @@ class Database {
 
 
 	/**
-	 * @param  $Name
-	 * @param  $Value
-	 * @param  $BeUserId
+	 * @param  $name
+	 * @param  $value
+	 * @param  $backendUserId
 	 * @return void
 	 */
-	public function setUserConf($Name, $Value, $BeUserId) {
+	public function setUserConf($name, $value, $backendUserId) {
 		$this->getDatabaseConnection()->exec_UPDATEquery(
 			'tx_snowbabel_users',
-			'deleted=0 AND be_users_uid=' . $BeUserId,
-			array(
+			'deleted=0 AND be_users_uid=' . $backendUserId,
+			array (
 				'tstamp' => time(),
-				$Name => $Value
+				$name => $value
 			)
 		);
 	}
 
 
 	/**
-	 * @param  $BeUserId
+	 * @param  $backendUserId
 	 * @return void
 	 */
-	public function insertUserConfCheck($BeUserId) {
+	public function insertUserConfCheck($backendUserId) {
 
 		$this->getDatabaseConnection()->exec_INSERTquery(
 			'tx_snowbabel_users',
-			array(
+			array (
 				'tstamp' => time(),
 				'crdate' => time(),
-				'be_users_uid' => $BeUserId
+				'be_users_uid' => $backendUserId
 			)
 		);
 
@@ -285,7 +285,7 @@ class Database {
 	 */
 	public function getCurrentTableId() {
 
-		$Select = $this->getDatabaseConnection()->exec_SELECTgetRows(
+		$select = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'TableId',
 			'tx_snowbabel_temp',
 			'',
@@ -294,13 +294,13 @@ class Database {
 			''
 		);
 
-		if(count($Select) > 0) {
-			return $Select[0]['TableId'];
+		if (count($select) > 0) {
+			return $select[0]['TableId'];
 		}
 
 		$this->getDatabaseConnection()->exec_INSERTquery(
 			'tx_snowbabel_temp',
-			array('TableId' => 0)
+			array ('TableId' => 0)
 		);
 
 		return 0;
@@ -309,204 +309,210 @@ class Database {
 
 
 	/**
-	 * @param  $TableId
+	 * @param  $tableId
 	 * @return void
 	 */
-	public function setCurrentTableId($TableId) {
+	public function setCurrentTableId($tableId) {
 
 		// Update Field
 		$this->getDatabaseConnection()->exec_UPDATEquery(
 			'tx_snowbabel_temp',
 			'',
-			array(
-				'TableId' => $TableId
+			array (
+				'TableId' => $tableId
 			)
 		);
 	}
 
 
 	/**
-	 * @param       $CurrentTableId
-	 * @param array $Conf
+	 * @param $currentTableId
+	 * @param array $conf
 	 * @return null
 	 */
-	public function getExtensions($CurrentTableId, $Conf = array()) {
+	public function getExtensions($currentTableId, $conf = array ()) {
 
-		$Table = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
-		$Fields = '*';
-		$Where = '';
-		$OrderBy = '';
-		$GroupBy = '';
-		$Limit = '';
+		$table = 'tx_snowbabel_indexing_extensions_' . $currentTableId;
+		$fields = '*';
+		$where = '';
+		$orderBy = '';
+		$groupBy = '';
+		$limit = '';
 
-		if(is_array($Conf) && count($Conf) > 0) {
+		if (is_array($conf) && count($conf) > 0) {
 
 			// FIELDS
-			if($Conf['Fields']) {
-				$Fields = $Conf['Fields'];
+			if ($conf['Fields']) {
+				$fields = $conf['Fields'];
 			}
 
 			// WHERE
-			$Where = array(
-				'OR' => array(),
-				'AND' => array(),
+			$where = array (
+				'OR' => array (),
+				'AND' => array (),
 			);
 
-			if($Conf['Local']) {
-				array_push($Where['OR'], 'ExtensionLocation=\'Local\'');
+			if ($conf['Local']) {
+				array_push($where['OR'], 'ExtensionLocation=\'Local\'');
 			}
-			if($Conf['System']) {
-				array_push($Where['OR'], 'ExtensionLocation=\'System\'');
+			if ($conf['System']) {
+				array_push($where['OR'], 'ExtensionLocation=\'System\'');
 			}
-			if($Conf['Global']) {
-				array_push($Where['OR'], 'ExtensionLocation=\'Global\'');
-			}
-
-			if($Conf['OnlyLoaded']) {
-				array_push($Where['AND'], 'ExtensionLoaded=1');
+			if ($conf['Global']) {
+				array_push($where['OR'], 'ExtensionLocation=\'Global\'');
 			}
 
-			if(!empty($Conf['ApprovedExtensions'])) {
+			if ($conf['OnlyLoaded']) {
+				array_push($where['AND'], 'ExtensionLoaded=1');
+			}
 
-				$ApprovedExtensions = $this->prepareCommaSeparatedString($Conf['ApprovedExtensions'], $Table);
-				if(!empty($ApprovedExtensions)) {
-					array_push($Where['AND'], 'ExtensionKey IN (' . $ApprovedExtensions . ')');
+			if (!empty($conf['ApprovedExtensions'])) {
+
+				$approvedExtensions = $this->prepareCommaSeparatedString($conf['ApprovedExtensions'], $table);
+				if (!empty($approvedExtensions)) {
+					array_push($where['AND'], 'ExtensionKey IN (' . $approvedExtensions . ')');
 				}
 
 			}
 
-			if(!empty($Conf['PermittedExtensions'])) {
+			if (!empty($conf['PermittedExtensions'])) {
 
-				$PermittedExtensions = $this->prepareCommaSeparatedString($Conf['PermittedExtensions'], $Table);
-				if(!empty($PermittedExtensions)) {
-					array_push($Where['AND'], 'ExtensionKey IN (' . $PermittedExtensions . ')');
+				$permittedExtensions = $this->prepareCommaSeparatedString($conf['PermittedExtensions'], $table);
+				if (!empty($permittedExtensions)) {
+					array_push($where['AND'], 'ExtensionKey IN (' . $permittedExtensions . ')');
 				}
 
 			}
 
-			$Where = $this->where($Where);
+			$where = $this->where($where);
 
 			// GROUP BY
-			if($Conf['GroupBy']) {
-				$GroupBy = $Conf['GroupBy'];
+			if ($conf['GroupBy']) {
+				$groupBy = $conf['GroupBy'];
 			}
 
 			// ORDER BY
-			if($Conf['OrderBy']) {
-				$OrderBy = $Conf['OrderBy'];
+			if ($conf['OrderBy']) {
+				$orderBy = $conf['OrderBy'];
 			}
 
 			// LIMIT
-			if($Conf['Limit']) {
-				$OrderBy = $Conf['Limit'];
+			if ($conf['Limit']) {
+				$orderBy = $conf['Limit'];
 			}
 		}
 
-		return $this->select($Fields, $Table, $Where, $GroupBy, $OrderBy, $Limit, $Conf['Debug']);
+		return $this->select($fields, $table, $where, $groupBy, $orderBy, $limit, $conf['Debug']);
 
 	}
 
 
 	/**
-	 * @param  $Extensions
-	 * @param  $CurrentTableId
+	 * @param  $extensions
+	 * @param  $currentTableId
 	 * @return void
 	 */
-	public function setExtensions($Extensions, $CurrentTableId) {
+	public function setExtensions($extensions, $currentTableId) {
 
 		// Define Table
-		$Table = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
+		$table = 'tx_snowbabel_indexing_extensions_' . $currentTableId;
 
 		// Empty Table
-		$this->truncate($Table);
+		$this->truncate($table);
 
 		// Add Records To Table
-		$this->insert($Table, $Extensions);
+		$this->insert($table, $extensions);
 
 	}
 
 
 	/**
-	 * @param      $CurrentTableId
-	 * @param bool $Conf
+	 * @param $currentTableId
+	 * @param bool $conf
 	 * @return null
 	 */
-	public function getFiles($CurrentTableId, $Conf = false) {
+	public function getFiles($currentTableId, $conf = FALSE) {
 
-		$Table1 = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
-		$Table2 = 'tx_snowbabel_indexing_files_' . $CurrentTableId;
-		$Table = $Table1 . ',' . $Table2;
-		$Fields = $Table1 . '.ExtensionKey,' . $Table1 . '.ExtensionTitle,' . $Table1 . '.ExtensionDescription,' . $Table1 . '.ExtensionCategory,'
-			. $Table1 . '.ExtensionIcon,' . $Table1 . '.ExtensionLocation,' . $Table1 . '.ExtensionPath,' . $Table1 . '.ExtensionLoaded,'
-			. $Table2 . '.uid AS FileId,' . $Table2 . '.ExtensionId,' . $Table2 . '.FileKey';
-		$Where = array(
-			'OR' => array(),
-			'AND' => array(),
+		$table1 = 'tx_snowbabel_indexing_extensions_' . $currentTableId;
+		$table2 = 'tx_snowbabel_indexing_files_' . $currentTableId;
+		$table = $table1 . ',' . $table2;
+		$fields = $table1 . '.ExtensionKey,' .
+			$table1 . '.ExtensionTitle,' .
+			$table1 . '.ExtensionDescription,' .
+			$table1 . '.ExtensionCategory,' .
+			$table1 . '.ExtensionIcon,' .
+			$table1 . '.ExtensionLocation,' .
+			$table1 . '.ExtensionPath,' .
+			$table1 . '.ExtensionLoaded,' .
+			$table2 . '.uid AS FileId,' . $table2 . '.ExtensionId,' . $table2 . '.FileKey';
+		$where = array (
+			'OR' => array (),
+			'AND' => array (),
 		);
-		$OrderBy = '';
-		$GroupBy = '';
-		$Limit = '';
+		$orderBy = '';
+		$groupBy = '';
+		$limit = '';
 
-		array_push($Where['AND'], $Table1 . '.uid=' . $Table2 . '.ExtensionId');
+		array_push($where['AND'], $table1 . '.uid=' . $table2 . '.ExtensionId');
 
-		if(is_array($Conf)) {
+		if (is_array($conf)) {
 
 			// FIELDS
-			if($Conf['Fields']) {
-				$Fields = $Conf['Fields'];
+			if ($conf['Fields']) {
+				$fields = $conf['Fields'];
 			}
 
 			// WHERE
-			if($Conf['ExtensionId']) {
-				array_push($Where['AND'], $Table1 . '.uid=' . intval($Conf['ExtensionId']));
+			if ($conf['ExtensionId']) {
+				array_push($where['AND'], $table1 . '.uid=' . intval($conf['ExtensionId']));
 			}
 
 			// GROUP BY
-			if($Conf['GroupBy']) {
-				$GroupBy = $Conf['GroupBy'];
+			if ($conf['GroupBy']) {
+				$groupBy = $conf['GroupBy'];
 			}
 
 			// ORDER BY
-			if($Conf['OrderBy']) {
-				$OrderBy = $Conf['OrderBy'];
+			if ($conf['OrderBy']) {
+				$orderBy = $conf['OrderBy'];
 			}
 
 			// LIMIT
-			if($Conf['Limit']) {
-				$Limit = $Conf['Limit'];
+			if ($conf['Limit']) {
+				$limit = $conf['Limit'];
 			}
 		}
 
 		// WHERE
-		$Where = $this->where($Where);
+		$where = $this->where($where);
 
-		return $this->select($Fields, $Table, $Where, $GroupBy, $OrderBy, $Limit, $Conf['Debug']);
+		return $this->select($fields, $table, $where, $groupBy, $orderBy, $limit, $conf['Debug']);
 
 	}
 
 
 	/**
-	 * @param  $FileArray
-	 * @param  $CurrentTableId
+	 * @param  $fileArray
+	 * @param  $currentTableId
 	 * @return void
 	 */
-	public function setFiles($FileArray, $CurrentTableId) {
+	public function setFiles($fileArray, $currentTableId) {
 
 		// Define Table
-		$Table = 'tx_snowbabel_indexing_files_' . $CurrentTableId;
-		$InsertFiles = array();
+		$table = 'tx_snowbabel_indexing_files_' . $currentTableId;
+		$insertFiles = array ();
 
 		// Empty Table
-		$this->truncate($Table);
+		$this->truncate($table);
 
-		if(count($FileArray)) {
+		if (count($fileArray)) {
 
-			foreach($FileArray as $Files) {
+			foreach ($fileArray as $files) {
 
-				if(count($Files)) {
+				if (count($files)) {
 
-					foreach($Files as $File) {
-						array_push($InsertFiles, $File);
+					foreach ($files as $file) {
+						array_push($insertFiles, $file);
 					}
 
 				}
@@ -514,105 +520,111 @@ class Database {
 			}
 
 			// Add Records To Table
-			$this->insert($Table, $InsertFiles);
+			$this->insert($table, $insertFiles);
 		}
 
 	}
 
 
 	/**
-	 * @param       $CurrentTableId
-	 * @param array $Conf
-	 * @param bool  $Count
+	 * @param       $currentTableId
+	 * @param array $conf
+	 * @param bool $count
 	 * @return null
 	 */
-	public function getLabels($CurrentTableId, $Conf = array(), $Count = false) {
+	public function getLabels($currentTableId, $conf = array (), $count = FALSE) {
 
-		$Table1 = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
-		$Table2 = 'tx_snowbabel_indexing_files_' . $CurrentTableId;
-		$Table3 = 'tx_snowbabel_indexing_labels_' . $CurrentTableId;
-		$Table = $Table1 . ',' . $Table2 . ',' . $Table3;
-		$Fields = $Table1 . '.ExtensionKey,' . $Table1 . '.ExtensionTitle,' . $Table1 . '.ExtensionDescription,' . $Table1 . '.ExtensionCategory,'
-			. $Table1 . '.ExtensionIcon,' . $Table1 . '.ExtensionLocation,' . $Table1 . '.ExtensionPath,' . $Table1 . '.ExtensionLoaded,'
-			. $Table2 . '.uid AS FileId,' . $Table2 . '.ExtensionId,' . $Table2 . '.FileKey,'
-			. $Table3 . '.uid AS LabelId,' . $Table3 . '.LabelName,' . $Table3 . '.LabelDefault';
-		$Where = array(
-			'OR' => array(),
-			'AND' => array(),
-			'SEARCH_AND' => array(),
-			'SEARCH_OR' => array(),
+		$table1 = 'tx_snowbabel_indexing_extensions_' . $currentTableId;
+		$table2 = 'tx_snowbabel_indexing_files_' . $currentTableId;
+		$table3 = 'tx_snowbabel_indexing_labels_' . $currentTableId;
+		$table = $table1 . ',' . $table2 . ',' . $table3;
+		$fields = $table1 . '.ExtensionKey,' .
+			$table1 . '.ExtensionTitle,' .
+			$table1 . '.ExtensionDescription,' .
+			$table1 . '.ExtensionCategory,' .
+			$table1 . '.ExtensionIcon,' .
+			$table1 . '.ExtensionLocation,' .
+			$table1 . '.ExtensionPath,' .
+			$table1 . '.ExtensionLoaded,'
+			. $table2 . '.uid AS FileId,' . $table2 . '.ExtensionId,' . $table2 . '.FileKey,'
+			. $table3 . '.uid AS LabelId,' . $table3 . '.LabelName,' . $table3 . '.LabelDefault';
+		$where = array (
+			'OR' => array (),
+			'AND' => array (),
+			'SEARCH_AND' => array (),
+			'SEARCH_OR' => array (),
 		);
-		$OrderBy = '';
-		$GroupBy = '';
-		$Limit = '';
+		$orderBy = '';
+		$groupBy = '';
+		$limit = '';
 
-		array_push($Where['AND'], $Table1 . '.uid=' . $Table2 . '.ExtensionId');
-		array_push($Where['AND'], $Table2 . '.uid=' . $Table3 . '.FileId');
+		array_push($where['AND'], $table1 . '.uid=' . $table2 . '.ExtensionId');
+		array_push($where['AND'], $table2 . '.uid=' . $table3 . '.FileId');
 
-		if(is_array($Conf) && count($Conf) > 0) {
+		if (is_array($conf) && count($conf) > 0) {
 
 			// FIELDS
-			if($Conf['Fields']) {
-				$Fields = $Conf['Fields'];
+			if ($conf['Fields']) {
+				$fields = $conf['Fields'];
 			}
 
 			// WHERE
-			if($Conf['ExtensionId']) {
-				array_push($Where['AND'], $Table1 . '.uid=' . intval($Conf['ExtensionId']));
+			if ($conf['ExtensionId']) {
+				array_push($where['AND'], $table1 . '.uid=' . intval($conf['ExtensionId']));
 			}
 
 			// GROUP BY
-			if($Conf['GroupBy']) {
-				$GroupBy = $Conf['GroupBy'];
+			if ($conf['GroupBy']) {
+				$groupBy = $conf['GroupBy'];
 			}
 
 			// ORDER BY
-			if($Conf['OrderBy']) {
-				$OrderBy = $Conf['OrderBy'];
+			if ($conf['OrderBy']) {
+				$orderBy = $conf['OrderBy'];
 			}
 
 			// LIMIT
-			if($Conf['Limit'] && !$Count) {
-				$Limit = $Conf['Limit'];
+			if ($conf['Limit'] && !$count) {
+				$limit = $conf['Limit'];
 			}
 
 			// SEARCH
-			if($Conf['Search']) {
-				array_push($Where['SEARCH_OR'], $Table3 . '.LabelName LIKE \'%' . $Conf['Search'] . '%\'');
-				array_push($Where['SEARCH_OR'], $Table3 . '.LabelDefault LIKE \'%' . $Conf['Search'] . '%\'');
+			if ($conf['Search']) {
+				array_push($where['SEARCH_OR'], $table3 . '.LabelName LIKE \'%' . $conf['Search'] . '%\'');
+				array_push($where['SEARCH_OR'], $table3 . '.LabelDefault LIKE \'%' . $conf['Search'] . '%\'');
 			}
 		}
 
 		// WHERE
-		$Where = $this->where($Where);
+		$where = $this->where($where);
 
-		return $this->select($Fields, $Table, $Where, $GroupBy, $OrderBy, $Limit, $Conf['Debug'], $Count);
+		return $this->select($fields, $table, $where, $groupBy, $orderBy, $limit, $conf['Debug'], $count);
 
 	}
 
 
 	/**
-	 * @param  $LabelArray
-	 * @param  $CurrentTableId
+	 * @param  $labelArray
+	 * @param  $currentTableId
 	 * @return void
 	 */
-	public function setLabels($LabelArray, $CurrentTableId) {
+	public function setLabels($labelArray, $currentTableId) {
 
 		// Define Table
-		$Table = 'tx_snowbabel_indexing_labels_' . $CurrentTableId;
-		$InsertLabels = array();
+		$table = 'tx_snowbabel_indexing_labels_' . $currentTableId;
+		$insertLabels = array ();
 
 		// Empty Table
-		$this->truncate($Table);
+		$this->truncate($table);
 
-		if(count($LabelArray)) {
+		if (count($labelArray)) {
 
-			foreach($LabelArray as $Labels) {
+			foreach ($labelArray as $labels) {
 
-				if(count($Labels)) {
+				if (count($labels)) {
 
-					foreach($Labels as $LabelRow) {
-						array_push($InsertLabels, $LabelRow);
+					foreach ($labels as $labelRow) {
+						array_push($insertLabels, $labelRow);
 					}
 
 				}
@@ -620,205 +632,205 @@ class Database {
 			}
 
 			// Add Records To Table
-			$this->insert($Table, $InsertLabels);
+			$this->insert($table, $insertLabels);
 		}
 
 	}
 
 
 	/**
-	 * @param       $CurrentTableId
-	 * @param array $Conf
-	 * @param array $Languages
-	 * @param bool  $Count
+	 * @param       $currentTableId
+	 * @param array $conf
+	 * @param array $languages
+	 * @param bool $count
 	 * @return array|int|null|string
 	 */
-	public function getTranslations($CurrentTableId, $Conf = array(), $Languages = array(), $Count = false) {
+	public function getTranslations($currentTableId, $conf = array (), $languages = array (), $count = FALSE) {
 
-		$Table1 = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
-		$Table2 = 'tx_snowbabel_indexing_files_' . $CurrentTableId;
-		$Table3 = 'tx_snowbabel_indexing_labels_' . $CurrentTableId;
-		$Table3_Alias = 'Labels';
-		$Table4 = 'tx_snowbabel_indexing_translations_' . $CurrentTableId;
-		$Table = $Table1 . ',' . $Table2 . ',' . $Table3 . ' AS ' . $Table3_Alias; // Needed For Subqueries!!!
-		$Fields = $Table3_Alias . '.LabelName,' . $Table3_Alias . '.LabelDefault';
+		$table1 = 'tx_snowbabel_indexing_extensions_' . $currentTableId;
+		$table2 = 'tx_snowbabel_indexing_files_' . $currentTableId;
+		$table3 = 'tx_snowbabel_indexing_labels_' . $currentTableId;
+		$table3Alias = 'Labels';
+		$table4 = 'tx_snowbabel_indexing_translations_' . $currentTableId;
+		$table = $table1 . ',' . $table2 . ',' . $table3 . ' AS ' . $table3Alias; // Needed For Subqueries!!!
+		$fields = $table3Alias . '.LabelName,' . $table3Alias . '.LabelDefault';
 
-		$Where = array(
-			'OR' => array(),
-			'AND' => array(),
-			'SEARCH_AND' => array(),
-			'SEARCH_OR' => array(),
+		$where = array (
+			'OR' => array (),
+			'AND' => array (),
+			'SEARCH_AND' => array (),
+			'SEARCH_OR' => array (),
 		);
-		$OrderBy = '';
-		$GroupBy = '';
-		$Limit = '';
+		$orderBy = '';
+		$groupBy = '';
+		$limit = '';
 
-		array_push($Where['AND'], $Table1 . '.uid=' . $Table2 . '.ExtensionId');
-		array_push($Where['AND'], $Table2 . '.uid=' . $Table3_Alias . '.FileId');
+		array_push($where['AND'], $table1 . '.uid=' . $table2 . '.ExtensionId');
+		array_push($where['AND'], $table2 . '.uid=' . $table3Alias . '.FileId');
 
-		if(is_array($Conf) && count($Conf) > 0) {
+		if (is_array($conf) && count($conf) > 0) {
 
 			// FIELDS
-			if($Conf['Fields']) {
-				$Fields = $Conf['Fields'];
+			if ($conf['Fields']) {
+				$fields = $conf['Fields'];
 			}
 
 			// WHERE
-			if($Conf['ExtensionId']) {
-				array_push($Where['AND'], $Table1 . '.uid=' . intval($Conf['ExtensionId']));
+			if ($conf['ExtensionId']) {
+				array_push($where['AND'], $table1 . '.uid=' . intval($conf['ExtensionId']));
 			}
 
 			// GROUP BY
-			if($Conf['GroupBy']) {
-				$GroupBy = $Conf['GroupBy'];
+			if ($conf['GroupBy']) {
+				$groupBy = $conf['GroupBy'];
 			}
 
 			// ORDER BY
-			if($Conf['OrderBy']) {
-				$OrderBy = $Conf['OrderBy'];
+			if ($conf['OrderBy']) {
+				$orderBy = $conf['OrderBy'];
 			}
 
-			if($Conf['Sort']) {
+			if ($conf['Sort']) {
 
 				// Translations
-				if(strpos($Conf['Sort'], 'TranslationValue_') !== false) {
-					$OrderBy = $Conf['Sort'] . ' ' . $Conf['Dir'];
+				if (strpos($conf['Sort'], 'TranslationValue_') !== FALSE) {
+					$orderBy = $conf['Sort'] . ' ' . $conf['Dir'];
 				} // Label-Table
 				else {
-					$OrderBy = $Table3_Alias . '.' . $Conf['Sort'] . ' ' . $Conf['Dir'];
+					$orderBy = $table3Alias . '.' . $conf['Sort'] . ' ' . $conf['Dir'];
 				}
 
 			}
 
 			// LIMIT
-			if($Conf['Limit'] && !$Count) {
-				$Limit = $Conf['Limit'];
+			if ($conf['Limit'] && !$count) {
+				$limit = $conf['Limit'];
 			}
 
 			// SEARCH
-			if($Conf['Search']) {
-				array_push($Where['SEARCH_OR'], $Table3_Alias . '.LabelName LIKE \'%' . $Conf['Search'] . '%\'');
-				array_push($Where['SEARCH_OR'], $Table3_Alias . '.LabelDefault LIKE \'%' . $Conf['Search'] . '%\'');
+			if ($conf['Search']) {
+				array_push($where['SEARCH_OR'], $table3Alias . '.LabelName LIKE \'%' . $conf['Search'] . '%\'');
+				array_push($where['SEARCH_OR'], $table3Alias . '.LabelDefault LIKE \'%' . $conf['Search'] . '%\'');
 			}
 
 		}
 
 		// LANGUAGES
-		if(count($Languages)) {
-			foreach($Languages as $Language) {
+		if (count($languages)) {
+			foreach ($languages as $language) {
 
 				// FORM
-				$Table .= ',' . $Table4 . ' trans_' . $Language;
+				$table .= ',' . $table4 . ' trans_' . $language;
 
 				// SELECT
-				$Fields .= ',trans_' . $Language . '.uid as TranslationId_' . $Language;
-				$Fields .= ',trans_' . $Language . '.TranslationValue as TranslationValue_' . $Language;
+				$fields .= ',trans_' . $language . '.uid as TranslationId_' . $language;
+				$fields .= ',trans_' . $language . '.TranslationValue as TranslationValue_' . $language;
 
 				// WHERE
-				array_push($Where['AND'], 'Labels.uid = trans_' . $Language . '.LabelId');
-				array_push($Where['AND'], 'trans_' . $Language . '.TranslationLanguage = \'' . $Language . '\'');
+				array_push($where['AND'], 'Labels.uid = trans_' . $language . '.LabelId');
+				array_push($where['AND'], 'trans_' . $language . '.TranslationLanguage = \'' . $language . '\'');
 
 				// SEARCH
-				if($Conf['Search']) {
-					array_push($Where['SEARCH_OR'], 'trans_' . $Language . '.TranslationValue LIKE \'%' . $Conf['Search'] . '%\'');
+				if ($conf['Search']) {
+					array_push($where['SEARCH_OR'], 'trans_' . $language . '.TranslationValue LIKE \'%' . $conf['Search'] . '%\'');
 				}
 
 			}
 		}
 
 		// WHERE
-		$Where = $this->where($Where);
+		$where = $this->where($where);
 
-		return $this->select($Fields, $Table, $Where, $GroupBy, $OrderBy, $Limit, $Conf['Debug'], $Count);
+		return $this->select($fields, $table, $where, $groupBy, $orderBy, $limit, $conf['Debug'], $count);
 
 	}
 
 
 	/**
-	 * @param       $CurrentTableId
-	 * @param array $Conf
+	 * @param $currentTableId
+	 * @param array $conf
 	 * @return array|int|null|string
 	 */
-	public function getTranslation($CurrentTableId, $Conf = array()) {
-		$Table1 = 'tx_snowbabel_indexing_extensions_' . $CurrentTableId;
-		$Table2 = 'tx_snowbabel_indexing_files_' . $CurrentTableId;
-		$Table3 = 'tx_snowbabel_indexing_labels_' . $CurrentTableId;
-		$Table4 = 'tx_snowbabel_indexing_translations_' . $CurrentTableId;
-		$Table = $Table1 . ',' . $Table2 . ',' . $Table3 . ',' . $Table4;
-		$Fields = $Table1 . '.ExtensionKey,' . $Table1 . '.ExtensionTitle,' . $Table1 . '.ExtensionDescription,' . $Table1 . '.ExtensionCategory,'
-			. $Table1 . '.ExtensionIcon,' . $Table1 . '.ExtensionLocation,' . $Table1 . '.ExtensionPath,' . $Table1 . '.ExtensionLoaded,'
-			. $Table2 . '.uid AS FileId,' . $Table2 . '.ExtensionId,' . $Table2 . '.FileKey,'
-			. $Table3 . '.uid AS LabelId,' . $Table3 . '.LabelName,' . $Table3 . '.LabelDefault,'
-			. $Table4 . '.uid AS TranslationId,' . $Table4 . '.TranslationValue,' . $Table4 . '.TranslationLanguage,' . $Table4 . '.TranslationEmpty';
+	public function getTranslation($currentTableId, $conf = array ()) {
+		$table1 = 'tx_snowbabel_indexing_extensions_' . $currentTableId;
+		$table2 = 'tx_snowbabel_indexing_files_' . $currentTableId;
+		$table3 = 'tx_snowbabel_indexing_labels_' . $currentTableId;
+		$table4 = 'tx_snowbabel_indexing_translations_' . $currentTableId;
+		$table = $table1 . ',' . $table2 . ',' . $table3 . ',' . $table4;
+		$fields = $table1 . '.ExtensionKey,' . $table1 . '.ExtensionTitle,' . $table1 . '.ExtensionDescription,' . $table1 . '.ExtensionCategory,'
+			. $table1 . '.ExtensionIcon,' . $table1 . '.ExtensionLocation,' . $table1 . '.ExtensionPath,' . $table1 . '.ExtensionLoaded,'
+			. $table2 . '.uid AS FileId,' . $table2 . '.ExtensionId,' . $table2 . '.FileKey,'
+			. $table3 . '.uid AS LabelId,' . $table3 . '.LabelName,' . $table3 . '.LabelDefault,'
+			. $table4 . '.uid AS TranslationId,' . $table4 . '.TranslationValue,' . $table4 . '.TranslationLanguage,' . $table4 . '.TranslationEmpty';
 
-		$Where = array(
-			'OR' => array(),
-			'AND' => array(),
-			'SEARCH_AND' => array(),
-			'SEARCH_OR' => array(),
+		$where = array (
+			'OR' => array (),
+			'AND' => array (),
+			'SEARCH_AND' => array (),
+			'SEARCH_OR' => array (),
 		);
-		$OrderBy = '';
-		$GroupBy = '';
-		$Limit = '';
+		$orderBy = '';
+		$groupBy = '';
+		$limit = '';
 
-		array_push($Where['AND'], $Table1 . '.uid=' . $Table2 . '.ExtensionId');
-		array_push($Where['AND'], $Table2 . '.uid=' . $Table3 . '.FileId');
-		array_push($Where['AND'], $Table3 . '.uid=' . $Table4 . '.LabelId');
+		array_push($where['AND'], $table1 . '.uid=' . $table2 . '.ExtensionId');
+		array_push($where['AND'], $table2 . '.uid=' . $table3 . '.FileId');
+		array_push($where['AND'], $table3 . '.uid=' . $table4 . '.LabelId');
 
-		if(is_array($Conf) && count($Conf) > 0) {
+		if (is_array($conf) && count($conf) > 0) {
 
 			// FIELDS
-			if($Conf['Fields']) {
-				$Fields = $Conf['Fields'];
+			if ($conf['Fields']) {
+				$fields = $conf['Fields'];
 			}
 
 			// WHERE
-			if($Conf['TranslationId']) {
-				array_push($Where['AND'], $Table4 . '.uid=' . intval($Conf['TranslationId']));
+			if ($conf['TranslationId']) {
+				array_push($where['AND'], $table4 . '.uid=' . intval($conf['TranslationId']));
 			}
 
 			// GROUP BY
-			if($Conf['GroupBy']) {
-				$GroupBy = $Conf['GroupBy'];
+			if ($conf['GroupBy']) {
+				$groupBy = $conf['GroupBy'];
 			}
 
 			// ORDER BY
-			if($Conf['OrderBy']) {
-				$OrderBy = $Conf['OrderBy'];
+			if ($conf['OrderBy']) {
+				$orderBy = $conf['OrderBy'];
 			}
 
 		}
 
 		// WHERE
-		$Where = $this->where($Where);
+		$where = $this->where($where);
 
-		return $this->select($Fields, $Table, $Where, $GroupBy, $OrderBy, $Limit, $Conf['Debug']);
+		return $this->select($fields, $table, $where, $groupBy, $orderBy, $limit, $conf['Debug']);
 
 	}
 
 
 	/**
-	 * @param  $TranslationArray
-	 * @param  $CurrentTableId
+	 * @param  $translationArray
+	 * @param  $currentTableId
 	 * @return void
 	 */
-	public function setTranslations($TranslationArray, $CurrentTableId) {
+	public function setTranslations($translationArray, $currentTableId) {
 
 		// Define Table
-		$Table = 'tx_snowbabel_indexing_translations_' . $CurrentTableId;
-		$InsertTranslations = array();
+		$table = 'tx_snowbabel_indexing_translations_' . $currentTableId;
+		$insertTranslations = array ();
 
 		// Empty Table
-		$this->truncate($Table);
+		$this->truncate($table);
 
-		if(count($TranslationArray)) {
+		if (count($translationArray)) {
 
-			foreach($TranslationArray as $Translations) {
+			foreach ($translationArray as $translations) {
 
-				if(count($Translations)) {
+				if (count($translations)) {
 
-					foreach($Translations as $Translation) {
-						array_push($InsertTranslations, $Translation);
+					foreach ($translations as $translation) {
+						array_push($insertTranslations, $translation);
 					}
 
 				}
@@ -826,26 +838,26 @@ class Database {
 			}
 
 			// Add Records To Table
-			$this->insert($Table, $InsertTranslations);
+			$this->insert($table, $insertTranslations);
 		}
 
 	}
 
 
 	/**
-	 * @param  $TranslationId
-	 * @param  $TranslationValue
-	 * @param  $CurrentTableId
+	 * @param  $translationId
+	 * @param  $translationValue
+	 * @param  $currentTableId
 	 * @return void
 	 */
-	public function setTranslation($TranslationId, $TranslationValue, $CurrentTableId) {
+	public function setTranslation($translationId, $translationValue, $currentTableId) {
 
 		$this->getDatabaseConnection()->exec_UPDATEquery(
-			'tx_snowbabel_indexing_translations_' . $CurrentTableId,
-			'uid=' . intval($TranslationId),
-			array(
+			'tx_snowbabel_indexing_translations_' . $currentTableId,
+			'uid=' . intval($translationId),
+			array (
 				'tstamp' => time(),
-				'TranslationValue' => $TranslationValue
+				'TranslationValue' => $translationValue
 			)
 		);
 
@@ -853,55 +865,55 @@ class Database {
 
 
 	/**
-	 * @param        $Fields
-	 * @param        $Table
-	 * @param string $Where
-	 * @param string $GroupBy
-	 * @param string $OrderBy
-	 * @param string $Limit
-	 * @param bool   $Debug
-	 * @param bool   $Count
+	 * @param        $fields
+	 * @param        $table
+	 * @param string $where
+	 * @param string $groupBy
+	 * @param string $orderBy
+	 * @param string $limit
+	 * @param bool $debug
+	 * @param bool $count
 	 * @return array|int|null|string
 	 */
-	private function select($Fields, $Table, $Where = '', $GroupBy = '', $OrderBy = '', $Limit = '', $Debug = false, $Count = false) {
+	private function select($fields, $table, $where = '', $groupBy = '', $orderBy = '', $limit = '', $debug = FALSE, $count = FALSE) {
 
-		if($Debug) {
-			return $this->getDatabaseConnection()->SELECTquery($Fields, $Table, $Where, $GroupBy, $OrderBy, $Limit);
+		if ($debug) {
+			return $this->getDatabaseConnection()->SELECTquery($fields, $table, $where, $groupBy, $orderBy, $limit);
 		}
 
-		$Select = $this->getDatabaseConnection()->exec_SELECTgetRows(
-			$Fields,
-			$Table,
-			$Where,
-			$GroupBy,
-			$OrderBy,
-			$Limit
+		$select = $this->getDatabaseConnection()->exec_SELECTgetRows(
+			$fields,
+			$table,
+			$where,
+			$groupBy,
+			$orderBy,
+			$limit
 		);
 
-		if(!count($Select)) {
+		if (!count($select)) {
 
-			if($Count) {
+			if ($count) {
 				return 0;
 			}
 
-			return null;
+			return NULL;
 
 		} else {
 
-			if(is_array($Select)) {
+			if (is_array($select)) {
 
-				if($Count) {
-					return count($Select);
+				if ($count) {
+					return count($select);
 				}
 
-				return $Select;
+				return $select;
 
 			} else {
-				if($Count) {
+				if ($count) {
 					return 0;
 				}
 
-				return null;
+				return NULL;
 			}
 		}
 
@@ -909,8 +921,8 @@ class Database {
 
 
 	/**
-	 * @param  $Table
-	 * @param  $DataArray
+	 * @param  $table
+	 * @param  $dataArray
 	 * @return bool|null
 	 *
 	 * Simply add table name and data array. The function will take care of inserting data
@@ -923,130 +935,93 @@ class Database {
 	 * $DataArray[1]['Field2'] = Value4
 	 *
 	 */
-	private function insert($Table, $DataArray) {
+	private function insert($table, $dataArray) {
 
-		if(is_array($DataArray) && count($DataArray) > 0) {
+		$success = NULL;
 
-			$FieldNames = array();
-			$FieldValues = array();
+		if (is_array($dataArray) && count($dataArray) > 0) {
 
-			foreach($DataArray as $Row) {
+			foreach ($dataArray as $row) {
 
-				$Row['tstamp'] = strval(time());
-				$Row['crdate'] = strval(time());
+				$row['tstamp'] = strval(time());
+				$row['crdate'] = strval(time());
 
-				// TODO: exec_INSERTmultipleRows -> something's wrong in big inserts
-				if(1 < 0) {
-					//if(version_compare(TYPO3_version, '4.3.99', '>')) {
-
-					// Reset Records-Array
-					$Records = array();
-
-					// Create Field Names On First Run
-					if(count($FieldNames) == 0) {
-						$FieldNames = array_keys($Row);
-					}
-
-					// Prepare Data
-					foreach($FieldNames as $FieldName) {
-						$Records[] = $Row[$FieldName];
-					}
-
-					// Add Data
-					array_push($FieldValues, $Records);
-
-				} else {
-
-					$this->getDatabaseConnection()->exec_INSERTquery(
-						$Table,
-						$Row
-					);
-
-				}
-
-			}
-
-			/*
-				// Do Insert All At Once - Supported Since 4.4
-			if(version_compare(TYPO3_version, '4.3.99', '>')) {
-
-				$this->getDatabaseConnection()->exec_INSERTmultipleRows(
-					$Table,
-					$FieldNames,
-					$FieldValues
+				$this->getDatabaseConnection()->exec_INSERTquery(
+					$table,
+					$row
 				);
+
 			}
-			*/
 
 			// Success
-			return true;
+			$success = TRUE;
 
-		} else {
-			return null;
 		}
+
+		return $success;
 
 	}
 
 
 	/**
-	 * @param  $Table
+	 * @param  $table
 	 * @return void
 	 */
-	private function truncate($Table) {
-		$this->getDatabaseConnection()->exec_TRUNCATEquery($Table);
+	private function truncate($table) {
+		$this->getDatabaseConnection()->exec_TRUNCATEquery($table);
 	}
 
 
 	/**
-	 * @param  $Where
+	 * @param  $where
 	 * @return string
 	 */
-	private function where($Where) {
+	private function where($where) {
 
-		if(count($Where['OR'])) {
-			$Where['OR'] = '(' . implode($Where['OR'], ' OR ') . ')';
+		if (count($where['OR'])) {
+			$where['OR'] = '(' . implode($where['OR'], ' OR ') . ')';
 		} else {
-			unset($Where['OR']);
+			unset($where['OR']);
 		}
 
-		if(count($Where['AND'])) {
-			$Where['AND'] = '(' . implode($Where['AND'], ' AND ') . ')';
+		if (count($where['AND'])) {
+			$where['AND'] = '(' . implode($where['AND'], ' AND ') . ')';
 		} else {
-			unset($Where['AND']);
+			unset($where['AND']);
 		}
 
-		if(count($Where['SEARCH_OR'])) {
-			$Where['SEARCH_OR'] = '(' . implode($Where['SEARCH_OR'], ' OR ') . ')';
+		if (count($where['SEARCH_OR'])) {
+			$where['SEARCH_OR'] = '(' . implode($where['SEARCH_OR'], ' OR ') . ')';
 		} else {
-			unset($Where['SEARCH_OR']);
+			unset($where['SEARCH_OR']);
 		}
 
-		if(count($Where['SEARCH_AND'])) {
-			$Where['SEARCH_AND'] = '(' . implode($Where['SEARCH_AND'], ' AND ') . ')';
+		if (count($where['SEARCH_AND'])) {
+			$where['SEARCH_AND'] = '(' . implode($where['SEARCH_AND'], ' AND ') . ')';
 		} else {
-			unset($Where['SEARCH_AND']);
+			unset($where['SEARCH_AND']);
 		}
 
-		$Where = implode($Where, ' AND ');
+		$where = implode($where, ' AND ');
 
-		return $Where;
+		return $where;
 	}
 
 
 	/**
-	 * @param  $CommaSeparatedString
-	 * @param  $Table
+	 * @param  $commaSeparatedString
+	 * @param  $table
 	 * @return string
 	 */
-	private function prepareCommaSeparatedString($CommaSeparatedString, $Table) {
+	private function prepareCommaSeparatedString($commaSeparatedString, $table) {
 
-		if(is_string($CommaSeparatedString) && strpos($CommaSeparatedString, ',') !== false) {
-			$CommaSeparatedString = explode(',', $CommaSeparatedString);
+		if (is_string($commaSeparatedString) && strpos($commaSeparatedString, ',') !== FALSE) {
+			$commaSeparatedString = explode(',', $commaSeparatedString);
 		}
 
-		$CommaSeparatedString = $this->getDatabaseConnection()->fullQuoteArray($CommaSeparatedString, $Table);
+		$commaSeparatedString = $this->getDatabaseConnection()->fullQuoteArray($commaSeparatedString, $table);
 
-		return implode(',', $CommaSeparatedString);
+		return implode(',', $commaSeparatedString);
 	}
 
 

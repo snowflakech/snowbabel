@@ -41,7 +41,7 @@ class Extensions {
 	/**
 	 * @var \Snowflake\Snowbabel\Service\Database
 	 */
-	private $Db;
+	private $database;
 
 
 	/**
@@ -53,49 +53,49 @@ class Extensions {
 	/**
 	 * @var
 	 */
-	private $CurrentTableId;
+	private $currentTableId;
 
 
 	/**
 	 *
 	 */
-	private $ShowLocalExtensions;
+	private $showLocalExtensions;
 
 
 	/**
 	 *
 	 */
-	private $ShowSystemExtensions;
+	private $showSystemExtensions;
 
 
 	/**
 	 *
 	 */
-	private $ShowGlobalExtensions;
+	private $showGlobalExtensions;
 
 
 	/**
 	 *
 	 */
-	private $ApprovedExtensions;
+	private $approvedExtensions;
 
 
 	/**
 	 *
 	 */
-	private $ShowOnlyLoadedExtensions;
+	private $showOnlyLoadedExtensions;
 
 
 	/**
 	 *
 	 */
-	private $IsAdmin;
+	private $isAdmin;
 
 
 	/**
 	 *
 	 */
-	private $PermittedExtensions;
+	private $permittedExtensions;
 
 
 	/**
@@ -104,24 +104,24 @@ class Extensions {
 	public function __construct($confObj) {
 
 		$this->confObj = $confObj;
-		$this->Db = $this->confObj->getDb();
+		$this->database = $this->confObj->getDatabase();
 		$this->debug = $confObj->debug;
 
 		// Get Current TableId
-		$this->CurrentTableId = $this->Db->getCurrentTableId();
+		$this->currentTableId = $this->database->getCurrentTableId();
 
 		// get Application params
-		$this->ShowLocalExtensions = $this->confObj->getApplicationConfiguration('ShowLocalExtensions');
-		$this->ShowSystemExtensions = $this->confObj->getApplicationConfiguration('ShowSystemExtensions');
-		$this->ShowGlobalExtensions = $this->confObj->getApplicationConfiguration('ShowGlobalExtensions');
+		$this->showLocalExtensions = $this->confObj->getApplicationConfiguration('ShowLocalExtensions');
+		$this->showSystemExtensions = $this->confObj->getApplicationConfiguration('ShowSystemExtensions');
+		$this->showGlobalExtensions = $this->confObj->getApplicationConfiguration('ShowGlobalExtensions');
 
-		$this->ApprovedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
+		$this->approvedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
 
-		$this->ShowOnlyLoadedExtensions = $this->confObj->getApplicationConfiguration('ShowOnlyLoadedExtensions');
+		$this->showOnlyLoadedExtensions = $this->confObj->getApplicationConfiguration('ShowOnlyLoadedExtensions');
 
 		// get User params
-		$this->IsAdmin = $this->confObj->getUserConfigurationIsAdmin();
-		$this->PermittedExtensions = $this->confObj->getUserConfiguration('PermittedExtensions');
+		$this->isAdmin = $this->confObj->getUserConfigurationIsAdmin();
+		$this->permittedExtensions = $this->confObj->getUserConfiguration('PermittedExtensions');
 
 	}
 
@@ -131,30 +131,30 @@ class Extensions {
 	 */
 	public function getExtensions() {
 
-		$Conf = array(
+		$conf = array (
 			'Fields' => 'uid AS ExtensionId,ExtensionKey,ExtensionTitle,ExtensionDescription,ExtensionCategory,ExtensionIcon,ExtensionLocation,ExtensionPath,ExtensionLoaded',
-			'Local' => $this->ShowLocalExtensions,
-			'System' => $this->ShowSystemExtensions,
-			'Global' => $this->ShowGlobalExtensions,
-			'OnlyLoaded' => $this->ShowOnlyLoadedExtensions,
-			'ApprovedExtensions' => $this->ApprovedExtensions,
+			'Local' => $this->showLocalExtensions,
+			'System' => $this->showSystemExtensions,
+			'Global' => $this->showGlobalExtensions,
+			'OnlyLoaded' => $this->showOnlyLoadedExtensions,
+			'ApprovedExtensions' => $this->approvedExtensions,
 			'OrderBy' => 'ExtensionTitle',
 			'Debug' => '0',
 		);
 
-		if(!$this->IsAdmin) {
+		if (!$this->isAdmin) {
 
 			// Do Not Show Anything If No Permitted Extensions Available
-			if($this->PermittedExtensions == '') {
-				return null;
+			if ($this->permittedExtensions == '') {
+				return NULL;
 			} else {
-				$Conf['PermittedExtensions'] = $this->PermittedExtensions;
+				$conf['PermittedExtensions'] = $this->permittedExtensions;
 			}
 		}
 
-		$Extensions = $this->Db->getExtensions($this->CurrentTableId, $Conf);
+		$extensions = $this->database->getExtensions($this->currentTableId, $conf);
 
-		return $Extensions;
+		return $extensions;
 
 	}
 

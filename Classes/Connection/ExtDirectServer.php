@@ -41,37 +41,37 @@ class ExtDirectServer {
 
 
 	/**
-	 * @var	Configuration
+	 * @var    Configuration
 	 */
 	private $confObj;
 
 
 	/**
-	 * @var	Extensions
+	 * @var    Extensions
 	 */
 	private $extObj;
 
 
 	/**
-	 * @var	Labels
+	 * @var    Labels
 	 */
 	private $labelsObj;
 
 
 	/**
-	 * @var	Languages
+	 * @var    Languages
 	 */
 	private $langObj;
 
 
 	/**
-	 * @var	Columns
+	 * @var    Columns
 	 */
 	private $colObj;
 
 
 	/**
-	 * @var	Translations
+	 * @var    Translations
 	 */
 	private $systemTranslationObj;
 
@@ -89,9 +89,9 @@ class ExtDirectServer {
 		$this->getExtensionsObject();
 
 		// get all extensions for this user
-		$Extensions = $this->extObj->getExtensions();
+		$extensions = $this->extObj->getExtensions();
 
-		return $Extensions;
+		return $extensions;
 	}
 
 
@@ -108,9 +108,9 @@ class ExtDirectServer {
 		$this->getLanguageObject();
 
 		// get available languages
-		$Languages = $this->langObj->getLanguages();
+		$languages = $this->langObj->getLanguages();
 
-		return $Languages;
+		return $languages;
 	}
 
 
@@ -127,9 +127,9 @@ class ExtDirectServer {
 		$this->getColumnObject();
 
 		// get available columns
-		$Columns = $this->colObj->getColumns();
+		$columns = $this->colObj->getColumns();
 
-		return $Columns;
+		return $columns;
 	}
 
 
@@ -145,38 +145,38 @@ class ExtDirectServer {
 		// Get Label Object
 		$this->getLabelsObject();
 
-		// Do Global Search
-		if($extjsParams->SearchGlobal) {
+		if ($extjsParams->SearchGlobal) {
+			// Do Global Search
 
 			// Set Metadata For Extjs
 			$this->labelsObj->setMetaData();
 
 			// Get Labels From Global Search
-			$Labels = $this->labelsObj->getSearchGlobal();
+			$labels = $this->labelsObj->getSearchGlobal();
 
-		} // Do Extension Search
-		elseif(!empty($extjsParams->SearchString) && !empty($extjsParams->ExtensionId)) {
+		} elseif (!empty($extjsParams->SearchString) && !empty($extjsParams->ExtensionId)) {
+			// Do Extension Search
 
 			// Set Metadata For Extjs
 			$this->labelsObj->setMetaData();
 
 			// Get Labels From Extension Search
-			$Labels = $this->labelsObj->getSearchExtension();
+			$labels = $this->labelsObj->getSearchExtension();
 
-		} // Show Extension Labels
-		elseif(!empty($extjsParams->ExtensionId)) {
+		} elseif (!empty($extjsParams->ExtensionId)) {
+			// Show Extension Labels
 
 			// Set Metadata For Extjs
 			$this->labelsObj->setMetaData();
 
 			// Get Labels From Selected Extension
-			$Labels = $this->labelsObj->getLabels();
+			$labels = $this->labelsObj->getLabels();
 
 		} else {
-			$Labels = null;
+			$labels = NULL;
 		}
 
-		return $Labels;
+		return $labels;
 	}
 
 
@@ -188,33 +188,33 @@ class ExtDirectServer {
 		// get configuration object
 		$this->getConfigurationObject($extjsParams);
 
-		if($extjsParams->ActionKey == 'ListView_Update') {
+		if ($extjsParams->ActionKey == 'ListView_Update') {
 			// Get Label Object
 			$this->getLabelsObject();
 
 			// Update Translation
 			$this->labelsObj->updateTranslation();
 
-		} elseif($extjsParams->ActionKey == 'CheckScheduler') {
+		} elseif ($extjsParams->ActionKey == 'CheckScheduler') {
 
 			// Did Scheduler Run Once?
-			if($this->confObj->getApplicationConfiguration('SchedulerCheck')) {
-				return true;
+			if ($this->confObj->getApplicationConfiguration('SchedulerCheck')) {
+				return TRUE;
 			} else {
-				return null;
+				return NULL;
 			}
-		} elseif($extjsParams->ActionKey == 'ConfigurationChanged') {
+		} elseif ($extjsParams->ActionKey == 'ConfigurationChanged') {
 
 			// Did Configuration Changed?
-			if(!$this->confObj->getApplicationConfiguration('ConfigurationChanged')) {
-				return true;
+			if (!$this->confObj->getApplicationConfiguration('ConfigurationChanged')) {
+				return TRUE;
 			} else {
-				return null;
+				return NULL;
 			}
 
 		}
 
-		return true;
+		return TRUE;
 	}
 
 
@@ -223,34 +223,34 @@ class ExtDirectServer {
 	 */
 	public function getGeneralSettings() {
 
-		$extjsParams = array();
+		$extjsParams = array ();
 
 		// get configuration object
 		$this->getConfigurationObject($extjsParams);
 
 		// Set Values
-		$FormData['success'] = true;
+		$formData['success'] = TRUE;
 
 		// Get All Values From Configuration
-		$FormData['data']['LocalExtensionPath'] = $this->confObj->getApplicationConfiguration('LocalExtensionPath');
-		$FormData['data']['SystemExtensionPath'] = $this->confObj->getApplicationConfiguration('SystemExtensionPath');
-		$FormData['data']['GlobalExtensionPath'] = $this->confObj->getApplicationConfiguration('GlobalExtensionPath');
+		$formData['data']['LocalExtensionPath'] = $this->confObj->getApplicationConfiguration('LocalExtensionPath');
+		$formData['data']['SystemExtensionPath'] = $this->confObj->getApplicationConfiguration('SystemExtensionPath');
+		$formData['data']['GlobalExtensionPath'] = $this->confObj->getApplicationConfiguration('GlobalExtensionPath');
 
-		$FormData['data']['ShowLocalExtensions'] = $this->confObj->getApplicationConfiguration('ShowLocalExtensions') ? 1 : 0;
-		$FormData['data']['ShowSystemExtensions'] = $this->confObj->getApplicationConfiguration('ShowSystemExtensions') ? 1 : 0;
-		$FormData['data']['ShowGlobalExtensions'] = $this->confObj->getApplicationConfiguration('ShowGlobalExtensions') ? 1 : 0;
+		$formData['data']['ShowLocalExtensions'] = $this->confObj->getApplicationConfiguration('ShowLocalExtensions') ? 1 : 0;
+		$formData['data']['ShowSystemExtensions'] = $this->confObj->getApplicationConfiguration('ShowSystemExtensions') ? 1 : 0;
+		$formData['data']['ShowGlobalExtensions'] = $this->confObj->getApplicationConfiguration('ShowGlobalExtensions') ? 1 : 0;
 
-		$FormData['data']['ShowOnlyLoadedExtensions'] = $this->confObj->getApplicationConfiguration('ShowOnlyLoadedExtensions') ? 1 : 0;
-		$FormData['data']['ShowTranslatedLanguages'] = $this->confObj->getApplicationConfiguration('ShowTranslatedLanguages') ? 1 : 0;
+		$formData['data']['ShowOnlyLoadedExtensions'] = $this->confObj->getApplicationConfiguration('ShowOnlyLoadedExtensions') ? 1 : 0;
+		$formData['data']['ShowTranslatedLanguages'] = $this->confObj->getApplicationConfiguration('ShowTranslatedLanguages') ? 1 : 0;
 
-		$FormData['data']['XmlFilter'] = $this->confObj->getApplicationConfiguration('XmlFilter') ? 1 : 0;
+		$formData['data']['XmlFilter'] = $this->confObj->getApplicationConfiguration('XmlFilter') ? 1 : 0;
 
-		$FormData['data']['AutoBackupEditing'] = $this->confObj->getApplicationConfiguration('AutoBackupEditing') ? 1 : 0;
-		$FormData['data']['AutoBackupCronjob'] = $this->confObj->getApplicationConfiguration('AutoBackupCronjob') ? 1 : 0;
+		$formData['data']['AutoBackupEditing'] = $this->confObj->getApplicationConfiguration('AutoBackupEditing') ? 1 : 0;
+		$formData['data']['AutoBackupCronjob'] = $this->confObj->getApplicationConfiguration('AutoBackupCronjob') ? 1 : 0;
 
-		$FormData['data']['CopyDefaultLanguage'] = $this->confObj->getApplicationConfiguration('CopyDefaultLanguage') ? 1 : 0;
+		$formData['data']['CopyDefaultLanguage'] = $this->confObj->getApplicationConfiguration('CopyDefaultLanguage') ? 1 : 0;
 
-		return $FormData;
+		return $formData;
 
 	}
 
@@ -268,7 +268,7 @@ class ExtDirectServer {
 		// save form
 		$this->confObj->saveFormSettings();
 
-		return array('success' => true);
+		return array ('success' => TRUE);
 
 	}
 
@@ -280,15 +280,15 @@ class ExtDirectServer {
 	public function getGeneralSettingsLanguages($extjsParams) {
 
 		// Todo: check logic
-		$extjsParams = array();
+		$extjsParams = array ();
 
 		// Get Configuration Object
 		$this->getConfigurationObject($extjsParams);
 
 		// Set Values
-		$Languages = $this->confObj->getLanguages(true);
+		$languages = $this->confObj->getLanguages(TRUE);
 
-		return $Languages;
+		return $languages;
 
 	}
 
@@ -300,15 +300,15 @@ class ExtDirectServer {
 	public function getGeneralSettingsLanguagesAdded($extjsParams) {
 
 		// todo: check logic
-		$extjsParams = array();
+		$extjsParams = array ();
 
 		// Get Configuration Object
 		$this->getConfigurationObject($extjsParams);
 
 		// Set Values
-		$Languages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
+		$languages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
 
-		return $Languages;
+		return $languages;
 
 	}
 
@@ -322,8 +322,8 @@ class ExtDirectServer {
 	public function getGeneralSettingsApprovedExtensions($extjsParams) {
 
 		// Todo: check logic
-		$extjsParams = array();
-		$ExtensionArray = array();
+		$extjsParams = array ();
+		$extensionArray = array ();
 
 		// Get Configuration Object
 		$this->getConfigurationObject($extjsParams);
@@ -335,24 +335,24 @@ class ExtDirectServer {
 		$this->systemTranslationObj->init($this->confObj);
 
 		// Get All Available Extensions
-		$Extensions = $this->systemTranslationObj->getDirectories();
+		$extensions = $this->systemTranslationObj->getDirectories();
 
 		// Get Approved Extensions
 		$approvedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
 
 		// Prepare For Output
-		if(is_array($Extensions) && count($Extensions) > 0) {
-			foreach($Extensions as $Extension) {
+		if (is_array($extensions) && count($extensions) > 0) {
+			foreach ($extensions as $extension) {
 
 				// Do Not Add Extension If Already Approved
-				if(!in_array($Extension, $approvedExtensions)) {
-					array_push($ExtensionArray, array('ExtensionKey' => $Extension));
+				if (!in_array($extension, $approvedExtensions)) {
+					array_push($extensionArray, array ('ExtensionKey' => $extension));
 				}
 
 			}
 		}
 
-		return $ExtensionArray;
+		return $extensionArray;
 
 	}
 
@@ -366,23 +366,23 @@ class ExtDirectServer {
 	public function getGeneralSettingsApprovedExtensionsAdded($extjsParams) {
 
 		// todo: check logic
-		$extjsParams = array();
-		$ApprovedExtensionsArray = array();
+		$extjsParams = array ();
+		$approvedExtensionsArray = array ();
 
 		// Get Configuration Object
 		$this->getConfigurationObject($extjsParams);
 
 		// Set Values
-		$ApprovedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
+		$approvedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
 
 		// Prepare For Output
-		if(is_array($ApprovedExtensions) && count($ApprovedExtensions) > 0) {
-			foreach($ApprovedExtensions as $ApprovedExtension) {
-				array_push($ApprovedExtensionsArray, array('ExtensionKey' => $ApprovedExtension));
+		if (is_array($approvedExtensions) && count($approvedExtensions) > 0) {
+			foreach ($approvedExtensions as $approvedExtension) {
+				array_push($approvedExtensionsArray, array ('ExtensionKey' => $approvedExtension));
 			}
 		}
 
-		return $ApprovedExtensionsArray;
+		return $approvedExtensionsArray;
 
 	}
 
@@ -393,7 +393,7 @@ class ExtDirectServer {
 	 */
 	private function getConfigurationObject($extjsParams) {
 
-		if(!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
+		if (!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
 			$this->confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', $extjsParams);
 		}
 
@@ -404,7 +404,7 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getExtensionsObject() {
-		if(!is_object($this->extObj) && !($this->extObj instanceof Extensions)) {
+		if (!is_object($this->extObj) && !($this->extObj instanceof Extensions)) {
 			$this->extObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Extensions', $this->confObj);
 		}
 	}
@@ -414,7 +414,7 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getLabelsObject() {
-		if(!is_object($this->labelsObj) && !($this->labelsObj instanceof Labels)) {
+		if (!is_object($this->labelsObj) && !($this->labelsObj instanceof Labels)) {
 			$this->labelsObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Labels', $this->confObj);
 		}
 	}
@@ -424,7 +424,7 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getLanguageObject() {
-		if(!is_object($this->langObj) && !($this->langObj instanceof Languages)) {
+		if (!is_object($this->langObj) && !($this->langObj instanceof Languages)) {
 			$this->langObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Languages', $this->confObj);
 		}
 	}
@@ -434,7 +434,7 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getColumnObject() {
-		if(!is_object($this->colObj) && !($this->colObj instanceof Columns)) {
+		if (!is_object($this->colObj) && !($this->colObj instanceof Columns)) {
 			$this->colObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Columns', $this->confObj);
 		}
 	}
@@ -444,7 +444,7 @@ class ExtDirectServer {
 	 * @return void
 	 */
 	private function getSystemTranslationObject() {
-		if(!is_object($this->systemTranslationObj) && !($this->systemTranslationObj instanceof Translations)) {
+		if (!is_object($this->systemTranslationObj) && !($this->systemTranslationObj instanceof Translations)) {
 			$this->systemTranslationObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
 		}
 	}

@@ -41,6 +41,7 @@ class Configuration {
 	 */
 	private $configurationManager;
 
+
 	/**
 	 * @var
 	 */
@@ -50,7 +51,7 @@ class Configuration {
 	/**
 	 * @var Database
 	 */
-	private $db;
+	private $database;
 
 
 	/**
@@ -74,7 +75,7 @@ class Configuration {
 	/**
 	 * @var array
 	 */
-	private $StandartValues = array(
+	private $standartValues = array (
 		'LocalExtensionPath' => 'typo3conf/ext/',
 		'SystemExtensionPath' => 'typo3/sysext/',
 		'GlobalExtensionPath' => 'typo3/ext/',
@@ -106,7 +107,7 @@ class Configuration {
 	/**
 	 * @param bool $extjsParams
 	 */
-	public function __construct($extjsParams = false) {
+	public function __construct($extjsParams = FALSE) {
 
 		$this->xmlPath = 'snowbabel/Resources/Private/Language/locallang_translation.xlf';
 
@@ -124,15 +125,17 @@ class Configuration {
 	 */
 	public function setExtensionConfiguration($value, $name) {
 
-		if(isset($value, $name)) {
+		$configurationSet = FALSE;
+
+		if (isset($value, $name)) {
 
 			$this->configuration['Extension'][$name] = $value;
 
-			return true;
+			$configurationSet = TRUE;
 
-		} else {
-			return false;
 		}
+
+		return $configurationSet;
 
 	}
 
@@ -143,15 +146,17 @@ class Configuration {
 	 */
 	public function setExtensionConfigurationLoadedExtensions($value) {
 
-		if(isset($value)) {
+		$setConfiguration = FALSE;
+
+		if (isset($value)) {
 
 			$this->configuration['Extension']['LoadedExtensions'] = $value;
 
-			return true;
+			$setConfiguration = TRUE;
 
-		} else {
-			return false;
 		}
+
+		return $setConfiguration;
 
 	}
 
@@ -163,15 +168,17 @@ class Configuration {
 	 */
 	public function setApplicationConfiguration($value, $name) {
 
-		if(isset($value, $name)) {
+		$setConfiguration = FALSE;
+
+		if (isset($value, $name)) {
 
 			$this->configuration['Application'][$name] = $value;
 
-			return true;
+			$setConfiguration = TRUE;
 
-		} else {
-			return false;
 		}
+
+		return $setConfiguration;
 
 	}
 
@@ -183,15 +190,17 @@ class Configuration {
 	 */
 	public function setUserConfiguration($value, $name) {
 
-		if(isset($value, $name)) {
+		$setConfiguration = FALSE;
+
+		if (isset($value, $name)) {
 
 			$this->configuration['User'][$name] = $value;
 
-			return true;
+			$setConfiguration = TRUE;
 
-		} else {
-			return false;
 		}
+
+		return $setConfiguration;
 
 	}
 
@@ -203,56 +212,61 @@ class Configuration {
 	 */
 	public function setUserConfigurationColumn($value, $name) {
 
-		if(isset($value, $name)) {
+		$setConfiguration = FALSE;
+
+		if (isset($value, $name)) {
 
 			// set 1 and 0 to true and false
-			$value = $value ? true : false;
+			$value = $value ? TRUE : FALSE;
 
 			$this->configuration['User']['Columns'][$name] = $value;
 
-			return true;
+			$setConfiguration = TRUE;
 
-		} else {
-			return false;
 		}
+
+		return $setConfiguration;
 
 	}
 
 
 	/**
-	 * @param  $ExtensionList
+	 * @param  $extensionList
 	 * @return bool
 	 */
-	public function setUserConfigurationExtensions($ExtensionList) {
+	public function setUserConfigurationExtensions($extensionList) {
 
-		if(is_array($ExtensionList)) {
+		$setConfiguration = FALSE;
 
-			$this->configuration['User']['Extensions'] = $ExtensionList;
+		if (is_array($extensionList)) {
 
-			return true;
+			$this->configuration['User']['Extensions'] = $extensionList;
 
-		} else {
-			return false;
+			$setConfiguration = TRUE;
+
 		}
 
+		return $setConfiguration;
 	}
 
 
 	/**
-	 * @param  $ExtjsParams
+	 * @param  $extjsParams
 	 * @return bool
 	 */
-	public function setExtjsConfiguration($ExtjsParams) {
+	public function setExtjsConfiguration($extjsParams) {
 
-		if(is_array($ExtjsParams)) {
+		$setConfiguration = FALSE;
 
-			$this->configuration['Extjs'] = $ExtjsParams;
+		if (is_array($extjsParams)) {
 
-			return true;
+			$this->configuration['Extjs'] = $extjsParams;
 
-		} else {
-			return false;
+			$setConfiguration = TRUE;
+
 		}
+
+		return $setConfiguration;
 
 	}
 
@@ -262,47 +276,46 @@ class Configuration {
 	 */
 	public function saveFormSettings() {
 
-		$NewLocalconfValues = array();
+		$newLocalconfValues = array ();
 
 		// Get Old Values
-		$LocalconfValues = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['snowbabel']);
+		$localconfValues = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['snowbabel']);
 
 		// Get Defined Extjs Values
-		$ExtjsParams = $this->getExtjsConfigurationFormSettings();
+		$extjsParams = $this->getExtjsConfigurationFormSettings();
 
 		// Write Defined Extjs Values To Database
-		foreach($this->StandartValues as $StandartKey => $StandartValue) {
+		$standardKeys = array_keys($this->standartValues);
+		foreach ($standardKeys as $standartKey) {
 
-			// New Value From Submit
-			if(isset($ExtjsParams[$StandartKey])) {
+			if (isset($extjsParams[$standartKey])) {
+				// New Value From Submit
+				$value = $extjsParams[$standartKey];
+				$newLocalconfValues[$standartKey] = $value;
 
-				$Value = $ExtjsParams[$StandartKey];
-				$NewLocalconfValues[$StandartKey] = $Value;
-
-			} // Already Defined in Localconf
-			elseif(isset($LocalconfValues[$StandartKey])) {
-				$NewLocalconfValues[$StandartKey] = $LocalconfValues[$StandartKey];
+			} elseif (isset($localconfValues[$standartKey])) {
+				// Already Defined in Localconf
+				$newLocalconfValues[$standartKey] = $localconfValues[$standartKey];
 			}
 		}
 
-
 		// Set Languages If Added
-		$Languages = $this->getExtjsConfiguration('AddedLanguages');
-		if($Languages) {
-			$NewLocalconfValues['AvailableLanguages'] = $Languages;
+		$languages = $this->getExtjsConfiguration('AddedLanguages');
+		if ($languages) {
+			$newLocalconfValues['AvailableLanguages'] = $languages;
 		}
 
 		// Set Approved Extensions If Added
-		$ApprovedExtensions = $this->getExtjsConfiguration('ApprovedExtensions');
-		if($ApprovedExtensions) {
-			$NewLocalconfValues['ApprovedExtensions'] = $ApprovedExtensions;
+		$approvedExtensions = $this->getExtjsConfiguration('ApprovedExtensions');
+		if ($approvedExtensions) {
+			$newLocalconfValues['ApprovedExtensions'] = $approvedExtensions;
 		}
 
 		// Mark Configuration Changes As 'CHANGED'
-		$NewLocalconfValues['ConfigurationChanged'] = 1;
+		$newLocalconfValues['ConfigurationChanged'] = 1;
 
 		// Write Localconf
-		$this->writeLocalconfArray($NewLocalconfValues);
+		$this->writeLocalconfArray($newLocalconfValues);
 
 	}
 
@@ -313,18 +326,18 @@ class Configuration {
 	public function setSchedulerCheckAndChangedConfiguration() {
 
 		// Get Localconf Values
-		$LocalconfValues = $this->loadApplicationConfiguration(false);
+		$localconfValues = $this->loadApplicationConfiguration(FALSE);
 
-		if($LocalconfValues['SchedulerCheck'] !== 1 || $LocalconfValues['ConfigurationChanged'] !== 0) {
-
-			// Set Scheduler Check
-			$LocalconfValues['SchedulerCheck'] = 1;
+		if ($localconfValues['SchedulerCheck'] !== 1 || $localconfValues['ConfigurationChanged'] !== 0) {
 
 			// Set Scheduler Check
-			$LocalconfValues['ConfigurationChanged'] = 0;
+			$localconfValues['SchedulerCheck'] = 1;
+
+			// Set Scheduler Check
+			$localconfValues['ConfigurationChanged'] = 0;
 
 			// Write To Localconf
-			$this->writeLocalconfArray($LocalconfValues);
+			$this->writeLocalconfArray($localconfValues);
 
 		}
 
@@ -334,25 +347,25 @@ class Configuration {
 	/**
 	 * @return Database
 	 */
-	public function getDb() {
-		return $this->db;
+	public function getDatabase() {
+		return $this->database;
 	}
 
 
 	/**
-	 * @param $LabelName
+	 * @param $labelName
 	 * @return string
 	 */
-	public function getLL($LabelName) {
+	public function getLocallang($labelName) {
 
 		// use typo3 system function
-		return $this->getLanguageService()->sL('LLL:EXT:' . $this->xmlPath . ':' . $LabelName);
+		return $this->getLanguageService()->sL('LLL:EXT:' . $this->xmlPath . ':' . $labelName);
 
 	}
 
 
 	/**
-	 * @return
+	 * @return mixed
 	 */
 	public function getConfiguration() {
 		return $this->configuration;
@@ -360,35 +373,39 @@ class Configuration {
 
 
 	/**
-	 * @param  $name
-	 * @return null
+	 * @param $name
+	 * @return null|array
 	 */
 	public function getApplicationConfiguration($name) {
 
-		if(isset($name)) {
+		$configuration = NULL;
 
-			return $this->configuration['Application'][$name];
+		if (isset($name)) {
 
-		} else {
-			return null;
+			$configuration = $this->configuration['Application'][$name];
+
 		}
+
+		return $configuration;
 
 	}
 
 
 	/**
-	 * @param  $name
+	 * @param $name
 	 * @return null
 	 */
 	public function getUserConfiguration($name) {
 
-		if(isset($name)) {
+		$configuration = NULL;
 
-			return $this->configuration['User'][$name];
+		if (isset($name)) {
 
-		} else {
-			return null;
+			$configuration = $this->configuration['User'][$name];
+
 		}
+
+		return $configuration;
 
 	}
 
@@ -402,17 +419,20 @@ class Configuration {
 
 
 	/**
-	 * @param  $name
+	 * @param $name
 	 * @return null
 	 */
 	public function getUserConfigurationColumn($name) {
-		if(isset($name)) {
 
-			return $this->configuration['User']['Columns'][$name];
+		$configuration = NULL;
 
-		} else {
-			return null;
+		if (isset($name)) {
+
+			$configuration = $this->configuration['User']['Columns'][$name];
+
 		}
+
+		return $configuration;
 	}
 
 
@@ -438,13 +458,15 @@ class Configuration {
 	 */
 	public function getExtensionConfiguration($name) {
 
-		if(isset($name)) {
+		$configuration = NULL;
 
-			return $this->configuration['Extension'][$name];
+		if (isset($name)) {
 
-		} else {
-			return null;
+			$configuration = $this->configuration['Extension'][$name];
+
 		}
+
+		return $configuration;
 
 	}
 
@@ -461,11 +483,14 @@ class Configuration {
 	 * @return null
 	 */
 	public function getExtjsConfigurations() {
-		if(count($this->configuration['Extjs']) > 0) {
-			return $this->configuration['Extjs'];
-		} else {
-			return null;
+
+		$configuration = NULL;
+
+		if (count($this->configuration['Extjs']) > 0) {
+			$configuration = $this->configuration['Extjs'];
 		}
+
+		return $configuration;
 	}
 
 
@@ -475,13 +500,15 @@ class Configuration {
 	 */
 	public function getExtjsConfiguration($name) {
 
-		if(isset($name)) {
+		$configuration = NULL;
 
-			return $this->configuration['Extjs'][$name];
+		if (isset($name)) {
 
-		} else {
-			return null;
+			$configuration = $this->configuration['Extjs'][$name];
+
 		}
+
+		return $configuration;
 
 	}
 
@@ -491,11 +518,13 @@ class Configuration {
 	 */
 	public function getExtjsConfigurationListViewStart() {
 
-		if($this->configuration['Extjs']['start']) {
-			return $this->configuration['Extjs']['start'];
+		if ($this->configuration['Extjs']['start']) {
+			$configuration = $this->configuration['Extjs']['start'];
 		} else {
-			return $this->configuration['Extjs']['ListViewStart'];
+			$configuration = $this->configuration['Extjs']['ListViewStart'];
 		}
+
+		return $configuration;
 
 	}
 
@@ -505,99 +534,100 @@ class Configuration {
 	 */
 	public function getExtjsConfigurationFormSettings() {
 
-		$ExtjsParams['LocalExtensionPath'] = $this->configuration['Extjs']['LocalExtensionPath'];
-		$ExtjsParams['SystemExtensionPath'] = $this->configuration['Extjs']['SystemExtensionPath'];
-		$ExtjsParams['GlobalExtensionPath'] = $this->configuration['Extjs']['GlobalExtensionPath'];
+		$extjsParams['LocalExtensionPath'] = $this->configuration['Extjs']['LocalExtensionPath'];
+		$extjsParams['SystemExtensionPath'] = $this->configuration['Extjs']['SystemExtensionPath'];
+		$extjsParams['GlobalExtensionPath'] = $this->configuration['Extjs']['GlobalExtensionPath'];
 
-		$ExtjsParams['ShowLocalExtensions'] = $this->configuration['Extjs']['ShowLocalExtensions'];
-		$ExtjsParams['ShowSystemExtensions'] = $this->configuration['Extjs']['ShowSystemExtensions'];
-		$ExtjsParams['ShowGlobalExtensions'] = $this->configuration['Extjs']['ShowGlobalExtensions'];
+		$extjsParams['ShowLocalExtensions'] = $this->configuration['Extjs']['ShowLocalExtensions'];
+		$extjsParams['ShowSystemExtensions'] = $this->configuration['Extjs']['ShowSystemExtensions'];
+		$extjsParams['ShowGlobalExtensions'] = $this->configuration['Extjs']['ShowGlobalExtensions'];
 
-		$ExtjsParams['ShowOnlyLoadedExtensions'] = $this->configuration['Extjs']['ShowOnlyLoadedExtensions'];
-		$ExtjsParams['ShowTranslatedLanguages'] = $this->configuration['Extjs']['ShowTranslatedLanguages'];
+		$extjsParams['ShowOnlyLoadedExtensions'] = $this->configuration['Extjs']['ShowOnlyLoadedExtensions'];
+		$extjsParams['ShowTranslatedLanguages'] = $this->configuration['Extjs']['ShowTranslatedLanguages'];
 
-		$ExtjsParams['XmlFilter'] = $this->configuration['Extjs']['XmlFilter'];
+		$extjsParams['XmlFilter'] = $this->configuration['Extjs']['XmlFilter'];
 
-		$ExtjsParams['AutoBackupEditing'] = $this->configuration['Extjs']['AutoBackupEditing'];
-		$ExtjsParams['AutoBackupCronjob'] = $this->configuration['Extjs']['AutoBackupCronjob'];
+		$extjsParams['AutoBackupEditing'] = $this->configuration['Extjs']['AutoBackupEditing'];
+		$extjsParams['AutoBackupCronjob'] = $this->configuration['Extjs']['AutoBackupCronjob'];
 
-		$ExtjsParams['CopyDefaultLanguage'] = $this->configuration['Extjs']['CopyDefaultLanguage'];
+		$extjsParams['CopyDefaultLanguage'] = $this->configuration['Extjs']['CopyDefaultLanguage'];
 
-		foreach($ExtjsParams as $Key => $Param) {
+		foreach ($extjsParams as $key => $parameter) {
 
-			if($Param === null) {
-				$ExtjsParams[$Key] = 0;
+			if ($parameter === NULL) {
+				$extjsParams[$key] = 0;
 			}
-			if($Param === 'on') {
-				$ExtjsParams[$Key] = 1;
+			if ($parameter === 'on') {
+				$extjsParams[$key] = 1;
 			}
 
 		}
 
-		return $ExtjsParams;
+		return $extjsParams;
 	}
 
 
 	/**
-	 * @return
+	 * @return mixed
 	 */
 	public function getExtjsConfigurationListViewLimit() {
 
-		if($this->configuration['Extjs']['limit']) {
-			return $this->configuration['Extjs']['limit'];
+		if ($this->configuration['Extjs']['limit']) {
+			$configuration = $this->configuration['Extjs']['limit'];
 		} else {
-			return $this->configuration['Extjs']['ListViewLimit'];
+			$configuration = $this->configuration['Extjs']['ListViewLimit'];
 		}
+
+		return $configuration;
 
 	}
 
 
 	/**
-	 * @param bool $AvailableLanguagesDiff
+	 * @param bool $availableLanguagesDiff
 	 * @return array
 	 */
-	public function getLanguages($AvailableLanguagesDiff = false) {
+	public function getLanguages($availableLanguagesDiff = FALSE) {
 
-		$Languages = $this->db->getStaticLanguages();
+		$languages = $this->database->getStaticLanguages();
 
-		if($AvailableLanguagesDiff) {
+		if ($availableLanguagesDiff) {
 
-			$AvailableLanguages = $this->getApplicationConfiguration('AvailableLanguages');
+			$availableLanguages = $this->getApplicationConfiguration('AvailableLanguages');
 
-			if(is_array($Languages)) {
+			if (is_array($languages)) {
 
-				$LanguagesDiff = array();
+				$languagesDiff = array ();
 
-				foreach($Languages as $Language) {
+				foreach ($languages as $language) {
 
-					if(!in_array($Language, $AvailableLanguages)) {
-						array_push($LanguagesDiff, $Language);
+					if (!in_array($language, $availableLanguages)) {
+						array_push($languagesDiff, $language);
 					}
 
 				}
 
-				$Languages = $LanguagesDiff;
+				$languages = $languagesDiff;
 
 			}
 		}
 
-		return $Languages;
-
+		return $languages;
 
 	}
 
 
 	/**
-	 * @param array $LocalconfValues
+	 * @param array $localconfValues
 	 * @return void
 	 */
-	private function writeLocalconfArray(array $LocalconfValues) {
+	private function writeLocalconfArray(array $localconfValues) {
 
-		if(!$this->configurationManager instanceof ConfigurationManager) {
+		if (!$this->configurationManager instanceof ConfigurationManager) {
 			$this->configurationManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Configuration\\ConfigurationManager');
 		}
 
-		$this->configurationManager->setLocalConfigurationValueByPath('EXT/extConf/snowbabel', serialize($LocalconfValues));
+		$this->configurationManager->setLocalConfigurationValueByPath('EXT/extConf/snowbabel', serialize($localconfValues));
 
 		ExtensionManagementUtility::removeCacheFiles();
 
@@ -635,16 +665,16 @@ class Configuration {
 	private function loadExtjsConfiguration() {
 
 		// check if its an object or array
-		if(is_object($this->extjsParams)) {
+		if (is_object($this->extjsParams)) {
 			// extjs obj var to array
 			$extjsParams = get_object_vars($this->extjsParams);
 			// if something's in add it to conf
-			if(!empty($extjsParams)) {
+			if (!empty($extjsParams)) {
 				$this->setExtjsConfiguration($extjsParams);
 			}
-		} elseif(is_array($this->extjsParams)) {
+		} elseif (is_array($this->extjsParams)) {
 			// if something's in add it to conf
-			if(!empty($this->extjsParams)) {
+			if (!empty($this->extjsParams)) {
 				$this->setExtjsConfiguration($this->extjsParams);
 			}
 		}
@@ -668,85 +698,79 @@ class Configuration {
 
 
 	/**
-	 * @param bool $SetConfiguration
+	 * @param bool $setConfiguration
 	 * @return mixed
 	 */
-	private function loadApplicationConfiguration($SetConfiguration = true) {
+	private function loadApplicationConfiguration($setConfiguration = TRUE) {
 
-
-		$LocalconfValues = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['snowbabel']);
+		$localconfValues = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['snowbabel']);
 
 		// Check Configuration
-		if(!is_array($LocalconfValues) || count($this->StandartValues) > count($LocalconfValues)) {
+		if (!is_array($localconfValues) || count($this->standartValues) > count($localconfValues)) {
 
 			// Otherwise Set StandartValue
-			foreach($this->StandartValues as $StandartKey => $StandartValue) {
-				if(!isset($LocalconfValues[$StandartKey])) {
-					$LocalconfValues[$StandartKey] = $StandartValue;
+			foreach ($this->standartValues as $standartKey => $standartValue) {
+				if (!isset($localconfValues[$standartKey])) {
+					$localconfValues[$standartKey] = $standartValue;
 				}
 			}
 
 			// Write Configuration
-			$this->writeLocalconfArray($LocalconfValues);
+			$this->writeLocalconfArray($localconfValues);
 
 		}
 
-		if($SetConfiguration) {
+		if ($setConfiguration) {
 			// local extension path
-			$this->setApplicationConfiguration($LocalconfValues['LocalExtensionPath'], 'LocalExtensionPath');
+			$this->setApplicationConfiguration($localconfValues['LocalExtensionPath'], 'LocalExtensionPath');
 			// system extension path
-			$this->setApplicationConfiguration($LocalconfValues['SystemExtensionPath'], 'SystemExtensionPath');
+			$this->setApplicationConfiguration($localconfValues['SystemExtensionPath'], 'SystemExtensionPath');
 			// global extension path
-			$this->setApplicationConfiguration($LocalconfValues['GlobalExtensionPath'], 'GlobalExtensionPath');
-
+			$this->setApplicationConfiguration($localconfValues['GlobalExtensionPath'], 'GlobalExtensionPath');
 
 			// show local extension
-			$this->setApplicationConfiguration($LocalconfValues['ShowLocalExtensions'], 'ShowLocalExtensions');
+			$this->setApplicationConfiguration($localconfValues['ShowLocalExtensions'], 'ShowLocalExtensions');
 			// show system extension
-			$this->setApplicationConfiguration($LocalconfValues['ShowSystemExtensions'], 'ShowSystemExtensions');
+			$this->setApplicationConfiguration($localconfValues['ShowSystemExtensions'], 'ShowSystemExtensions');
 			// show global extension
-			$this->setApplicationConfiguration($LocalconfValues['ShowGlobalExtensions'], 'ShowGlobalExtensions');
-
+			$this->setApplicationConfiguration($localconfValues['ShowGlobalExtensions'], 'ShowGlobalExtensions');
 
 			// show only loaded extension
-			$this->setApplicationConfiguration($LocalconfValues['ShowOnlyLoadedExtensions'], 'ShowOnlyLoadedExtensions');
+			$this->setApplicationConfiguration($localconfValues['ShowOnlyLoadedExtensions'], 'ShowOnlyLoadedExtensions');
 			// show translated languages
-			$this->setApplicationConfiguration($LocalconfValues['ShowTranslatedLanguages'], 'ShowTranslatedLanguages');
+			$this->setApplicationConfiguration($localconfValues['ShowTranslatedLanguages'], 'ShowTranslatedLanguages');
 
 			// approved extensions
-			$this->setApplicationConfiguration(explode(",", $LocalconfValues['ApprovedExtensions']), 'ApprovedExtensions');
+			$this->setApplicationConfiguration(explode(',', $localconfValues['ApprovedExtensions']), 'ApprovedExtensions');
 
 			// xml filter
-			$this->setApplicationConfiguration($LocalconfValues['XmlFilter'], 'XmlFilter');
-
+			$this->setApplicationConfiguration($localconfValues['XmlFilter'], 'XmlFilter');
 
 			// auto backup during editing
-			$this->setApplicationConfiguration($LocalconfValues['AutoBackupEditing'], 'AutoBackupEditing');
+			$this->setApplicationConfiguration($localconfValues['AutoBackupEditing'], 'AutoBackupEditing');
 			// auto backup during cronjob
-			$this->setApplicationConfiguration($LocalconfValues['AutoBackupCronjob'], 'AutoBackupCronjob');
-
+			$this->setApplicationConfiguration($localconfValues['AutoBackupCronjob'], 'AutoBackupCronjob');
 
 			// copy default language to english (en)
-			$this->setApplicationConfiguration($LocalconfValues['CopyDefaultLanguage'], 'CopyDefaultLanguage');
-
+			$this->setApplicationConfiguration($localconfValues['CopyDefaultLanguage'], 'CopyDefaultLanguage');
 
 			// load available languages
 			$this->setApplicationConfiguration(
-				$this->db->getAppConfAvailableLanguages(
-					$LocalconfValues['AvailableLanguages'],
+				$this->database->getAppConfAvailableLanguages(
+					$localconfValues['AvailableLanguages'],
 					$this->getApplicationConfiguration('ShowTranslatedLanguages')
 				),
 				'AvailableLanguages'
 			);
 
 			// Scheduler Check
-			$this->setApplicationConfiguration($LocalconfValues['SchedulerCheck'], 'SchedulerCheck');
+			$this->setApplicationConfiguration($localconfValues['SchedulerCheck'], 'SchedulerCheck');
 
 			// Configuration Changed
-			$this->setApplicationConfiguration($LocalconfValues['ConfigurationChanged'], 'ConfigurationChanged');
+			$this->setApplicationConfiguration($localconfValues['ConfigurationChanged'], 'ConfigurationChanged');
 		}
 
-		return $LocalconfValues;
+		return $localconfValues;
 
 	}
 
@@ -763,21 +787,41 @@ class Configuration {
 		$this->setUserConfiguration($GLOBALS['BE_USER']->user['uid'], 'Id');
 
 		// set user permitted extensions
-		$this->setUserConfiguration($this->getPermittedExtensions($GLOBALS['BE_USER']->user['tx_snowbabel_extensions'], $GLOBALS['BE_USER']->userGroups), 'PermittedExtensions');
+		$this->setUserConfiguration(
+			$this->getPermittedExtensions(
+				$GLOBALS['BE_USER']->user['tx_snowbabel_extensions'],
+				$GLOBALS['BE_USER']->userGroups
+			),
+			'PermittedExtensions'
+		);
 
 		// set user permitted languages
-		$this->setUserConfiguration($this->getPermittedLanguages($GLOBALS['BE_USER']->user['tx_snowbabel_languages'], $GLOBALS['BE_USER']->userGroups), 'PermittedLanguages');
-
+		$this->setUserConfiguration(
+			$this->getPermittedLanguages(
+				$GLOBALS['BE_USER']->user['tx_snowbabel_languages'],
+				$GLOBALS['BE_USER']->userGroups
+			),
+			'PermittedLanguages'
+		);
 
 		// checks if database record already written
-		$this->db->getUserConfCheck($this->getUserConfigurationId());
+		$this->database->getUserConfCheck($this->getUserConfigurationId());
 
 		// get selected languages
-		$this->setUserConfiguration($this->db->getUserConfSelectedLanguages($this->getUserConfigurationId()), 'SelectedLanguages');
+		$this->setUserConfiguration(
+			$this->database->getUserConfSelectedLanguages($this->getUserConfigurationId()),
+			'SelectedLanguages'
+		);
 
 		// get "showColumn" values from database
-		$this->setUserConfigurationColumn($this->db->getUserConfShowColumnLabel($this->getUserConfigurationId()), 'ShowColumnLabel');
-		$this->setUserConfigurationColumn($this->db->getUserConfShowColumnDefault($this->getUserConfigurationId()), 'ShowColumnDefault');
+		$this->setUserConfigurationColumn(
+			$this->database->getUserConfShowColumnLabel($this->getUserConfigurationId()),
+			'ShowColumnLabel'
+		);
+		$this->setUserConfigurationColumn(
+			$this->database->getUserConfShowColumnDefault($this->getUserConfigurationId()),
+			'ShowColumnDefault'
+		);
 
 	}
 
@@ -787,138 +831,138 @@ class Configuration {
 	 */
 	private function loadActions() {
 
-		$ActionKey = $this->getExtjsConfiguration('ActionKey');
-		$LanguageId = $this->getExtjsConfiguration('LanguageId');
-		$ColumnId = $this->getExtjsConfiguration('ColumnId');
+		$actionKey = $this->getExtjsConfiguration('ActionKey');
+		$languageId = $this->getExtjsConfiguration('LanguageId');
+		$columnId = $this->getExtjsConfiguration('ColumnId');
 
-		if(!empty($LanguageId) && $ActionKey == 'LanguageSelection') {
-			$this->actionUserConfSelectedLanguages($LanguageId);
+		if (!empty($languageId) && $actionKey == 'LanguageSelection') {
+			$this->actionUserConfSelectedLanguages($languageId);
 		}
 
-		if(!empty($ColumnId) && $ActionKey == 'ColumnSelection') {
-			$this->actionUserConfigurationColumns($ColumnId);
+		if (!empty($columnId) && $actionKey == 'ColumnSelection') {
+			$this->actionUserConfigurationColumns($columnId);
 		}
 
 	}
 
 
 	/**
-	 * @param  $LanguageId
+	 * @param  $languageId
 	 * @return void
 	 */
-	private function actionUserConfSelectedLanguages($LanguageId) {
+	private function actionUserConfSelectedLanguages($languageId) {
 
-		$SelectedLanguages = $this->getUserConfiguration('SelectedLanguages');
+		$selectedLanguages = $this->getUserConfiguration('SelectedLanguages');
 
-		// Add
-		if(!GeneralUtility::inList($SelectedLanguages, $LanguageId)) {
-			if(!$SelectedLanguages) {
-				$SelectedLanguages = $LanguageId;
+		if (!GeneralUtility::inList($selectedLanguages, $languageId)) {
+			// Add
+			if (!$selectedLanguages) {
+				$selectedLanguages = $languageId;
 			} else {
-				$SelectedLanguages .= ',' . $LanguageId;
+				$selectedLanguages .= ',' . $languageId;
 			}
-		} // Remove
-		else {
-			$SelectedLanguages = GeneralUtility::rmFromList($LanguageId, $SelectedLanguages);
+		} else {
+			// Remove
+			$selectedLanguages = GeneralUtility::rmFromList($languageId, $selectedLanguages);
 		}
 
 		// Write Changes To Database
-		$this->db->setUserConf('SelectedLanguages', $SelectedLanguages, $this->getUserConfigurationId());
+		$this->database->setUserConf('SelectedLanguages', $selectedLanguages, $this->getUserConfigurationId());
 
 		// Reset Configuration Array
-		$this->setUserConfiguration($SelectedLanguages, 'SelectedLanguages');
+		$this->setUserConfiguration($selectedLanguages, 'SelectedLanguages');
 	}
 
 
 	/**
-	 * @param  $ColumnId
+	 * @param  $columnId
 	 * @return void
 	 */
-	private function actionUserConfigurationColumns($ColumnId) {
+	private function actionUserConfigurationColumns($columnId) {
 
-		$ColumnsConfiguration = $this->getUserConfigurationColumns();
+		$columnsConfiguration = $this->getUserConfigurationColumns();
 
 		// Reverse Value
-		$ColumnsConfiguration[$ColumnId] = !$ColumnsConfiguration[$ColumnId];
+		$columnsConfiguration[$columnId] = !$columnsConfiguration[$columnId];
 
 		// Write Changes To Database
-		$this->db->setUserConf($ColumnId, $ColumnsConfiguration[$ColumnId], $this->getUserConfigurationId());
+		$this->database->setUserConf($columnId, $columnsConfiguration[$columnId], $this->getUserConfigurationId());
 
 		// Reset Configuration Array
-		$this->setUserConfiguration($ColumnsConfiguration, 'Columns');
+		$this->setUserConfiguration($columnsConfiguration, 'Columns');
 
 	}
 
 
 	/**
-	 * @param  $PermittedExtensions
-	 * @param  $AllocatedGroups
+	 * @param  $permittedExtensions
+	 * @param  $allocatedGroups
 	 * @return string
 	 */
-	private function getPermittedExtensions($PermittedExtensions, $AllocatedGroups) {
+	private function getPermittedExtensions($permittedExtensions, $allocatedGroups) {
 
-		$AllowedExtensions1 = array();
-		$AllowedExtensions2 = array();
+		$allowedExtensions1 = array ();
+		$allowedExtensions2 = array ();
 
-		if($PermittedExtensions) {
-			$Values = explode(',', $PermittedExtensions);
-			foreach($Values as $Extension) {
-				array_push($AllowedExtensions1, $Extension);
+		if ($permittedExtensions) {
+			$values = explode(',', $permittedExtensions);
+			foreach ($values as $extension) {
+				array_push($allowedExtensions1, $extension);
 			}
 		}
 
 		// Get Allocated Groups -> Group/User Permissions
-		if(is_array($AllocatedGroups)) {
-			foreach($AllocatedGroups as $group) {
-				if($group['tx_snowbabel_extensions']) {
-					$Values = explode(',', $group['tx_snowbabel_extensions']);
-					foreach($Values as $Extension) {
-						array_push($AllowedExtensions2, $Extension);
+		if (is_array($allocatedGroups)) {
+			foreach ($allocatedGroups as $group) {
+				if ($group['tx_snowbabel_extensions']) {
+					$values = explode(',', $group['tx_snowbabel_extensions']);
+					foreach ($values as $extension) {
+						array_push($allowedExtensions2, $extension);
 					}
 				}
 			}
 		}
 
 		// Merge Both Together
-		$AllowedExtensions = array_unique(array_merge($AllowedExtensions1, $AllowedExtensions2));
+		$allowedExtensions = array_unique(array_merge($allowedExtensions1, $allowedExtensions2));
 
-		return implode($AllowedExtensions, ',');
+		return implode($allowedExtensions, ',');
 	}
 
 
 	/**
-	 * @param  $PermittedLanguages
-	 * @param  $AllocatedGroups
+	 * @param  $permittedLanguages
+	 * @param  $allocatedGroups
 	 * @return string
 	 */
-	private function getPermittedLanguages($PermittedLanguages, $AllocatedGroups) {
+	private function getPermittedLanguages($permittedLanguages, $allocatedGroups) {
 
-		$AllowedLanguages1 = array();
-		$AllowedLanguages2 = array();
+		$allowedLanguages1 = array ();
+		$allowedLanguages2 = array ();
 
-		if($PermittedLanguages) {
-			$Values = explode(',', $PermittedLanguages);
-			foreach($Values as $Extension) {
-				array_push($AllowedLanguages1, $Extension);
+		if ($permittedLanguages) {
+			$values = explode(',', $permittedLanguages);
+			foreach ($values as $extension) {
+				array_push($allowedLanguages1, $extension);
 			}
 		}
 
 		// Get Allocated Groups -> Group/User Permissions
-		if(is_array($AllocatedGroups)) {
-			foreach($AllocatedGroups as $group) {
-				if($group['tx_snowbabel_languages']) {
-					$Values = explode(',', $group['tx_snowbabel_languages']);
-					foreach($Values as $Extension) {
-						array_push($AllowedLanguages2, $Extension);
+		if (is_array($allocatedGroups)) {
+			foreach ($allocatedGroups as $group) {
+				if ($group['tx_snowbabel_languages']) {
+					$values = explode(',', $group['tx_snowbabel_languages']);
+					foreach ($values as $extension) {
+						array_push($allowedLanguages2, $extension);
 					}
 				}
 			}
 		}
 
 		// Merge Both Together
-		$AllowedLanguages = array_unique(array_merge($AllowedLanguages1, $AllowedLanguages2));
+		$allowedLanguages = array_unique(array_merge($allowedLanguages1, $allowedLanguages2));
 
-		return implode($AllowedLanguages, ',');
+		return implode($allowedLanguages, ',');
 	}
 
 
@@ -927,8 +971,8 @@ class Configuration {
 	 */
 	private function initDatabase() {
 
-		if(!is_object($this->db) && !($this->db instanceof Database)) {
-			$this->db = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Database', $this->debug);
+		if (!is_object($this->database) && !($this->database instanceof Database)) {
+			$this->database = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Database', $this->debug);
 		}
 
 	}

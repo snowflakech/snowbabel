@@ -37,26 +37,26 @@ class Tca {
 
 
 	/**
-	 * @var	Configuration
+	 * @var    Configuration
 	 */
 	private $confObj;
 
 
 	/**
-	 * @var	Extensions
+	 * @var    Extensions
 	 */
 	private $extObj;
 
 
 	/**
-	 * @param  $PA
+	 * @param  $pa
 	 * @param  $fobj
 	 * @return void
 	 */
-	public function getExtensions($PA, $fobj) {
+	public function getExtensions($pa, $fobj) {
 
-		$extjsParams = null;
-		$tcaExtensions = array();
+		$extjsParams = NULL;
+		$tcaExtensions = array ();
 
 		// get configuration object
 		$this->getConfigurationObject($extjsParams);
@@ -65,61 +65,66 @@ class Tca {
 		$this->getExtensionsObject();
 
 		// get all extensions for this user
-		$Extensions = $this->extObj->getExtensions();
+		$extensions = $this->extObj->getExtensions();
 
-		if(is_array($Extensions)) {
-			foreach($Extensions as $Extension) {
-				$Value = array(
-					'0' => $Extension['ExtensionKey'],    // label
-					'1' => $Extension['ExtensionKey']        // value
+		if (is_array($extensions)) {
+			foreach ($extensions as $extension) {
+				$value = array (
+					// Label
+					'0' => $extension['ExtensionKey'],
+					// Value
+					'1' => $extension['ExtensionKey']
 				);
 
-				array_push($tcaExtensions, $Value);
+				array_push($tcaExtensions, $value);
 			}
 		}
 
-		$PA['items'] = $tcaExtensions;
+		$pa['items'] = $tcaExtensions;
 	}
 
 
 	/**
-	 * @param  $PA
+	 * @param  $pa
 	 * @param  $fobj
 	 * @return void
 	 */
-	public function getLanguages($PA, $fobj) {
+	public function getLanguages($pa, $fobj) {
 
-		$extjsParams = null;
-		$tcaLanguages = array();
+		$extjsParams = NULL;
+		$tcaLanguages = array ();
 
 		// get configuration object
 		$this->getConfigurationObject($extjsParams);
 
 		// get available languages
-		$Languages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
+		$languages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
 
-		if(is_array($Languages)) {
-			foreach($Languages as $Language) {
-				$Value = array(
-					'0' => $Language['LanguageName'],        // label
-					'1' => $Language['LanguageKey']            // value
+		if (is_array($languages)) {
+			foreach ($languages as $language) {
+				$value = array (
+					// Label
+					'0' => $language['LanguageName'],
+					// Value
+					'1' => $language['LanguageKey']
 				);
 
-				array_push($tcaLanguages, $Value);
+				array_push($tcaLanguages, $value);
 			}
 		}
 
 
-		$PA['items'] = $tcaLanguages;
+		$pa['items'] = $tcaLanguages;
 	}
 
 
 	/**
-	 *
+	 * @param $extjsParams
+	 * @return void
 	 */
 	private function getConfigurationObject($extjsParams) {
 
-		if(!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
+		if (!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
 			$this->confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', $extjsParams);
 		}
 
@@ -127,10 +132,10 @@ class Tca {
 
 
 	/**
-	 *
+	 * @return void
 	 */
 	private function getExtensionsObject() {
-		if(!is_object($this->extObj) && !($this->extObj instanceof Extensions)) {
+		if (!is_object($this->extObj) && !($this->extObj instanceof Extensions)) {
 			$this->extObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\Extensions', $this->confObj);
 		}
 	}
