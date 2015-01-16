@@ -24,5 +24,5 @@ $EM_CONF[$_EXTKEY] = array (
 	'author' => 'Daniel Alder',
 	'author_email' => 'info@snowflake.ch',
 	'author_company' => 'snowflake productions gmbh',
-	'version' => '4.2.0'
+	'version' => '4.3.0'
 );
