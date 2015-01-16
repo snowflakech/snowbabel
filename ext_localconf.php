@@ -1,6 +1,6 @@
 <?php
 
-if(!defined('TYPO3_MODE')) {
+if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
@@ -10,7 +10,7 @@ if(!defined('TYPO3_MODE')) {
 );
 
 // Add Scheduler Configuration For Indexing
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Snowflake\\Snowbabel\\Task\\Indexing'] = array(
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Snowflake\\Snowbabel\\Task\\Indexing'] = array (
 	'extension' => $_EXTKEY,
 	'title' => 'Snowbabel - Indexing',
 	'description' => 'Indexes all translation on current installation',

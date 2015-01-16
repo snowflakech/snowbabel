@@ -44,91 +44,91 @@ class Translations {
 	/**
 	 * @var
 	 */
-	private $CopyDefaultLanguage;
+	private $copyDefaultLanguage;
 
 
 	/**
 	 * @var
 	 */
-	private $AvailableLanguages;
+	private $availableLanguages;
 
 
 	/**
 	 * @var
 	 */
-	private $ApprovedExtensions;
+	private $approvedExtensions;
 
 
 	/**
 	 * @var
 	 */
-	private $LocalExtensionPath;
+	private $localExtensionPath;
 
 
 	/**
 	 * @var
 	 */
-	private $SystemExtensionPath;
+	private $systemExtensionPath;
 
 
 	/**
 	 * @var
 	 */
-	private $GlobalExtensionPath;
+	private $globalExtensionPath;
 
 
 	/**
 	 * @var
 	 */
-	private $SitePath;
+	private $sitePath;
 
 
 	/**
 	 * @var
 	 */
-	private $L10nPath;
+	private $l10nPath;
 
 
 	/**
 	 * @var
 	 */
-	private $LoadedExtensions;
+	private $loadedExtensions;
 
 
 	/**
 	 * @var string
 	 */
-	private $CacheTranslationsPath = '';
+	private $cacheTranslationsPath = '';
 
 
 	/**
 	 * @var string
 	 */
-	private $CacheTranslationLanguage = '';
+	private $cacheTranslationLanguage = '';
 
 
 	/**
 	 * @var
 	 */
-	private $CachedTranslations;
+	private $cachedTranslations;
 
 
 	/**
 	 * @var
 	 */
-	private $CachedOriginalTranslations;
+	private $cachedOriginalTranslations;
 
 
 	/**
 	 * @var
 	 */
-	private $CacheFilePath = '';
+	private $cacheFilePath = '';
 
 
 	/**
 	 * @var
 	 */
-	private $CacheLanguageFile = array();
+	private $cacheLanguageFile = array ();
 
 
 	/**
@@ -140,17 +140,17 @@ class Translations {
 		$this->confObj = $confObj;
 
 		// get Application params
-		$this->CopyDefaultLanguage = $this->confObj->getApplicationConfiguration('CopyDefaultLanguage');
-		$this->AvailableLanguages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
-		$this->ApprovedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
-		$this->LocalExtensionPath = $this->confObj->getApplicationConfiguration('LocalExtensionPath');
-		$this->SystemExtensionPath = $this->confObj->getApplicationConfiguration('SystemExtensionPath');
-		$this->GlobalExtensionPath = $this->confObj->getApplicationConfiguration('GlobalExtensionPath');
+		$this->copyDefaultLanguage = $this->confObj->getApplicationConfiguration('CopyDefaultLanguage');
+		$this->availableLanguages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
+		$this->approvedExtensions = $this->confObj->getApplicationConfiguration('ApprovedExtensions');
+		$this->localExtensionPath = $this->confObj->getApplicationConfiguration('LocalExtensionPath');
+		$this->systemExtensionPath = $this->confObj->getApplicationConfiguration('SystemExtensionPath');
+		$this->globalExtensionPath = $this->confObj->getApplicationConfiguration('GlobalExtensionPath');
 
 		// get Extension params
-		$this->SitePath = $this->confObj->getExtensionConfiguration('SitePath');
-		$this->L10nPath = $this->confObj->getExtensionConfiguration('L10nPath');
-		$this->LoadedExtensions = $this->confObj->getExtensionConfigurationLoadedExtensions();
+		$this->sitePath = $this->confObj->getExtensionConfiguration('SitePath');
+		$this->l10nPath = $this->confObj->getExtensionConfiguration('L10nPath');
+		$this->loadedExtensions = $this->confObj->getExtensionConfigurationLoadedExtensions();
 	}
 
 
@@ -159,13 +159,13 @@ class Translations {
 	 */
 	public function getExtensions() {
 
-		$Extensions = self::getDirectories();
+		$extensions = self::getDirectories();
 
-		$Extensions = self::checkApprovedExtensions($Extensions);
+		$extensions = self::checkApprovedExtensions($extensions);
 
-		$Extensions = self::getExtensionData($Extensions);
+		$extensions = self::getExtensionData($extensions);
 
-		return $Extensions;
+		return $extensions;
 
 	}
 
@@ -175,81 +175,80 @@ class Translations {
 	 */
 	public function getDirectories() {
 
-		$Directories = array();
-		$RawDirectories = array();
+		$directories = array ();
+		$rawDirectories = array ();
 
 		// get local extension dirs
-		$RawDirectories['Local'] = self::getSystemDirectories($this->SitePath . $this->LocalExtensionPath);
+		$rawDirectories['Local'] = self::getSystemDirectories($this->sitePath . $this->localExtensionPath);
 
 		// get system extension dirs
-		$RawDirectories['System'] = self::getSystemDirectories($this->SitePath . $this->SystemExtensionPath);
+		$rawDirectories['System'] = self::getSystemDirectories($this->sitePath . $this->systemExtensionPath);
 
 		// get global extension dirs
-		$RawDirectories['Global'] = self::getSystemDirectories($this->SitePath . $this->GlobalExtensionPath);
+		$rawDirectories['Global'] = self::getSystemDirectories($this->sitePath . $this->globalExtensionPath);
 
 
-		if(is_array($RawDirectories['System']) && count($RawDirectories['System']) > 0) {
-			$Directories = array_merge($Directories, $RawDirectories['System']);
+		if (is_array($rawDirectories['System']) && count($rawDirectories['System']) > 0) {
+			$directories = array_merge($directories, $rawDirectories['System']);
 		}
 
-		if(is_array($RawDirectories['Global']) && count($RawDirectories['Global']) > 0) {
-			$Directories = array_merge($Directories, $RawDirectories['Global']);
+		if (is_array($rawDirectories['Global']) && count($rawDirectories['Global']) > 0) {
+			$directories = array_merge($directories, $rawDirectories['Global']);
 		}
 
-		if(is_array($RawDirectories['Local']) && count($RawDirectories['Local']) > 0) {
-			$Directories = array_merge($Directories, $RawDirectories['Local']);
+		if (is_array($rawDirectories['Local']) && count($rawDirectories['Local']) > 0) {
+			$directories = array_merge($directories, $rawDirectories['Local']);
 		}
 
 		// Removes Double Entries
-		$Directories = array_unique($Directories);
+		$directories = array_unique($directories);
 
-		return $Directories;
+		return $directories;
 	}
 
 
 	/**
-	 * @param $Extensions
+	 * @param $extensions
 	 * @return array
 	 */
-	public function getFiles($Extensions) {
+	public function getFiles($extensions) {
 
-		$Files = array();
+		$files = array ();
 
-		if(count($Extensions) > 0) {
-			foreach($Extensions as $Extension) {
+		if (count($extensions) > 0) {
+			foreach ($extensions as $extension) {
 
 				// Get Extension Files
-				$Files[$Extension['uid']] = self::getSystemFiles($Extension['ExtensionPath'], $Extension['uid']);
+				$files[$extension['uid']] = self::getSystemFiles($extension['ExtensionPath'], $extension['uid']);
 
 			}
 		}
 
-
-		return $Files;
+		return $files;
 	}
 
 
 	/**
-	 * @param $Files
+	 * @param $files
 	 * @return array
 	 */
-	public function getLabels($Files) {
+	public function getLabels($files) {
 
-		$Labels = array();
+		$labels = array ();
 
-		if(count($Files)) {
+		if (count($files)) {
 
-			foreach($Files as $File) {
+			foreach ($files as $file) {
 
 				// Get Fileinfos
-				$FileInfo = self::getFileInfos($File['ExtensionPath'] . $File['FileKey']);
+				$fileInfo = self::getFileInfos($file['ExtensionPath'] . $file['FileKey']);
 
 				// XLIFF
-				if($FileInfo['Extension'] == 'xlf') {
-					$Labels[$File['FileId']] = self::getSystemLabelsXliff($File['ExtensionPath'] . $File['FileKey'], $File['FileId']);
+				if ($fileInfo['Extension'] == 'xlf') {
+					$labels[$file['FileId']] = self::getSystemLabelsXliff($file['ExtensionPath'] . $file['FileKey'], $file['FileId']);
 				} // XML
 				else {
-					$Labels[$File['FileId']] = self::getSystemLabelsXml($File['ExtensionPath'] . $File['FileKey'], $File['FileId']);
+					$labels[$file['FileId']] = self::getSystemLabelsXml($file['ExtensionPath'] . $file['FileKey'], $file['FileId']);
 
 				}
 
@@ -257,234 +256,239 @@ class Translations {
 
 		}
 
-		return $Labels;
+		return $labels;
 
 	}
 
 
 	/**
-	 * @param $Labels
+	 * @param $labels
 	 * @return array
 	 */
-	public function getTranslations($Labels) {
+	public function getTranslations($labels) {
 
-		$Translations = array();
+		$translations = array ();
 
-		if(count($Labels)) {
-			foreach($Labels as $Label) {
-				$Translations[$Label['LabelId']] = self::getSystemTranslations($Label['LabelName'], $Label['ExtensionPath'] . $Label['FileKey'], $Label['LabelId'], $Label['ExtensionKey']);
+		if (count($labels)) {
+			foreach ($labels as $label) {
+				$translations[$label['LabelId']] = self::getSystemTranslations(
+					$label['LabelName'],
+					$label['ExtensionPath'] . $label['FileKey'],
+					$label['LabelId'],
+					$label['ExtensionKey']
+				);
 			}
 		}
 
-		return $Translations;
+		return $translations;
 
 	}
 
 
 	/**
-	 * @param $Translation
+	 * @param $translation
 	 * @return void
 	 */
-	public function updateTranslation($Translation) {
+	public function updateTranslation($translation) {
 
-		$FilePath = $Translation['ExtensionPath'] . $Translation['FileKey'];
-		$LanguageKey = $Translation['TranslationLanguage'];
-		$ExtensionKey = $Translation['ExtensionKey'];
-		$LabelName = $Translation['LabelName'];
-		$TranslationValue = $Translation['TranslationValue'];
+		$filePath = $translation['ExtensionPath'] . $translation['FileKey'];
+		$languageKey = $translation['TranslationLanguage'];
+		$extensionKey = $translation['ExtensionKey'];
+		$labelName = $translation['LabelName'];
+		$translationValue = $translation['TranslationValue'];
 
 		// Get l10n Location
-		$TranslationFileName = GeneralUtility::llXmlAutoFileName($FilePath, $LanguageKey);
-		$TranslationFilePath = GeneralUtility::getFileAbsFileName($TranslationFileName);
+		$translationFileName = GeneralUtility::llXmlAutoFileName($filePath, $languageKey);
+		$translationFilePath = GeneralUtility::getFileAbsFileName($translationFileName);
 
 		// Update XLIFF
-		self::updateTranslationXlf($TranslationValue, $LabelName, $LanguageKey, $TranslationFilePath, $ExtensionKey);
+		self::updateTranslationXlf($translationValue, $labelName, $languageKey, $translationFilePath, $extensionKey);
 
 		// Delete Temp Files In typo3temp-Folder
-		self::deleteSystemCache($FilePath, $LanguageKey);
+		self::deleteSystemCache($filePath, $languageKey);
 
 	}
 
 
 	/**
-	 * @param $TranslationValue
-	 * @param $LabelName
-	 * @param $LanguageKey
-	 * @param $TranslationFilePath
-	 * @param $ExtensionKey
+	 * @param $translationValue
+	 * @param $labelName
+	 * @param $languageKey
+	 * @param $translationFilePath
+	 * @param $extensionKey
 	 * @return void
 	 */
-	private function updateTranslationXlf($TranslationValue, $LabelName, $LanguageKey, $TranslationFilePath, $ExtensionKey) {
+	private function updateTranslationXlf($translationValue, $labelName, $languageKey, $translationFilePath, $extensionKey) {
 
 		// Get Data From L10n File
-		$Translation[$LanguageKey] = self::getSystemLanguageFileXliff($TranslationFilePath, $LanguageKey);
+		$translation[$languageKey] = self::getSystemLanguageFileXliff($translationFilePath, $languageKey);
 
 		// Change Value If Not Empty
-		if(strlen($TranslationValue)) {
-			$Translation[$LanguageKey][$LabelName][0]['target'] = $TranslationValue;
+		if (strlen($translationValue)) {
+			$translation[$languageKey][$labelName][0]['target'] = $translationValue;
 		} // Otherwise Unset Value
 		else {
-			if($Translation[$LanguageKey][$LabelName]) {
-				unset($Translation[$LanguageKey][$LabelName]);
+			if ($translation[$languageKey][$labelName]) {
+				unset($translation[$languageKey][$labelName]);
 			}
 
 		}
 
 		// Write File
-		self::writeTranslationXliff($Translation, $TranslationFilePath, $LanguageKey, $ExtensionKey);
+		self::writeTranslationXliff($translation, $translationFilePath, $languageKey, $extensionKey);
 
 	}
 
 
 	/**
-	 * @param $Extensions
+	 * @param $extensions
 	 * @return array
 	 *
 	 * todo: renaming
 	 */
-	private function checkApprovedExtensions($Extensions) {
+	private function checkApprovedExtensions($extensions) {
 
 
-		if(count($Extensions) > 0) {
+		if (count($extensions) > 0) {
 
-			$ExtensionsNew = array();
+			$extensionsNew = array ();
 
-			foreach($Extensions as $Extension) {
+			foreach ($extensions as $extension) {
 
 				// Check If Extension Is Available
-				if(in_array($Extension, $this->ApprovedExtensions)) {
-					array_push($ExtensionsNew, $Extension);
+				if (in_array($extension, $this->approvedExtensions)) {
+					array_push($extensionsNew, $extension);
 				}
 
 			}
 
 			// Set New Extensionlist
-			$Extensions = $ExtensionsNew;
+			$extensions = $extensionsNew;
 		}
 
 
-		return $Extensions;
+		return $extensions;
 
 	}
 
 
 	/**
-	 * @param $ExtensionList
+	 * @param $extensionList
 	 * @return array
 	 */
-	private function getExtensionData($ExtensionList) {
+	private function getExtensionData($extensionList) {
 
-		$Extensions = array();
+		$extensions = array ();
 
 		// Get Data For Every Extension
-		if(is_array($ExtensionList)) {
-			foreach($ExtensionList as $ExtensionKey) {
+		if (is_array($extensionList)) {
+			foreach ($extensionList as $extensionKey) {
 
-				$ExtensionData = self::getExtension($ExtensionKey);
+				$extensionData = self::getExtension($extensionKey);
 
 				// Just Add If Data Available
-				if($ExtensionData) {
-					array_push($Extensions, $ExtensionData);
+				if ($extensionData) {
+					array_push($extensions, $extensionData);
 				}
 
 			}
 		}
 
-		return $Extensions;
+		return $extensions;
 
 	}
 
 
 	/**
-	 * @param  $ExtensionKey
+	 * @param  $extensionKey
 	 * @return array|bool
 	 */
-	private function getExtension($ExtensionKey) {
+	private function getExtension($extensionKey) {
 
-		if(is_string($ExtensionKey)) {
+		if (is_string($extensionKey)) {
 
 			// Locate Where Extension Is Installed
-			$ExtensionLocation = self::getSystemExtensionLocation($ExtensionKey);
+			$extensionLocation = self::getSystemExtensionLocation($extensionKey);
 
 			// Get Extension Data From EmConf
-			$EMConf = self::getSystemEMConf($ExtensionLocation['Path']);
+			$emConf = self::getSystemEMConf($extensionLocation['Path']);
 
 			// Add Extension Data
-			$ExtensionData = array(
-				'ExtensionKey' => $ExtensionKey,
-				'ExtensionTitle' => $EMConf['ExtensionTitle'] ? self::getCleanedString($EMConf['ExtensionTitle']) : $ExtensionKey,
-				'ExtensionDescription' => self::getCleanedString($EMConf['ExtensionDescription']),
-				'ExtensionCategory' => self::getCleanedString($EMConf['ExtensionCategory']),
-				'ExtensionIcon' => self::getExtensionIcon($ExtensionLocation, $ExtensionKey),
-				'ExtensionLocation' => $ExtensionLocation['Location'],
-				'ExtensionPath' => $ExtensionLocation['Path'],
-				'ExtensionLoaded' => self::isExtensionLoaded($ExtensionKey)
+			$extensionData = array (
+				'ExtensionKey' => $extensionKey,
+				'ExtensionTitle' => $emConf['ExtensionTitle'] ? self::getCleanedString($emConf['ExtensionTitle']) : $extensionKey,
+				'ExtensionDescription' => self::getCleanedString($emConf['ExtensionDescription']),
+				'ExtensionCategory' => self::getCleanedString($emConf['ExtensionCategory']),
+				'ExtensionIcon' => self::getExtensionIcon($extensionLocation, $extensionKey),
+				'ExtensionLocation' => $extensionLocation['Location'],
+				'ExtensionPath' => $extensionLocation['Path'],
+				'ExtensionLoaded' => self::isExtensionLoaded($extensionKey)
 			);
 
-			return $ExtensionData;
+			return $extensionData;
 
 		}
 
-		return false;
+		return FALSE;
 
 	}
 
 
 	/**
-	 * @param  $ExtensionKey
+	 * @param  $extensionKey
 	 * @return bool
 	 */
-	private function getSystemExtensionLocation($ExtensionKey) {
+	private function getSystemExtensionLocation($extensionKey) {
 
-		$ExtensionPath = false;
+		$extensionPath = FALSE;
 
 		// ORDER'S IMPORTANT!
 
 		// Check System Extension
-		$TempExtensionPath = $this->SitePath . $this->SystemExtensionPath . $ExtensionKey . '/';
-		if(is_dir($TempExtensionPath)) {
-			$ExtensionPath['Path'] = $TempExtensionPath;
-			$ExtensionPath['Location'] = 'System';
+		$tempExtensionPath = $this->sitePath . $this->systemExtensionPath . $extensionKey . '/';
+		if (is_dir($tempExtensionPath)) {
+			$extensionPath['Path'] = $tempExtensionPath;
+			$extensionPath['Location'] = 'System';
 		}
 
 		// Check Global Extension
-		$TempExtensionPath = $this->SitePath . $this->GlobalExtensionPath . $ExtensionKey . '/';
-		if(is_dir($TempExtensionPath)) {
-			$ExtensionPath['Path'] = $TempExtensionPath;
-			$ExtensionPath['Location'] = 'Global';
+		$tempExtensionPath = $this->sitePath . $this->globalExtensionPath . $extensionKey . '/';
+		if (is_dir($tempExtensionPath)) {
+			$extensionPath['Path'] = $tempExtensionPath;
+			$extensionPath['Location'] = 'Global';
 		}
 
 
 		// Check Local Extension
-		$TempExtensionPath = $this->SitePath . $this->LocalExtensionPath . $ExtensionKey . '/';
-		if(is_dir($TempExtensionPath)) {
-			$ExtensionPath['Path'] = $TempExtensionPath;
-			$ExtensionPath['Location'] = 'Local';
+		$tempExtensionPath = $this->sitePath . $this->localExtensionPath . $extensionKey . '/';
+		if (is_dir($tempExtensionPath)) {
+			$extensionPath['Path'] = $tempExtensionPath;
+			$extensionPath['Location'] = 'Local';
 		}
 
 
-		return $ExtensionPath;
+		return $extensionPath;
 	}
 
 
 	/**
 	 * todo: check for better solution
 	 *
-	 * @param  $ExtensionPath
+	 * @param  $extensionPath
 	 * @return bool
 	 */
-	private function getSystemEMConf($ExtensionPath) {
+	private function getSystemEMConf($extensionPath) {
 
-		if($ExtensionPath) {
+		if ($extensionPath) {
 
 			// Set EMConf Path
-			$EMConfPath = $ExtensionPath . 'ext_emconf.php';
+			$emConfPath = $extensionPath . 'ext_emconf.php';
 
-			if(file_exists($EMConfPath)) {
+			if (file_exists($emConfPath)) {
 
 				// Include EMConf
-				$EM_CONF = null;
-				include($EMConfPath);
+				$EM_CONF = NULL;
+				require_once($emConfPath);
 
 				// Add Needed EMConf Params To Array
 				$EMConf['ExtensionCategory'] = $EM_CONF['']['category'];
@@ -496,57 +500,57 @@ class Translations {
 
 		}
 
-		return false;
+		return FALSE;
 
 	}
 
 
 	/**
-	 * @param  $Path
+	 * @param  $path
 	 * @return array|null
 	 */
-	private function getSystemDirectories($Path) {
+	private function getSystemDirectories($path) {
 
-		if(isset($Path)) {
+		if (isset($path)) {
 
-			$Directories = GeneralUtility::get_dirs($Path);
+			$directories = GeneralUtility::get_dirs($path);
 
-			if(is_array($Directories)) {
-				return $Directories;
+			if (is_array($directories)) {
+				return $directories;
 			}
 
 		}
 
-		return null;
+		return NULL;
 
 	}
 
 
 	/**
-	 * @param $FilePath
-	 * @param $FileId
+	 * @param $filePath
+	 * @param $fileId
 	 * @return array
 	 */
-	private function getSystemLabelsXliff($FilePath, $FileId) {
+	private function getSystemLabelsXliff($filePath, $fileId) {
 
-		$Labels = array();
+		$labels = array ();
 
 		// Get LanguageFile
-		$LanguageFile = GeneralUtility::readLLfile($FilePath, 'default');
+		$languageFile = GeneralUtility::readLLfile($filePath, 'default');
 
 		// Language File Available?
-		if($LanguageFile) {
+		if ($languageFile) {
 
 			// Set System Labels
-			$LabelData = $LanguageFile['default'];
+			$labelData = $languageFile['default'];
 
-			if(is_array($LabelData)) {
-				foreach($LabelData as $LabelName => $LabelDefault) {
+			if (is_array($labelData)) {
+				foreach ($labelData as $labelName => $labelDefault) {
 
-					$Labels[] = array(
-						'FileId' => $FileId,
-						'LabelName' => $LabelName,
-						'LabelDefault' => $LabelDefault[0]['source']
+					$labels[] = array (
+						'FileId' => $fileId,
+						'LabelName' => $labelName,
+						'LabelDefault' => $labelDefault[0]['source']
 					);
 
 				}
@@ -554,36 +558,36 @@ class Translations {
 
 		}
 
-		return $Labels;
+		return $labels;
 
 	}
 
 
 	/**
-	 * @param $FilePath
-	 * @param $FileId
+	 * @param $filePath
+	 * @param $fileId
 	 * @return array
 	 */
-	private function getSystemLabelsXml($FilePath, $FileId) {
+	private function getSystemLabelsXml($filePath, $fileId) {
 
-		$Labels = array();
+		$labels = array ();
 
 		// Get Language File
-		$LanguageFile = self::getSystemLanguageFileXml($FilePath);
+		$languageFile = self::getSystemLanguageFileXml($filePath);
 
 		// Language File Available?
-		if($LanguageFile) {
+		if ($languageFile) {
 
 			// Set System Labels
-			$LabelData = $LanguageFile['data']['default'];
+			$labelData = $languageFile['data']['default'];
 
-			if(is_array($LabelData)) {
-				foreach($LabelData as $LabelName => $LabelDefault) {
+			if (is_array($labelData)) {
+				foreach ($labelData as $labelName => $labelDefault) {
 
-					$Labels[] = array(
-						'FileId' => $FileId,
-						'LabelName' => $LabelName,
-						'LabelDefault' => $LabelDefault
+					$labels[] = array (
+						'FileId' => $fileId,
+						'LabelName' => $labelName,
+						'LabelDefault' => $labelDefault
 					);
 
 				}
@@ -592,62 +596,62 @@ class Translations {
 
 		}
 
-		return $Labels;
+		return $labels;
 	}
 
 
 	/**
-	 * @param $LabelName
-	 * @param $FilePath
-	 * @param $LabelId
-	 * @param $ExtensionKey
+	 * @param $labelName
+	 * @param $filePath
+	 * @param $labelId
+	 * @param $extensionKey
 	 * @return array
 	 */
-	private function getSystemTranslations($LabelName, $FilePath, $LabelId, $ExtensionKey) {
+	private function getSystemTranslations($labelName, $filePath, $labelId, $extensionKey) {
 
-		$Translations = array();
+		$translations = array ();
 
 		// Get Fileinfos
-		$FileInfo = self::getFileInfos($FilePath);
+		$fileInfo = self::getFileInfos($filePath);
 
 		// Load Language File If Not Cached
-		if($FilePath != $this->CacheFilePath || !$this->CacheLanguageFile) {
+		if ($filePath != $this->cacheFilePath || !$this->cacheLanguageFile) {
 
 			// Set FilePath In Cache
-			$this->CacheFilePath = $FilePath;
+			$this->cacheFilePath = $filePath;
 
 			// XLIFF
-			if($FileInfo['Extension'] == 'xlf') {
-				$this->CacheLanguageFile = self::getSystemLanguageFileXliff($FilePath);
+			if ($fileInfo['Extension'] == 'xlf') {
+				$this->cacheLanguageFile = self::getSystemLanguageFileXliff($filePath);
 			} // XML
 			else {
-				$this->CacheLanguageFile = self::getSystemLanguageFileXml($FilePath);
+				$this->cacheLanguageFile = self::getSystemLanguageFileXml($filePath);
 			}
 
 		}
 
-		if($this->CacheLanguageFile) {
+		if ($this->cacheLanguageFile) {
 
 			// Checks Translations To Show
-			if(is_array($this->AvailableLanguages) && count($this->AvailableLanguages) > 0) {
+			if (is_array($this->availableLanguages) && count($this->availableLanguages) > 0) {
 
 				// Loop Languages
-				foreach($this->AvailableLanguages as $Language) {
+				foreach ($this->availableLanguages as $language) {
 
 					// XLIFF
-					if($FileInfo['Extension'] == 'xlf') {
-						$Translation = self::getSystemTranslationXliff($FilePath, $Language['LanguageKey'], $LabelName, $ExtensionKey);
+					if ($fileInfo['Extension'] == 'xlf') {
+						$translation = self::getSystemTranslationXliff($filePath, $language['LanguageKey'], $labelName, $extensionKey);
 					} // XML
 					else {
-						$Translation = self::getSystemTranslationXml($FilePath, $Language['LanguageKey'], $LabelName);
+						$translation = self::getSystemTranslationXml($filePath, $language['LanguageKey'], $labelName);
 					}
 
 					// Add Translation
-					$Translations[] = array(
-						'LabelId' => $LabelId,
-						'TranslationLanguage' => $Language['LanguageKey'],
-						'TranslationValue' => $Translation,
-						'TranslationEmpty' => $Translation ? 0 : 1
+					$translations[] = array (
+						'LabelId' => $labelId,
+						'TranslationLanguage' => $language['LanguageKey'],
+						'TranslationValue' => $translation,
+						'TranslationEmpty' => $translation ? 0 : 1
 					);
 
 				}
@@ -655,58 +659,58 @@ class Translations {
 
 		}
 
-		return $Translations;
+		return $translations;
 
 	}
 
 
 	/**
-	 * @param $FilePath
-	 * @param $LanguageKey
-	 * @param $LabelName
-	 * @param $ExtensionKey
+	 * @param $filePath
+	 * @param $languageKey
+	 * @param $labelName
+	 * @param $extensionKey
 	 * @return string
 	 */
-	private function getSystemTranslationXliff($FilePath, $LanguageKey, $LabelName, $ExtensionKey) {
+	private function getSystemTranslationXliff($filePath, $languageKey, $labelName, $extensionKey) {
 
 		// While First Loop Get Translation From l10n (And Create File If Not Done Yet)
-		if($FilePath != $this->CacheTranslationsPath || $LanguageKey != $this->CacheTranslationLanguage) {
+		if ($filePath != $this->cacheTranslationsPath || $languageKey != $this->cacheTranslationLanguage) {
 
-			$this->CachedTranslations = array();
+			$this->cachedTranslations = array ();
 
 			// Get Fileinfo
-			$FileInfo = self::getFileInfos($FilePath);
+			$fileInfo = self::getFileInfos($filePath);
 
 			// Path To Translation In Extension
-			$OriginalTranslationPath = $FileInfo['Dirname'] . $LanguageKey . '.' . $FileInfo['Basename'];
+			$originalTranslationPath = $fileInfo['Dirname'] . $languageKey . '.' . $fileInfo['Basename'];
 
 			// Get Path To l10n Location
-			$TranslationFileName = GeneralUtility::llXmlAutoFileName($FilePath, $LanguageKey);
-			$TranslationFilePath = GeneralUtility::getFileAbsFileName($TranslationFileName);
+			$translationFileName = GeneralUtility::llXmlAutoFileName($filePath, $languageKey);
+			$translationFilePath = GeneralUtility::getFileAbsFileName($translationFileName);
 
 			// Check If L10n File Available Otherwise Create One
-			self::isSystemTranslationAvailableXliff($LanguageKey, $TranslationFilePath, $ExtensionKey);
+			self::isSystemTranslationAvailableXliff($languageKey, $translationFilePath, $extensionKey);
 
 			// Get Data From L10n File
-			$this->CachedTranslations[$LanguageKey] = self::getSystemLanguageFileXliff($TranslationFilePath, $LanguageKey);
+			$this->cachedTranslations[$languageKey] = self::getSystemLanguageFileXliff($translationFilePath, $languageKey);
 
 			// Get Data From Original Translation
-			$this->CachedOriginalTranslations[$LanguageKey] = self::getSystemLanguageFileXliff($OriginalTranslationPath, $LanguageKey);
+			$this->cachedOriginalTranslations[$languageKey] = self::getSystemLanguageFileXliff($originalTranslationPath, $languageKey);
 
 			// Sync Data From L10n With Extension XML
-			self::syncSystemTranslationXliff($LanguageKey, $TranslationFilePath, $ExtensionKey);
+			self::syncSystemTranslationXliff($languageKey, $translationFilePath, $extensionKey);
 
 			// Set New Cached Path
-			$this->CacheTranslationsPath = $FilePath;
+			$this->cacheTranslationsPath = $filePath;
 
 			// Set New Cached Language
-			$this->CacheTranslationLanguage = $LanguageKey;
+			$this->cacheTranslationLanguage = $languageKey;
 
 		}
 
 		// Return Translation If Available
-		if($this->CachedTranslations[$LanguageKey][$LabelName]) {
-			return $this->CachedTranslations[$LanguageKey][$LabelName][0]['target'];
+		if ($this->cachedTranslations[$languageKey][$labelName]) {
+			return $this->cachedTranslations[$languageKey][$labelName][0]['target'];
 		}
 
 		// We Always Need A Translation In DB
@@ -716,43 +720,43 @@ class Translations {
 
 
 	/**
-	 * @param $FilePath
-	 * @param $LanguageKey
-	 * @param $LabelName
+	 * @param $filePath
+	 * @param $languageKey
+	 * @param $labelName
 	 * @return string
 	 */
-	private function getSystemTranslationXml($FilePath, $LanguageKey, $LabelName) {
+	private function getSystemTranslationXml($filePath, $languageKey, $labelName) {
 
 		// While First Loop Get Translation From l10n (And Create File If Not Done Yet)
-		if($FilePath != $this->CacheTranslationsPath || $LanguageKey != $this->CacheTranslationLanguage) {
+		if ($filePath != $this->cacheTranslationsPath || $languageKey != $this->cacheTranslationLanguage) {
 
 			// Get l10n Location
-			$TranslationFileName = GeneralUtility::llXmlAutoFileName($FilePath, $LanguageKey);
-			$TranslationFilePath = GeneralUtility::getFileAbsFileName($TranslationFileName);
+			$translationFileName = GeneralUtility::llXmlAutoFileName($filePath, $languageKey);
+			$translationFilePath = GeneralUtility::getFileAbsFileName($translationFileName);
 
 			// Check If L10n File Available Otherwise Create One
-			self::isSystemTranslationAvailableXml($LanguageKey, $TranslationFilePath);
+			self::isSystemTranslationAvailableXml($languageKey, $translationFilePath);
 
 			// Get Data From L10n File
-			$this->CachedTranslations[$LanguageKey] = self::getSystemLanguageFileXml($TranslationFilePath);
+			$this->cachedTranslations[$languageKey] = self::getSystemLanguageFileXml($translationFilePath);
 
 			// Set New Cached Path
-			$this->CacheTranslationsPath = $FilePath;
+			$this->cacheTranslationsPath = $filePath;
 
 			// Set New Cached Language
-			$this->CacheTranslationLanguage = $LanguageKey;
+			$this->cacheTranslationLanguage = $languageKey;
 
 			// Sync Data From L10n With Extension XML
 			self::syncSystemTranslationXml(
-				$LanguageKey,
-				$TranslationFilePath
+				$languageKey,
+				$translationFilePath
 			);
 
 		}
 
 		// Return Translation If Available
-		if($this->CachedTranslations[$LanguageKey]['data'][$LanguageKey][$LabelName]) {
-			return $this->CachedTranslations[$LanguageKey]['data'][$LanguageKey][$LabelName];
+		if ($this->cachedTranslations[$languageKey]['data'][$languageKey][$labelName]) {
+			return $this->cachedTranslations[$languageKey]['data'][$languageKey][$labelName];
 		}
 
 		// We Always Need A Translation In DB
@@ -761,24 +765,24 @@ class Translations {
 
 
 	/**
-	 * @param $LanguageKey
-	 * @param $TranslationFilePath
-	 * @param $ExtensionKey
+	 * @param $languageKey
+	 * @param $translationFilePath
+	 * @param $extensionKey
 	 * @return void
 	 */
-	private function isSystemTranslationAvailableXliff($LanguageKey, $TranslationFilePath, $ExtensionKey) {
+	private function isSystemTranslationAvailableXliff($languageKey, $translationFilePath, $extensionKey) {
 
 		// Create L10n File & Folder
-		if($TranslationFilePath && !@is_file($TranslationFilePath)) {
+		if ($translationFilePath && !@is_file($translationFilePath)) {
 
 			// Set Directory
-			$DeepDir = dirname(substr($TranslationFilePath, strlen($this->SitePath))) . '/';
+			$deepDir = dirname(substr($translationFilePath, strlen($this->sitePath))) . '/';
 
 			// Create XLS & Directory
-			if(GeneralUtility::isFirstPartOfStr($DeepDir, $this->L10nPath . $LanguageKey . '/')) {
-				GeneralUtility::mkdir_deep($this->SitePath, $DeepDir);
+			if (GeneralUtility::isFirstPartOfStr($deepDir, $this->l10nPath . $languageKey . '/')) {
+				GeneralUtility::mkdir_deep($this->sitePath, $deepDir);
 
-				self::writeTranslationXliff(array(), $TranslationFilePath, $LanguageKey, $ExtensionKey);
+				self::writeTranslationXliff(array (), $translationFilePath, $languageKey, $extensionKey);
 			}
 
 		}
@@ -787,31 +791,31 @@ class Translations {
 
 
 	/**
-	 * @param  $LanguageKey
-	 * @param  $TranslationFilePath
+	 * @param  $languageKey
+	 * @param  $translationFilePath
 	 * @return void
 	 */
-	private function isSystemTranslationAvailableXml($LanguageKey, $TranslationFilePath) {
+	private function isSystemTranslationAvailableXml($languageKey, $translationFilePath) {
 
 		// Create L10n File
-		if($TranslationFilePath && !@is_file($TranslationFilePath)) {
+		if ($translationFilePath && !@is_file($translationFilePath)) {
 
 			// Copy XML Data From Extension To L10n
-			if($LanguageKey == 'en' && $this->CopyDefaultLanguage) {
+			if ($languageKey == 'en' && $this->copyDefaultLanguage) {
 				// Copy Default Labels To English
-				$File['data'][$LanguageKey] = $this->CacheLanguageFile['data']['default'];
+				$file['data'][$languageKey] = $this->cacheLanguageFile['data']['default'];
 			} else {
-				$File['data'][$LanguageKey] = $this->CacheLanguageFile['data'][$LanguageKey];
+				$file['data'][$languageKey] = $this->cacheLanguageFile['data'][$languageKey];
 			}
 
 			// Set Directory
-			$DeepDir = dirname(substr($TranslationFilePath, strlen($this->SitePath))) . '/';
+			$deepDir = dirname(substr($translationFilePath, strlen($this->sitePath))) . '/';
 
 			// Create XML & Directory
-			if(GeneralUtility::isFirstPartOfStr($DeepDir, $this->L10nPath . $LanguageKey . '/')) {
+			if (GeneralUtility::isFirstPartOfStr($deepDir, $this->l10nPath . $languageKey . '/')) {
 
-				GeneralUtility::mkdir_deep($this->SitePath, $DeepDir);
-				self::writeTranslationXml($File, $TranslationFilePath);
+				GeneralUtility::mkdir_deep($this->sitePath, $deepDir);
+				self::writeTranslationXml($file, $translationFilePath);
 
 			}
 
@@ -820,41 +824,41 @@ class Translations {
 
 
 	/**
-	 * @param $LanguageKey
-	 * @param $TranslationFilePath
-	 * @param $ExtensionKey
+	 * @param $languageKey
+	 * @param $translationFilePath
+	 * @param $extensionKey
 	 * @return void
 	 */
-	private function syncSystemTranslationXliff($LanguageKey, $TranslationFilePath, $ExtensionKey) {
+	private function syncSystemTranslationXliff($languageKey, $translationFilePath, $extensionKey) {
 
-		if(is_array($this->CacheLanguageFile) && count($this->CacheLanguageFile) > 0) {
-			foreach($this->CacheLanguageFile as $LabelName => $LabelDefault) {
+		if (is_array($this->cacheLanguageFile) && count($this->cacheLanguageFile) > 0) {
+			foreach ($this->cacheLanguageFile as $labelName => $labelDefault) {
 
 				// Set Source
-				$this->CachedTranslations[$LanguageKey][$LabelName][0]['source'] = $LabelDefault[0]['source'];
+				$this->cachedTranslations[$languageKey][$labelName][0]['source'] = $labelDefault[0]['source'];
 
 				// Set 'l10n' Label If Available
-				$L10nLabel = $this->CachedTranslations[$LanguageKey][$LabelName][0]['target'];
+				$l10nLabel = $this->cachedTranslations[$languageKey][$labelName][0]['target'];
 
 				// No Sync Needed If 'l10n' Already Defined
 				// Otherwise Check If Labels Are Available Somewhere
-				if(empty($L10nLabel)) {
+				if (empty($l10nLabel)) {
 
 					// Copy 'default' To 'en' If Activated In Settings
-					if($LanguageKey === 'en' && $this->CopyDefaultLanguage) {
-						$this->CachedTranslations[$LanguageKey][$LabelName][0]['target'] = $LabelDefault[0]['target'];
+					if ($languageKey === 'en' && $this->copyDefaultLanguage) {
+						$this->cachedTranslations[$languageKey][$labelName][0]['target'] = $labelDefault[0]['target'];
 					}
 
 
 					// Sync With Translation In Extension Dir
-					if($this->CachedOriginalTranslations[$LanguageKey]) {
+					if ($this->cachedOriginalTranslations[$languageKey]) {
 
 						// Label From Original Translation
-						$OriginalTranslationLabel = $this->CachedOriginalTranslations[$LanguageKey][$LabelName][0]['target'];
+						$originalTranslationLabel = $this->cachedOriginalTranslations[$languageKey][$labelName][0]['target'];
 
 						// Set Original Translation If Available
-						if(!empty($OriginalTranslationLabel)) {
-							$this->CachedTranslations[$LanguageKey][$LabelName][0]['target'] = $OriginalTranslationLabel;
+						if (!empty($originalTranslationLabel)) {
+							$this->cachedTranslations[$languageKey][$labelName][0]['target'] = $originalTranslationLabel;
 						}
 
 					}
@@ -862,15 +866,15 @@ class Translations {
 				}
 
 				// Unset If No Data Available
-				if(empty($this->CachedTranslations[$LanguageKey][$LabelName][0]['target'])) {
-					unset($this->CachedTranslations[$LanguageKey][$LabelName]);
+				if (empty($this->cachedTranslations[$languageKey][$labelName][0]['target'])) {
+					unset($this->cachedTranslations[$languageKey][$labelName]);
 				}
 
 			}
 
 
 			// Write 'l10n' File
-			self::writeTranslationXliff($this->CachedTranslations, $TranslationFilePath, $LanguageKey, $ExtensionKey);
+			self::writeTranslationXliff($this->cachedTranslations, $translationFilePath, $languageKey, $extensionKey);
 
 		}
 
@@ -878,40 +882,40 @@ class Translations {
 
 
 	/**
-	 * @param $LanguageKey
-	 * @param $TranslationFilePath
+	 * @param $languageKey
+	 * @param $translationFilePath
 	 * @return void
 	 */
-	private function syncSystemTranslationXml($LanguageKey, $TranslationFilePath) {
+	private function syncSystemTranslationXml($languageKey, $translationFilePath) {
 
-		$Changes = 0;
-		$LabelsDefault = $this->CacheLanguageFile['data']['default'];
+		$changes = 0;
+		$labelsDefault = $this->cacheLanguageFile['data']['default'];
 
-		if(is_array($LabelsDefault)) {
-			foreach($LabelsDefault as $LabelName => $LabelDefault) {
+		if (is_array($labelsDefault)) {
+			foreach ($labelsDefault as $labelName => $labelDefault) {
 
 				// Label From L10n
-				$LabelL10n = $this->CachedTranslations[$LanguageKey]['data'][$LanguageKey][$LabelName];
+				$labelL10n = $this->cachedTranslations[$languageKey]['data'][$languageKey][$labelName];
 
 
 				// Sync EN With Default If Activated
-				if($LanguageKey == 'en' && $this->CopyDefaultLanguage) {
+				if ($languageKey == 'en' && $this->copyDefaultLanguage) {
 					// Do Nothing
 				} else {
-					$LabelDefault = $this->CacheLanguageFile['data'][$LanguageKey][$LabelName];
+					$labelDefault = $this->cacheLanguageFile['data'][$languageKey][$labelName];
 				}
 
 				// Compare Default Label With Label From L10n
-				if(!empty($LabelDefault) && empty($LabelL10n)) {
-					$this->CachedTranslations[$LanguageKey]['data'][$LanguageKey][$LabelName] = $LabelDefault;
-					++$Changes;
+				if (!empty($labelDefault) && empty($labelL10n)) {
+					$this->cachedTranslations[$languageKey]['data'][$languageKey][$labelName] = $labelDefault;
+					++$changes;
 				}
 
 			}
 
 			// If There Are Changes Write It To XML File
-			if($Changes > 0) {
-				self::writeTranslationXml($this->CachedTranslations[$LanguageKey], $TranslationFilePath);
+			if ($changes > 0) {
+				self::writeTranslationXml($this->cachedTranslations[$languageKey], $translationFilePath);
 			}
 
 		}
@@ -920,61 +924,61 @@ class Translations {
 
 
 	/**
-	 * @param $File
-	 * @param $Path
-	 * @param $LanguageKey
-	 * @param $ExtensionKey
+	 * @param $file
+	 * @param $path
+	 * @param $languageKey
+	 * @param $extensionKey
 	 * @return void
 	 */
-	private function writeTranslationXliff($File, $Path, $LanguageKey, $ExtensionKey) {
+	private function writeTranslationXliff($file, $path, $languageKey, $extensionKey) {
 
-		$XmlFile = array();
+		$xmlFile = array ();
 
-		$XmlFile[] = '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>';
-		$XmlFile[] = '<xliff version="1.0">';
-		$XmlFile[] = '	<file source-language="en"' . ($LanguageKey !== 'default' ? ' target-language="' . $LanguageKey . '"' : '')
+		$xmlFile[] = '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>';
+		$xmlFile[] = '<xliff version="1.0">';
+		$xmlFile[] = '	<file source-language="en"' . ($languageKey !== 'default' ? ' target-language="' . $languageKey . '"' : '')
 			. ' datatype="plaintext" original="messages" date="' . gmdate('Y-m-d\TH:i:s\Z') . '"'
-			. ' product-name="' . $ExtensionKey . '">';
-		$XmlFile[] = '		<header/>';
-		$XmlFile[] = '		<body>';
+			. ' product-name="' . $extensionKey . '">';
+		$xmlFile[] = '		<header/>';
+		$xmlFile[] = '		<body>';
 
-		if(is_array($File[$LanguageKey]) && count($File[$LanguageKey]) > 0) {
-			foreach($File[$LanguageKey] as $Key => $Data) {
+		if (is_array($file[$languageKey]) && count($file[$languageKey]) > 0) {
+			foreach ($file[$languageKey] as $Key => $Data) {
 
-				$Source = $Data[0]['source'];
-				$Target = $Data[0]['target'];
+				$source = $Data[0]['source'];
+				$target = $Data[0]['target'];
 
-				if($LanguageKey === 'default') {
-					$XmlFile[] = '			<trans-unit id="' . $Key . '">';
-					$XmlFile[] = '				<source>' . htmlspecialchars($Source) . '</source>';
-					$XmlFile[] = '			</trans-unit>';
+				if ($languageKey === 'default') {
+					$xmlFile[] = '			<trans-unit id="' . $Key . '">';
+					$xmlFile[] = '				<source>' . htmlspecialchars($source) . '</source>';
+					$xmlFile[] = '			</trans-unit>';
 				} else {
-					$XmlFile[] = '			<trans-unit id="' . $Key . '" approved="yes">';
-					$XmlFile[] = '				<source>' . htmlspecialchars($Source) . '</source>';
-					$XmlFile[] = '				<target>' . htmlspecialchars($Target) . '</target>';
-					$XmlFile[] = '			</trans-unit>';
+					$xmlFile[] = '			<trans-unit id="' . $Key . '" approved="yes">';
+					$xmlFile[] = '				<source>' . htmlspecialchars($source) . '</source>';
+					$xmlFile[] = '				<target>' . htmlspecialchars($target) . '</target>';
+					$xmlFile[] = '			</trans-unit>';
 				}
 			}
 		}
 
-		$XmlFile[] = '		</body>';
-		$XmlFile[] = '	</file>';
-		$XmlFile[] = '</xliff>';
+		$xmlFile[] = '		</body>';
+		$xmlFile[] = '	</file>';
+		$xmlFile[] = '</xliff>';
 
-		GeneralUtility::writeFile($Path, implode(LF, $XmlFile));
+		GeneralUtility::writeFile($path, implode(LF, $xmlFile));
 	}
 
 
 	/**
-	 * @param      $File
-	 * @param      $Path
-	 * @param bool $SaveToOriginal
+	 * @param      $file
+	 * @param      $path
+	 * @param bool $saveToOriginal
 	 * @return bool
 	 */
-	private function writeTranslationXml($File, $Path, $SaveToOriginal = false) {
+	private function writeTranslationXml($file, $path, $saveToOriginal = FALSE) {
 
-		$XmlOptions = array(
-			'parentTagMap' => array(
+		$xmlOptions = array (
+			'parentTagMap' => array (
 				'data' => 'languageKey',
 				'orig_hash' => 'languageKey',
 				'orig_text' => 'languageKey',
@@ -983,70 +987,70 @@ class Translations {
 			)
 		);
 
-		$XmlFile = '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>' . chr(10);
-		$XmlFile .= GeneralUtility::array2xml($File, '', 0, $SaveToOriginal ? 'T3locallang' : 'T3locallangExt', 0, $XmlOptions);
+		$xmlFile = '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>' . chr(10);
+		$xmlFile .= GeneralUtility::array2xml($file, '', 0, $saveToOriginal ? 'T3locallang' : 'T3locallangExt', 0, $xmlOptions);
 
-		GeneralUtility::writeFile($Path, $XmlFile);
+		GeneralUtility::writeFile($path, $xmlFile);
 	}
 
 
 	/**
-	 * @param $ExtensionPath
-	 * @param $ExtensionId
+	 * @param $extensionPath
+	 * @param $extensionId
 	 * @return array
 	 */
-	private function getSystemFiles($ExtensionPath, $ExtensionId) {
+	private function getSystemFiles($extensionPath, $extensionId) {
 
-		$Files = array();
+		$files = array ();
 
 		// Get 'llxml' Files
-		$XmlFiles = self::getSystemFilesInPath($ExtensionPath, 'xml');
+		$xmlFiles = self::getSystemFilesInPath($extensionPath, 'xml');
 
 		// Get 'xliff' Files
-		$XliffFiles = self::getSystemFilesInPath($ExtensionPath, 'xlf');
+		$xliffFiles = self::getSystemFilesInPath($extensionPath, 'xlf');
 
 		// Compare 'llxml' and 'xliff' Files
-		$TempFiles = self::getComparedSystemFiles($XmlFiles, $XliffFiles);
+		$tempFiles = self::getComparedSystemFiles($xmlFiles, $xliffFiles);
 
 		// Adds New Keys
-		if(is_array($TempFiles)) {
-			foreach($TempFiles as $Key => $File) {
+		if (is_array($tempFiles)) {
+			foreach ($tempFiles as $key => $file) {
 
-				$Files[] = array(
-					'ExtensionId' => $ExtensionId,
-					'FileKey' => $TempFiles[$Key]
+				$files[] = array (
+					'ExtensionId' => $extensionId,
+					'FileKey' => $tempFiles[$key]
 				);
 
 			}
 		}
 
-		return $Files;
+		return $files;
 	}
 
 
 	/**
-	 * @param        $ExtensionPath
-	 * @param string $FileExtension
+	 * @param $extensionPath
+	 * @param string $fileExtension
 	 * @return array
 	 */
-	private function getSystemFilesInPath($ExtensionPath, $FileExtension = 'xml') {
+	private function getSystemFilesInPath($extensionPath, $fileExtension = 'xml') {
 
 		// Get Extension Files
-		$TempFilesXml_1 = GeneralUtility::getAllFilesAndFoldersInPath(
-			array(),
-			$ExtensionPath,
-			$FileExtension,
+		$tempFilesXml1 = GeneralUtility::getAllFilesAndFoldersInPath(
+			array (),
+			$extensionPath,
+			$fileExtension,
 			0,
 			99,
 			'\.svn'
 		);
 
-		$TempFilesXml_2 = GeneralUtility::removePrefixPathFromList(
-			$TempFilesXml_1,
-			$ExtensionPath
+		$tempFilesXml2 = GeneralUtility::removePrefixPathFromList(
+			$tempFilesXml1,
+			$extensionPath
 		);
 
-		return $TempFilesXml_2;
+		return $tempFilesXml2;
 
 	}
 
@@ -1058,116 +1062,116 @@ class Translations {
 	 */
 	private function getComparedSystemFiles($xmlFiles, $xliffFiles) {
 
-		$Files = array();
-		$ComparedFiles = array();
+		$files = array ();
+		$comparedFiles = array ();
 
 		// Add All Xml's
-		foreach($xmlFiles as $Key => $xmlFile) {
+		foreach ($xmlFiles as $key => $xmlFile) {
 
 			$xmlFileInfo = self::getFileInfos($xmlFile);
 
-			$ComparedFiles[$xmlFileInfo['Filename']] = $xmlFileInfo['Extension'];
+			$comparedFiles[$xmlFileInfo['Filename']] = $xmlFileInfo['Extension'];
 
 		}
 
 		// Add All Xliff's
-		foreach($xliffFiles as $Key => $xliffFile) {
+		foreach ($xliffFiles as $key => $xliffFile) {
 
 			$xliffFileInfo = self::getFileInfos($xliffFile);
 
-			$ComparedFiles[$xliffFileInfo['Filename']] = $xliffFileInfo['Extension'];
+			$comparedFiles[$xliffFileInfo['Filename']] = $xliffFileInfo['Extension'];
 
 		}
 
 		// Prepare Array For Return
-		foreach($ComparedFiles as $Filename => $Extension) {
-			$Files[] = $Filename . '.' . $Extension;
+		foreach ($comparedFiles as $filename => $extension) {
+			$files[] = $filename . '.' . $extension;
 		}
 
-		return $Files;
+		return $files;
 	}
 
 
 	/**
-	 * @param $File
+	 * @param $file
 	 * @return array
 	 */
-	private function getFileInfos($File) {
+	private function getFileInfos($file) {
 
-		$FileInfo = array();
+		$fileInfo = array ();
 
 		// Explode Array By Points -> FileExtension Should Be Last
-		$FileArray = explode('.', $File);
+		$fileArray = explode('.', $file);
 
 		// Reverse Array
 		// -> FileExtension Is Now First Element
 		// -> FileBasename Is Now Second Part
-		$FileArray = array_reverse($FileArray);
+		$fileArray = array_reverse($fileArray);
 
-		$FileInfo['Extension'] = $FileArray[0];
-		$FileInfo['Filename'] = $FileArray[1];
+		$fileInfo['Extension'] = $fileArray[0];
+		$fileInfo['Filename'] = $fileArray[1];
 
 		// Add Basename
-		$FileInfo['Basename'] = pathinfo($File, PATHINFO_BASENAME);
+		$fileInfo['Basename'] = pathinfo($file, PATHINFO_BASENAME);
 
 		// Add Dirname
-		$FileInfo['Dirname'] = pathinfo($File, PATHINFO_DIRNAME) . '/';
+		$fileInfo['Dirname'] = pathinfo($file, PATHINFO_DIRNAME) . '/';
 
-		return $FileInfo;
+		return $fileInfo;
 	}
 
 
 	/**
-	 * @param        $File
-	 * @param string $LanguageKey
+	 * @param        $file
+	 * @param string $languageKey
 	 * @return array|bool
 	 */
-	private function getSystemLanguageFileXliff($File, $LanguageKey = 'default') {
+	private function getSystemLanguageFileXliff($file, $languageKey = 'default') {
 
-		if(is_file($File)) {
+		if (is_file($file)) {
 
 			// Surpress xml errors
-			libxml_use_internal_errors(true);
+			libxml_use_internal_errors(TRUE);
 
 			// Load Xls Object
-			$xml = simplexml_load_file($File, 'SimpleXMLElement', \LIBXML_NOWARNING);
+			$xml = simplexml_load_file($file, 'SimpleXMLElement', \LIBXML_NOWARNING);
 
 			// Clear xml errors and activate errors again
-			libxml_use_internal_errors(false);
+			libxml_use_internal_errors(FALSE);
 
 			// Format Xls Object
-			return self::formatSimpleXmlObject_XLS($xml, $LanguageKey);
+			return self::formatSimpleXmlObject_XLS($xml, $languageKey);
 
 		}
 
-		return false;
+		return FALSE;
 
 	}
 
 
 	/**
-	 * @param $File
+	 * @param $file
 	 * @return array|bool
 	 */
-	private function getSystemLanguageFileXml($File) {
+	private function getSystemLanguageFileXml($file) {
 
-		if(is_file($File)) {
+		if (is_file($file)) {
 
 			// Surpress xml errors
-			libxml_use_internal_errors(true);
+			libxml_use_internal_errors(TRUE);
 
 			// Load Xml Object
-			$xml = simplexml_load_file($File, 'SimpleXMLElement', \LIBXML_NOWARNING);
+			$xml = simplexml_load_file($file, 'SimpleXMLElement', \LIBXML_NOWARNING);
 
 			// Clear xml errors and activate errors again
-			libxml_use_internal_errors(false);
+			libxml_use_internal_errors(FALSE);
 
 			// Format Xml Object
 			return self::formatSimpleXmlObject_XML($xml);
 
 		}
 
-		return false;
+		return FALSE;
 	}
 
 
@@ -1175,53 +1179,53 @@ class Translations {
 	 * Function 'doParsingFromRoot' from Class 't3lib_l10n_parser_Xliff'
 	 *
 	 * @param \SimpleXMLElement $simpleXmlObject
-	 * @param                   $LanguageKey
+	 * @param                   $languageKey
 	 * @return array
 	 */
-	private function formatSimpleXmlObject_XLS(\SimpleXMLElement $simpleXmlObject, $LanguageKey) {
+	private function formatSimpleXmlObject_XLS(\SimpleXMLElement $simpleXmlObject, $languageKey) {
 
-		$parsedData = array();
+		$parsedData = array ();
 		/** @var \SimpleXMLElement $bodyOfFileTag */
 		$bodyOfFileTag = $simpleXmlObject->file->body;
 
-		foreach($bodyOfFileTag->children() as $translationElement) {
+		foreach ($bodyOfFileTag->children() as $translationElement) {
 
 			$elementName = $translationElement->getName();
 
-			if($elementName === 'trans-unit' && !isset($translationElement['restype'])) {
+			if ($elementName === 'trans-unit' && !isset($translationElement['restype'])) {
 				// If restype would be set, it could be metadata from Gettext to XLIFF conversion (and we don't need this data)
 
-				if($LanguageKey === 'default') {
+				if ($languageKey === 'default') {
 					// Default language coming from an XLIFF template (no target element)
-					$parsedData[(string)$translationElement['id']][0] = array(
+					$parsedData[(string)$translationElement['id']][0] = array (
 						'source' => (string)$translationElement->source,
 						'target' => (string)$translationElement->source,
 					);
 				} else {
 					// @todo Support "approved" attribute
-					$parsedData[(string)$translationElement['id']][0] = array(
+					$parsedData[(string)$translationElement['id']][0] = array (
 						'source' => (string)$translationElement->source,
 						'target' => (string)$translationElement->target,
 					);
 				}
-			} elseif($elementName === 'group' && isset($translationElement['restype']) && (string)$translationElement['restype'] === 'x-gettext-plurals') {
+			} elseif ($elementName === 'group' && isset($translationElement['restype']) && (string)$translationElement['restype'] === 'x-gettext-plurals') {
 				// This is a translation with plural forms
-				$parsedTranslationElement = array();
+				$parsedTranslationElement = array ();
 
-				foreach($translationElement->children() as $translationPluralForm) {
-					if($translationPluralForm->getName() === 'trans-unit') {
+				foreach ($translationElement->children() as $translationPluralForm) {
+					if ($translationPluralForm->getName() === 'trans-unit') {
 						// When using plural forms, ID looks like this: 1[0], 1[1] etc
 						$formIndex = substr((string)$translationPluralForm['id'], strpos((string)$translationPluralForm['id'], '[') + 1, -1);
 
-						if($LanguageKey === 'default') {
+						if ($languageKey === 'default') {
 							// Default language come from XLIFF template (no target element)
-							$parsedTranslationElement[(int)$formIndex] = array(
+							$parsedTranslationElement[(int)$formIndex] = array (
 								'source' => (string)$translationPluralForm->source,
 								'target' => (string)$translationPluralForm->source,
 							);
 						} else {
 							// @todo Support "approved" attribute
-							$parsedTranslationElement[(int)$formIndex] = array(
+							$parsedTranslationElement[(int)$formIndex] = array (
 								'source' => (string)$translationPluralForm->source,
 								'target' => (string)$translationPluralForm->target,
 							);
@@ -1229,8 +1233,8 @@ class Translations {
 					}
 				}
 
-				if(!empty($parsedTranslationElement)) {
-					if(isset($translationElement['id'])) {
+				if (!empty($parsedTranslationElement)) {
+					if (isset($translationElement['id'])) {
 						$id = (string)$translationElement['id'];
 					} else {
 						$id = (string)($translationElement->{'trans-unit'}[0]['id']);
@@ -1253,22 +1257,22 @@ class Translations {
 	 */
 	private function formatSimpleXmlObject_XML($simpleXmlObject) {
 
-		if($simpleXmlObject) {
+		if ($simpleXmlObject) {
 
-			$xmlArray = array();
+			$xmlArray = array ();
 
 			// Meta Array
-			if(is_array($simpleXmlObject->meta) || is_object($simpleXmlObject->meta)) {
+			if (is_array($simpleXmlObject->meta) || is_object($simpleXmlObject->meta)) {
 
-				$xmlArray['meta'] = array();
+				$xmlArray['meta'] = array ();
 
-				foreach($simpleXmlObject->meta as $meta) {
-					foreach($meta as $metaData) {
+				foreach ($simpleXmlObject->meta as $meta) {
+					foreach ($meta as $metaData) {
 
 						$metaKey = $metaData->getName();
 						$metaValue = trim($metaData[0]);
 
-						if(!empty($metaKey) && is_string($metaKey)) {
+						if (!empty($metaKey) && is_string($metaKey)) {
 							$xmlArray['meta'][$metaKey] = (string)$metaValue;
 						}
 
@@ -1276,32 +1280,31 @@ class Translations {
 				}
 
 				// Unset If Not Used
-				if(empty($xmlArray['meta'])) {
+				if (empty($xmlArray['meta'])) {
 					unset($xmlArray['meta']);
 				}
 
 			}
 
-
 			// Data Array
-			if(is_array($simpleXmlObject->data->languageKey) || is_object($simpleXmlObject->data->languageKey)) {
+			if (is_array($simpleXmlObject->data->languageKey) || is_object($simpleXmlObject->data->languageKey)) {
 
-				$xmlArray['data'] = array();
+				$xmlArray['data'] = array ();
 
-				foreach($simpleXmlObject->data->languageKey as $language) {
+				foreach ($simpleXmlObject->data->languageKey as $language) {
 
 					// LanguageKey
 					$languageKey = self::getSimpleXmlObjectAttributesIndex($language->attributes());
 
-					if(!empty($languageKey) && is_string($languageKey)) {
-						if(is_array($language->label) || is_object($language->label)) {
-							foreach($language->label as $label) {
+					if (!empty($languageKey) && is_string($languageKey)) {
+						if (is_array($language->label) || is_object($language->label)) {
+							foreach ($language->label as $label) {
 
 								// LabelName
 								$labelName = self::getSimpleXmlObjectAttributesIndex($label->attributes());
 
 								// LabelValue
-								if(!empty($labelName) && is_string($labelName)) {
+								if (!empty($labelName) && is_string($labelName)) {
 									$xmlArray['data'][$languageKey][$labelName] = (string)trim($label[0]);
 								}
 
@@ -1311,7 +1314,7 @@ class Translations {
 				}
 
 				// Unset If Not Used
-				if(empty($xmlArray['data'])) {
+				if (empty($xmlArray['data'])) {
 					unset($xmlArray['data']);
 				}
 
@@ -1321,7 +1324,7 @@ class Translations {
 
 		}
 
-		return false;
+		return FALSE;
 
 	}
 
@@ -1333,16 +1336,16 @@ class Translations {
 	private function getSimpleXmlObjectAttributesIndex($attributesObject) {
 
 		// Get Attributes
-		if(is_array($attributesObject) || is_object($attributesObject)) {
+		if (is_array($attributesObject) || is_object($attributesObject)) {
 
-			$attributes = array();
+			$attributes = array ();
 
-			foreach($attributesObject as $name => $value) {
+			foreach ($attributesObject as $name => $value) {
 				$attributes[$name] = trim($value);
 			}
 
 			// Return Index
-			if(!empty($attributes['index'])) {
+			if (!empty($attributes['index'])) {
 				return (string)$attributes['index'];
 			}
 		}
@@ -1352,101 +1355,101 @@ class Translations {
 
 
 	/**
-	 * @param  $String
+	 * @param  $string
 	 * @return string
 	 */
-	private function getCleanedString($String) {
+	private function getCleanedString($string) {
 
-		if($String) {
+		if ($string) {
 
-			$String = htmlentities($String);
+			$string = htmlentities($string);
 
 		}
 
-		return $String;
+		return $string;
 
 	}
 
 
 	/**
-	 * @param  $ExtensionPath
-	 * @param  $ExtensionKey
+	 * @param  $extensionPath
+	 * @param  $extensionKey
 	 * @return string
 	 */
-	private function getExtensionIcon($ExtensionPath, $ExtensionKey) {
+	private function getExtensionIcon($extensionPath, $extensionKey) {
 
-		$ExtensionIcon = '';
+		$extensionIcon = '';
 
-		if($ExtensionPath && $ExtensionKey) {
+		if ($extensionPath && $extensionKey) {
 
-			if(file_exists(ExtensionManagementUtility::extPath($ExtensionKey) . 'ext_icon.gif')) {
-				$ExtensionIcon = ExtensionManagementUtility::extRelPath($ExtensionKey) . 'ext_icon.gif';
+			if (file_exists(ExtensionManagementUtility::extPath($extensionKey) . 'ext_icon.gif')) {
+				$extensionIcon = ExtensionManagementUtility::extRelPath($extensionKey) . 'ext_icon.gif';
 			} else {
-				$ExtensionIcon = ExtensionManagementUtility::extRelPath('snowbabel') . 'Resources/Public/Images/Miscellaneous/ext_icon.gif';
+				$extensionIcon = ExtensionManagementUtility::extRelPath('snowbabel') . 'Resources/Public/Images/Miscellaneous/ext_icon.gif';
 			}
 
 		}
 
-		return $ExtensionIcon;
+		return $extensionIcon;
 
 	}
 
 
 	/**
-	 * @param  $ExtensionKey
+	 * @param  $extensionKey
 	 * @return bool
 	 */
-	private function isExtensionLoaded($ExtensionKey) {
+	private function isExtensionLoaded($extensionKey) {
 
-		if(isset($ExtensionKey)) {
-			$InstalledExtensions = $this->LoadedExtensions;
+		$isLoaded = FALSE;
 
-			$Check = array_key_exists($ExtensionKey, $InstalledExtensions);
+		if (isset($extensionKey)) {
+			$installedExtensions = $this->loadedExtensions;
 
-			if($Check) {
-				return true;
-			} else {
-				return false;
+			$check = array_key_exists($extensionKey, $installedExtensions);
+
+			if ($check) {
+				return TRUE;
 			}
 		}
 
-		return false;
+		return $isLoaded;
 
 	}
 
 
 	/**
-	 * @param  $FilePath
-	 * @param  $Language
+	 * @param  $filePath
+	 * @param  $language
 	 * @return void
 	 */
-	private function deleteSystemCache($FilePath, $Language) {
+	private function deleteSystemCache($filePath, $language) {
 
 		// Delete Cached Language File
-		$cacheFileName = self::getCacheFileName($FilePath, $Language);
+		$cacheFileName = self::getCacheFileName($filePath, $language);
 		GeneralUtility::unlink_tempfile($cacheFileName);
 
 		// Delete 'default'
-		if($Language != 'default') {
-			$cacheFileNameDefault = self::getCacheFileName($FilePath);
+		if ($language != 'default') {
+			$cacheFileNameDefault = self::getCacheFileName($filePath);
 			GeneralUtility::unlink_tempfile($cacheFileNameDefault);
 		}
 	}
 
 
 	/**
-	 * @param        $FilePath
-	 * @param string $Language
+	 * @param        $filePath
+	 * @param string $language
 	 * @return string
 	 */
-	private function getCacheFileName($FilePath, $Language = 'default') {
+	private function getCacheFileName($filePath, $language = 'default') {
 
-		$hashSource = substr($FilePath, strlen(PATH_site)) . '|' . date('d-m-Y H:i:s', filemtime($FilePath)) . '|version=2.3';
+		$hashSource = substr($filePath, strlen(PATH_site)) . '|' . date('d-m-Y H:i:s', filemtime($filePath)) . '|version=2.3';
 		$hash = '_' . GeneralUtility::shortMD5($hashSource);
 		$tempPath = PATH_site . 'typo3temp/llxml/';
-		$fileExtension = substr(basename($FilePath), 10, 15);
+		$fileExtension = substr(basename($filePath), 10, 15);
 
-		return $tempPath . $fileExtension . $hash . '.' . $Language . '.' . 'utf-8' . '.cache';
+		return $tempPath . $fileExtension . $hash . '.' . $language . '.' . 'utf-8' . '.cache';
 	}
 
 }

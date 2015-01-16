@@ -47,19 +47,19 @@ class Indexing extends AbstractTask {
 	/**
 	 * @var Translations
 	 */
-	private $SystemTranslation;
+	private $systemTranslation;
 
 
 	/**
 	 * @var Database
 	 */
-	private $Db;
+	private $database;
 
 
 	/**
 	 * @var number
 	 */
-	private $CurrentTableId;
+	private $currentTableId;
 
 
 	/**
@@ -84,7 +84,7 @@ class Indexing extends AbstractTask {
 		$this->init();
 
 		// Get Current TableId & Negate
-		$this->CurrentTableId = $this->Db->getCurrentTableId() ? 0 : 1;
+		$this->currentTableId = $this->database->getCurrentTableId() ? 0 : 1;
 
 		// Indexing Extensions
 		$this->indexingExtensions();
@@ -99,12 +99,12 @@ class Indexing extends AbstractTask {
 		$this->indexingTranslations();
 
 		// Switch CurrentTableId
-		$this->Db->setCurrentTableId($this->CurrentTableId);
+		$this->database->setCurrentTableId($this->currentTableId);
 
 		// Add Scheduler Check To Localconf & Mark Configuration Changes As 'OK'
 		$this->confObj->setSchedulerCheckAndChangedConfiguration();
 
-		return true;
+		return TRUE;
 	}
 
 
@@ -114,10 +114,10 @@ class Indexing extends AbstractTask {
 	private function indexingExtensions() {
 
 		// Get Extensions From Typo3
-		$Extensions = $this->SystemTranslation->getExtensions();
+		$extensions = $this->systemTranslation->getExtensions();
 
 		// Write Extensions To Database
-		$this->Db->setExtensions($Extensions, $this->CurrentTableId);
+		$this->database->setExtensions($extensions, $this->currentTableId);
 
 	}
 
@@ -128,13 +128,13 @@ class Indexing extends AbstractTask {
 	private function indexingFiles() {
 
 		// Get Extensions From Database
-		$Extensions = $this->Db->getExtensions($this->CurrentTableId);
+		$extensions = $this->database->getExtensions($this->currentTableId);
 
 		// Get Files From Typo3
-		$Files = $this->SystemTranslation->getFiles($Extensions);
+		$files = $this->systemTranslation->getFiles($extensions);
 
 		// Write Extensions To Database
-		$this->Db->setFiles($Files, $this->CurrentTableId);
+		$this->database->setFiles($files, $this->currentTableId);
 
 	}
 
@@ -145,13 +145,13 @@ class Indexing extends AbstractTask {
 	private function indexingLabels() {
 
 		// Get Files From Database
-		$Files = $this->Db->getFiles($this->CurrentTableId);
+		$files = $this->database->getFiles($this->currentTableId);
 
 		// Get Labels From Typo
-		$Labels = $this->SystemTranslation->getLabels($Files);
+		$labels = $this->systemTranslation->getLabels($files);
 
 		// Write Labels To Database
-		$this->Db->setLabels($Labels, $this->CurrentTableId);
+		$this->database->setLabels($labels, $this->currentTableId);
 
 	}
 
@@ -162,16 +162,16 @@ class Indexing extends AbstractTask {
 	private function indexingTranslations() {
 
 		// Important! Needed For Caching in getLabels
-		$Conf['OrderBy'] = 'FileId';
+		$conf['OrderBy'] = 'FileId';
 
 		// Get Labels From Database
-		$Labels = $this->Db->getLabels($this->CurrentTableId, $Conf);
+		$labels = $this->database->getLabels($this->currentTableId, $conf);
 
 		// Get Translations From Typo
-		$Translations = $this->SystemTranslation->getTranslations($Labels);
+		$translations = $this->systemTranslation->getTranslations($labels);
 
 		// Write Translations To Database
-		$this->Db->setTranslations($Translations, $this->CurrentTableId);
+		$this->database->setTranslations($translations, $this->currentTableId);
 
 	}
 
@@ -181,10 +181,10 @@ class Indexing extends AbstractTask {
 	 */
 	private function initConfiguration() {
 
-		if(!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
-			$this->confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', array());
+		if (!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
+			$this->confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', array ());
 
-			$this->Db = $this->confObj->getDb();
+			$this->database = $this->confObj->getDatabase();
 		}
 
 	}
@@ -194,9 +194,9 @@ class Indexing extends AbstractTask {
 	 * @return void
 	 */
 	private function initSystemTranslations() {
-		if(!is_object($this->SystemTranslation) && !($this->SystemTranslation instanceof Translations)) {
-			$this->SystemTranslation = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
-			$this->SystemTranslation->init($this->confObj);
+		if (!is_object($this->systemTranslation) && !($this->systemTranslation instanceof Translations)) {
+			$this->systemTranslation = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
+			$this->systemTranslation->init($this->confObj);
 		}
 	}
 
