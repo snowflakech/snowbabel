@@ -10,9 +10,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'category' => 'module',
 	'constraints' => array (
 		'depends' => array (
-			'php' => '5.4-0.0.0',
 			'typo3' => '6.2.0-6.2.99',
-			'static_info_tables' => '6.1.0-6.1.99',
 		),
 		'conflicts' => array (),
 		'suggests' => array (),
@@ -22,7 +20,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'createDirs' => '',
 	'clearCacheOnLoad' => 0,
 	'author' => 'Daniel Alder',
-	'author_email' => 'info@snowflake.ch',
+	'author_email' => 'support@snowflake.ch',
 	'author_company' => 'snowflake productions gmbh',
-	'version' => '4.3.0'
+	'version' => '5.0.0'
 );

@@ -3,6 +3,12 @@ if(!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+// Register AJAX Requests
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler (
+        'Snowbabel::dispatch',
+        'Snowflake\\Snowbabel\\Utility\\Ajax\\DispatcherUtility->dispatch'
+);
+
 if(TYPO3_MODE === "BE") {
 
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(

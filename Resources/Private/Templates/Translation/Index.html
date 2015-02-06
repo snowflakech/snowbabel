@@ -1,0 +1,119 @@
+<f:layout name="BackendModule"/>
+
+<f:section name="content">
+
+	<f:alias map="{
+		templatePath: '/typo3conf/ext/snowbabel/Resources/Private/Partials/',
+		javascriptPath: '../typo3conf/ext/snowbabel/Resources/Public/JavaScript/'}">
+
+		<div ng-app="snowbabel">
+			<div class="row">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse" id="navbar-top">
+							<form class="navbar-form navbar-left" role="search">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Search">
+								</div>
+							</form>
+							<ul class="nav navbar-nav navbar-right">
+								<li ng-controller="modalController">
+									<f:render partial="Modals/ModalSettings"/>
+									<a ng-click="open('modalSettings')">Settings</a>
+								</li>
+							</ul>
+						</div>
+						<!-- /.navbar-collapse -->
+					</div>
+					<!-- /.container-fluid -->
+				</nav>
+			</div>
+
+			<div class="row">
+				<div class="col-md-3">
+					<ul class="nav nav-pills  nav-stacked">
+						<li role="presentation" class="active"><a href="#">Extension1</a></li>
+						<li role="presentation"><a href="#">Extension2</a></li>
+						<li role="presentation"><a href="#">Extension3</a></li>
+					</ul>
+				</div>
+				<div class="col-md-9">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<tr>
+								<td>Cell</td>
+								<td>Cell2</td>
+								<td>Cell3</td>
+								<td>Cell4</td>
+							</tr>
+							<tr>
+								<td>Cell</td>
+								<td>Cell2</td>
+								<td>Cell3</td>
+								<td>Cell4</td>
+							</tr>
+							<tr>
+								<td>Cell</td>
+								<td>Cell2</td>
+								<td>Cell3</td>
+								<td>Cell4</td>
+							</tr>
+							<tr>
+								<td>Cell</td>
+								<td>Cell2</td>
+								<td>Cell3</td>
+								<td>Cell4</td>
+							</tr>
+							<tr>
+								<td>Cell</td>
+								<td>Cell2</td>
+								<td>Cell3</td>
+								<td>Cell4</td>
+							</tr>
+							<tr>
+								<td>Cell</td>
+								<td>Cell2</td>
+								<td>Cell3</td>
+								<td>Cell4</td>
+							</tr>
+							<tr>
+								<td>Cell</td>
+								<td>Cell2</td>
+								<td>Cell3</td>
+								<td>Cell4</td>
+							</tr>
+							<tr>
+								<td>Cell</td>
+								<td>Cell2</td>
+								<td>Cell3</td>
+								<td>Cell4</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="{javascriptPath}Bootstrap.js"></script>
+
+		<script src="{javascriptPath}Controllers/ModalController.js"></script>
+		<script src="{javascriptPath}Controllers/ModalSettingsController.js"></script>
+
+		<script src="{javascriptPath}Services/SettingsService.js"></script>
+
+		<script type="text/javascript">
+
+			var ajaxToken = '{ajaxToken}';
+
+			angular.module('snowbabel').constant('settings', {
+						ajaxToken:  ajaxToken
+					}
+			);
+
+		</script>
+
+	</f:alias>
+
+</f:section>

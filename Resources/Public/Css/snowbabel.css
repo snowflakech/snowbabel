@@ -1,0 +1,12 @@
+.snowbabel-settings-tabs .nav-tabs {
+	margin-bottom: 15px;
+}
+
+.snowbabel-settings-tabs .extension-icon {
+	max-height: 16px;
+	width:auto;
+}
+
+.snowbabel-settings-tabs .clickable {
+	cursor: pointer;
+}

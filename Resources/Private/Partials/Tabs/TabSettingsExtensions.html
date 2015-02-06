@@ -1,0 +1,78 @@
+<p>Choose from the available extensions which you wish to edit.</p>
+
+<h2>Frontend
+	<small>fe & plugin</small>
+</h2>
+
+<div class="table-responsive">
+	<table class="table table-striped table-hover">
+		<tbody>
+		<tr class="clickable" ng-click="selectExtension($index, extension, 'frontend')"
+			ng-repeat="extension in extensionsGroupedByCategory.frontend track by $index" ng-class="{success: extension.selected}">
+			<td class="text-nowrap">
+				<i ng-class="{'fa fa-square-o': !extension.active, 'fa fa-check-square-o': extension.active}"></i>
+			</td>
+			<td>
+				<span tooltip-popup-delay="1000" tooltip-placement="right" tooltip="{{extension.description}}">
+					<img ng-src="/{{extension.siteRelativePath}}{{extension.icon}}" class="img-rounded extension-icon">
+					{{extension.title}}
+					<small>{{extension.key}}</small>
+				</span>
+			</td>
+			<td class="text-right text-nowrap">
+				<i class="fa fa-check ng-hide" ng-show="extension.selected"></i>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+<h2>Backend
+	<small>be & module</small>
+</h2>
+
+<div class="table-responsive">
+	<table class="table table-striped table-hover">
+		<tbody>
+		<tr class="clickable" ng-click="selectExtension($index, extension, 'backend')"
+			ng-repeat="extension in extensionsGroupedByCategory.backend  track by $index" ng-class="{success: extension.selected}">
+			<td class="text-nowrap">
+				<i ng-class="{'fa fa-square-o': !extension.active, 'fa fa-check-square-o': extension.active}"></i>
+			</td>
+			<td>
+				<img ng-src="/{{extension.siteRelativePath}}{{extension.icon}}" class="img-rounded extension-icon">
+				{{extension.title}}
+				<small>{{extension.key}}</small>
+			</td>
+			<td class="text-right text-nowrap">
+				<i class="fa fa-check ng-hide" ng-show="extension.selected"></i>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+<h2>Miscellaneous
+	<small>misc, services, templates, example, doc & distribution</small>
+</h2>
+
+<div class="table-responsive">
+	<table class="table table-striped table-hover">
+		<tbody>
+		<tr class="clickable" ng-click="selectExtension($index, extension, 'miscellaneous')"
+			ng-repeat="extension in extensionsGroupedByCategory.miscellaneous track by $index" ng-class="{success: extension.selected}">
+			<td class="text-nowrap">
+				<i ng-class="{'fa fa-square-o': !extension.active, 'fa fa-check-square-o': extension.active}"></i>
+			</td>
+			<td>
+				<img ng-src="/{{extension.siteRelativePath}}{{extension.icon}}" class="img-rounded extension-icon">
+				{{extension.title}}
+				<small>{{extension.key}}</small>
+			</td>
+			<td class="text-right text-nowrap">
+				<i class="fa fa-check ng-hide" ng-show="extension.selected"></i>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>

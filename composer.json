@@ -2,5 +2,5 @@
     "name": "Snowflake/Snowbabel",
     "description": "Translation Extension",
     "type": "typo3-cms-extension",
-    "version": "4.3.0"
+    "version": "5.0.0"
 }
