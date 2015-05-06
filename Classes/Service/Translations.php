@@ -1188,6 +1188,10 @@ class Translations {
 		/** @var \SimpleXMLElement $bodyOfFileTag */
 		$bodyOfFileTag = $simpleXmlObject->file->body;
 
+		if (!is_object($bodyOfFileTag)) {
+			return $parsedData;
+		}
+
 		foreach ($bodyOfFileTag->children() as $translationElement) {
 
 			$elementName = $translationElement->getName();
