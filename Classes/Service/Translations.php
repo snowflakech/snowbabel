@@ -1099,23 +1099,16 @@ class Translations {
 	private function getFileInfos($file) {
 
 		$fileInfo = array ();
+		$fileArray = pathinfo($file);
 
-		// Explode Array By Points -> FileExtension Should Be Last
-		$fileArray = explode('.', $file);
-
-		// Reverse Array
-		// -> FileExtension Is Now First Element
-		// -> FileBasename Is Now Second Part
-		$fileArray = array_reverse($fileArray);
-
-		$fileInfo['Extension'] = $fileArray[0];
-		$fileInfo['Filename'] = $fileArray[1];
+		$fileInfo['Extension'] = $fileArray['extension'];
+		$fileInfo['Filename'] = $fileArray['dirname'] .'/'. $fileArray['filename'];
 
 		// Add Basename
-		$fileInfo['Basename'] = pathinfo($file, PATHINFO_BASENAME);
+		$fileInfo['Basename'] = $fileArray['basename'];
 
 		// Add Dirname
-		$fileInfo['Dirname'] = pathinfo($file, PATHINFO_DIRNAME) . '/';
+		$fileInfo['Dirname'] = $fileArray['dirname'] . '/';
 
 		return $fileInfo;
 	}
