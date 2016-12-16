@@ -53,7 +53,7 @@ A collection (comparison) of the main functionality of this product or of the di
 Requirements
 -------------
 
- - TYPO3 6.2 LTS
+ - TYPO3 6.2 LTS and above
  - static info tables
 
 Installation
