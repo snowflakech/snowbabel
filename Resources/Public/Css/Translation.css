@@ -1,7 +1,10 @@
 /**
 * menu styles
 */
-
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600);
+.x-panel,.x-window {
+    font-family: 'Open Sans', sans-serif !important;
+}
 #snowbabel-extension-menu,
 #snowbabel-language-menu,
 #snowbabel-column-menu {
@@ -31,7 +34,7 @@
 	}
 
 .snowbabel-menu-item {
-	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-family: 'Open Sans', sans-serif !important;
 	color: #222222;
 	line-height: 16px;
 	background: url(../Images/Silk/delete.png) no-repeat;

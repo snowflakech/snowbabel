@@ -1,28 +1,28 @@
 <?php
 namespace Snowflake\Snowbabel\Record;
 
-	/***************************************************************
-	 *  Copyright notice
-	 *
-	 *  (c) 2011 Daniel Alder <info@snowflake.ch>
-	 *  All rights reserved
-	 *
-	 *  This script is part of the TYPO3 project. The TYPO3 project is
-	 *  free software; you can redistribute it and/or modify
-	 *  it under the terms of the GNU General Public License as published by
-	 *  the Free Software Foundation; either version 2 of the License, or
-	 *  (at your option) any later version.
-	 *
-	 *  The GNU General Public License can be found at
-	 *  http://www.gnu.org/copyleft/gpl.html.
-	 *
-	 *  This script is distributed in the hope that it will be useful,
-	 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-	 *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	 *  GNU General Public License for more details.
-	 *
-	 *  This copyright notice MUST APPEAR in all copies of the script!
-	 ***************************************************************/
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2011 Daniel Alder <info@snowflake.ch>
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 /**
  * Class Columns
@@ -47,13 +47,13 @@ class Columns {
 	/**
 	 * @var
 	 */
-	private $columnsConfiguration;
+	private $ColumnsConfiguration;
 
 
 	/**
 	 * @var array
 	 */
-	private $columns = array ();
+	private $Columns = array();
 
 
 	/**
@@ -70,7 +70,7 @@ class Columns {
 		// get Extension params
 
 		// get User parasm
-		$this->columnsConfiguration = $this->confObj->getUserConfigurationColumns();
+		$this->ColumnsConfiguration = $this->confObj->getUserConfigurationColumns();
 
 		$this->initColumns();
 	}
@@ -81,7 +81,7 @@ class Columns {
 	 */
 	public function getColumns() {
 		// get columns
-		return $this->columns;
+		return $this->Columns;
 	}
 
 
@@ -90,15 +90,15 @@ class Columns {
 	 */
 	private function initColumns() {
 
-		if (is_array($this->columnsConfiguration)) {
-			foreach ($this->columnsConfiguration as $id => $property) {
+		if(is_array($this->ColumnsConfiguration)) {
+			foreach($this->ColumnsConfiguration as $Id => $Property) {
 
-				$label = $this->getColumnLabel($id);
+				$Label = $this->getColumnLabel($Id);
 
-				array_push($this->columns, array (
-					'ColumnId' => $id,
-					'ColumnName' => $label,
-					'ColumnSelected' => $property
+				array_push($this->Columns, array(
+					'ColumnId' => $Id,
+					'ColumnName' => $Label,
+					'ColumnSelected' => $Property
 				));
 
 			}
@@ -108,16 +108,16 @@ class Columns {
 
 
 	/**
-	 * @param $id
+	 * @param $Id
 	 * @return string
 	 */
-	private function getColumnLabel($id) {
+	private function getColumnLabel($Id) {
 
-		$labelName = 'translation_columnselection_' . $id;
+		$LabelName = 'translation_columnselection_' . $Id;
 
-		$label = $this->confObj->getLocallang($labelName);
+		$Label = $this->confObj->getLL($LabelName);
 
-		return $label;
+		return $Label;
 
 	}
 

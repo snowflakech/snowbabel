@@ -49,37 +49,37 @@ class Languages {
 	/**
 	 *
 	 */
-	private $userLanguages = array ();
+	private $UserLanguages = array();
 
 
 	/**
 	 *
 	 */
-	private $availableLanguages;
+	private $AvailableLanguages;
 
 
 	/**
 	 *
 	 */
-	private $isAdmin;
+	private $IsAdmin;
 
 
 	/**
 	 *
 	 */
-	private $permittedLanguages;
+	private $PermittedLanguages;
 
 
 	/**
 	 *
 	 */
-	private $allocatedGroups;
+	private $AllocatedGroups;
 
 
 	/**
 	 *
 	 */
-	private $selectedLanguages;
+	private $SelectedLanguages;
 
 
 	/**
@@ -92,20 +92,20 @@ class Languages {
 		$this->debug = $confObj->debug;
 
 		// get Application params
-		$this->availableLanguages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
+		$this->AvailableLanguages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
 
 		// get Extension params
 
 		// get User parasm
-		$this->isAdmin = $this->confObj->getUserConfigurationIsAdmin();
-		$this->permittedLanguages = $this->confObj->getUserConfiguration('PermittedLanguages');
-		$this->allocatedGroups = $this->confObj->getUserConfiguration('AllocatedGroups');
-		$this->selectedLanguages = $this->confObj->getUserConfiguration('SelectedLanguages');
+		$this->IsAdmin = $this->confObj->getUserConfigurationIsAdmin();
+		$this->PermittedLanguages = $this->confObj->getUserConfiguration('PermittedLanguages');
+		$this->AllocatedGroups = $this->confObj->getUserConfiguration('AllocatedGroups');
+		$this->SelectedLanguages = $this->confObj->getUserConfiguration('SelectedLanguages');
 	}
 
 
 	/**
-	 * @return array
+	 *
 	 */
 	public function getLanguages() {
 
@@ -115,34 +115,33 @@ class Languages {
 		// Set Selected Languages
 		$this->getLanguagesSelected();
 
-		return $this->userLanguages;
+		return $this->UserLanguages;
 	}
 
 
 	/**
 	 *
-	 * @return void
 	 */
 	private function getLanguagesUser() {
 
 		// Admin - application languages
-		if ($this->isAdmin) {
-			$this->userLanguages = $this->availableLanguages;
-		} else {
-			// Cm - permitted languages
+		if($this->IsAdmin) {
+			$this->UserLanguages = $this->AvailableLanguages;
+		} // Cm - permitted languages
+		else {
 
 			// get permitted languages
-			$permittedLanguages = explode(',', $this->permittedLanguages);
+			$PermittedLanguages = explode(',', $this->PermittedLanguages);
 
 			// add application language if is permitted language
-			if (is_array($this->availableLanguages)) {
+			if(is_array($this->AvailableLanguages)) {
 
-				foreach ($this->availableLanguages as $availableLanguage) {
+				foreach($this->AvailableLanguages as $AvailableLanguage) {
 
-					if (array_search($availableLanguage['LanguageKey'], $permittedLanguages) !== FALSE) {
+					if(array_search($AvailableLanguage['LanguageKey'], $PermittedLanguages) !== false) {
 
 						// add permitted language to language array
-						array_push($this->userLanguages, $availableLanguage);
+						array_push($this->UserLanguages, $AvailableLanguage);
 
 					}
 
@@ -157,25 +156,24 @@ class Languages {
 
 	/**
 	 *
-	 * @return void
 	 */
 	private function getLanguagesSelected() {
 
 		// selected languages
-		$selectedLanguages = explode(',', $this->selectedLanguages);
+		$SelectedLanguages = explode(',', $this->SelectedLanguages);
 
-		if (count($this->userLanguages) > 0) {
+		if(count($this->UserLanguages) > 0) {
 
-			foreach ($this->userLanguages as $key => $userLanguage) {
+			foreach($this->UserLanguages as $key => $UserLanguage) {
 
-				if (array_search($userLanguage['LanguageId'], $selectedLanguages) !== FALSE) {
-					$selected = TRUE;
+				if(array_search($UserLanguage['LanguageId'], $SelectedLanguages) !== false) {
+					$selected = true;
 				} else {
-					$selected = FALSE;
+					$selected = false;
 				}
 
 				// add marker to array
-				$this->userLanguages[$key]['LanguageSelected'] = $selected;
+				$this->UserLanguages[$key]['LanguageSelected'] = $selected;
 			}
 
 		}
