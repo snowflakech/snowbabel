@@ -2,16 +2,16 @@
 # Add field to table 'be_groups'
 #
 CREATE TABLE be_groups (
-	tx_snowbabel_extensions tinytext,
-	tx_snowbabel_languages tinytext
+	tx_snowbabel_extensions TEXT,
+	tx_snowbabel_languages TEXT
 );
 
 #
 # Add field to table 'be_users'
 #
 CREATE TABLE be_users (
-	tx_snowbabel_extensions tinytext,
-	tx_snowbabel_languages tinytext
+	tx_snowbabel_extensions TEXT,
+	tx_snowbabel_languages TEXT
 );
 
 CREATE TABLE tx_snowbabel_users (

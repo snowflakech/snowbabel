@@ -53,9 +53,10 @@ if(TYPO3_MODE === "BE") {
 	$tempColumns = array(
 		'tx_snowbabel_extensions' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:snowbabel/locallang_db.xlf:label.tx_snowbabel_extensions',
+			'label' => 'LLL:EXT:snowbabel/Resources/Private/Language/locallang_settings.xlf:settings_extended_extensions',
 			'config' => Array(
 				'type' => 'select',
+				'renderType' => 'selectMultipleSideBySide',
 				'itemsProcFunc' => 'Snowflake\Snowbabel\Hook\Tca->getExtensions',
 				'size' => 10,
 				'maxitems' => 9999,
@@ -64,9 +65,10 @@ if(TYPO3_MODE === "BE") {
 		),
 		'tx_snowbabel_languages' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:snowbabel/locallang_db.xlf:label.tx_snowbabel_languages',
+			'label' => 'LLL:EXT:snowbabel/Resources/Private/Language/locallang_settings.xlf:settings_extended_languages',
 			'config' => Array(
 				'type' => 'select',
+				'renderType' => 'selectMultipleSideBySide',
 				'itemsProcFunc' => 'Snowflake\Snowbabel\Hook\Tca->getLanguages',
 				'size' => 10,
 				'maxitems' => 9999,

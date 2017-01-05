@@ -111,6 +111,12 @@
 			<trans-unit id="settings_msg_SubmitErrorMessage">
 				<source>Please try to save configuration again</source>
 			</trans-unit>
+			<trans-unit id="settings_extended_extensions">
+				<source>Translation - Extensions</source>
+			</trans-unit>
+			<trans-unit id="settings_extended_languages">
+				<source>Translation - Languages</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
