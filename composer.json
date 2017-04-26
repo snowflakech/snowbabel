@@ -1,5 +1,5 @@
 {
-    "name": "Snowflake/Snowbabel",
+    "name": "snowflake/snowbabel",
     "description": "Translation Extension.Snowflake productions gmbh was the pioneers of this extension and handed over this to PIT Solutions Pvt Ltd in 2016 and sponsored by BIBUS AG.",
     "type": "typo3-cms-extension",
     "version": "5.0.0",
