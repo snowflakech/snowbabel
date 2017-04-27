@@ -1,6 +1,10 @@
 {
-    "name": "Snowflake/Snowbabel",
+    "name": "aoe/snowbabel",
     "description": "Translation Extension",
     "type": "typo3-cms-extension",
-    "version": "4.3.0"
+    "version": "4.3.0",
+    "require": {
+        "typo3/cms-core": ">=7.6,<9.0",
+        "typo3-ter/static-info-tables": "*"
+    }
 }
