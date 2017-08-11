@@ -21,7 +21,7 @@ CREATE TABLE tx_snowbabel_users (
 	crdate int(11) DEFAULT '0' NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	be_users_uid int(11) DEFAULT '0' NOT NULL,
-	SelectedLanguages tinytext NOT NULL,
+	SelectedLanguages tinytext NOT NULL DEFAULT '0',
 	ShowColumnLabel tinyint(4) DEFAULT '1' NOT NULL,
 	ShowColumnDefault tinyint(4) DEFAULT '1' NOT NULL,
 
