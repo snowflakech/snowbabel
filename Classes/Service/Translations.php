@@ -153,7 +153,7 @@ class Translations {
 		$this->GlobalExtensionPath = $this->confObj->getApplicationConfiguration('GlobalExtensionPath');
 
 		// get Extension params
-		$this->SitePath = $this->confObj->getExtensionConfiguration('SitePath');
+		$this->SitePath = PATH_site;
 		$this->L10nPath = $this->confObj->getExtensionConfiguration('L10nPath');
 		$this->LoadedExtensions = $this->confObj->getExtensionConfigurationLoadedExtensions();
 		$this->languageFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Localization\LocalizationFactory::class);

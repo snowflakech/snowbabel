@@ -26,7 +26,7 @@ if(TYPO3_MODE === "BE") {
 			'Translation' => 'index'
 		),
 		array(
-			'icon' => 'EXT:snowbabel/ext_icon.gif',
+			'icon' => 'EXT:snowbabel/ext_icon.svg',
 			'access' => 'user,group',
 			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_module_translation.xlf'
 		)
@@ -41,7 +41,7 @@ if(TYPO3_MODE === "BE") {
 			'Settings' => 'index'
 		),
 		array(
-			'icon' => 'EXT:snowbabel/ext_icon.gif',
+			'icon' => 'EXT:snowbabel/ext_icon.svg',
 			'access' => 'user,group',
 			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_module_settings.xlf'
 		)
