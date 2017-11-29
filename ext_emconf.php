@@ -10,9 +10,9 @@ $EM_CONF[$_EXTKEY] = array(
 	'category' => 'module',
 	'constraints' => array(
 		'depends' => array(
-			'php' => '5.4-7.0.99',
-			'typo3' => '6.2.0-8.9.99',
-			'static_info_tables' => '6.1.0-6.9.99',
+			'php' => '5.4-7.1',
+			'typo3' => '6.2.0-8.7.99',
+			'static_info_tables' => '6.1.0-6.5.99',
 		),
 		'conflicts' => array(),
 		'suggests' => array(),
@@ -24,5 +24,5 @@ $EM_CONF[$_EXTKEY] = array(
 	'author' => 'Daniel Alder, Ricky Mathew, Anu Bhuvanendran Nair',
 	'author_email' => 'ricky.mk@pitsolutions.com, anu.bn@pitsolutions.com',
 	'author_company' => 'PIT Solutions Pvt Ltd',
-	'version' => '5.0.2'
+	'version' => '5.0.3'
 );
