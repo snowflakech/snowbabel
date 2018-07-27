@@ -1003,25 +1003,25 @@ class Database {
 	 */
 	private function where($Where) {
 
-		if(count($Where['OR'])) {
+		if(is_array($Where['OR']) && count($Where['OR'])) {
 			$Where['OR'] = '(' . implode($Where['OR'], ' OR ') . ')';
 		} else {
 			unset($Where['OR']);
 		}
 
-		if(count($Where['AND'])) {
+		if(is_array($Where['AND']) && count($Where['AND'])) {
 			$Where['AND'] = '(' . implode($Where['AND'], ' AND ') . ')';
 		} else {
 			unset($Where['AND']);
 		}
 
-		if(count($Where['SEARCH_OR'])) {
+		if(is_array($Where['SEARCH_OR']) && count($Where['SEARCH_OR'])) {
 			$Where['SEARCH_OR'] = '(' . implode($Where['SEARCH_OR'], ' OR ') . ')';
 		} else {
 			unset($Where['SEARCH_OR']);
 		}
 
-		if(count($Where['SEARCH_AND'])) {
+		if(is_array($Where['SEARCH_AND']) && count($Where['SEARCH_AND'])) {
 			$Where['SEARCH_AND'] = '(' . implode($Where['SEARCH_AND'], ' AND ') . ')';
 		} else {
 			unset($Where['SEARCH_AND']);
