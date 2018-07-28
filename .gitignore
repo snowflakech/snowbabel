@@ -2,3 +2,5 @@ Build/*
 !Build/composer.json
 !Build/composer.lock
 !Build/phpmd.xml
+
+.idea/*
