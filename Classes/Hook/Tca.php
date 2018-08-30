@@ -1,4 +1,5 @@
 <?php
+
 namespace Snowflake\Snowbabel\Hook;
 
 /***************************************************************
@@ -33,105 +34,105 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @package Snowflake\Snowbabel\Hook
  */
-class Tca {
-
-
-	/**
-	 * @var	Configuration
-	 */
+class Tca
+{
+    /**
+     * @var    Configuration
+     */
     protected $confObj;
 
+    /**
+     * @var    Extensions
+     */
+    protected $extObj;
 
-	/**
-	 * @var	Extensions
-	 */
-	protected $extObj;
+    /**
+     * @param  $PA
+     * @param  $fobj
+     * @return void
+     */
+    public function getExtensions($PA, $fobj)
+    {
+        $extjsParams = null;
+        $tcaExtensions = array();
 
+        // get configuration object
+        $this->getConfigurationObject($extjsParams);
 
-	/**
-	 * @param  $PA
-	 * @param  $fobj
-	 * @return void
-	 */
-	public function getExtensions($PA, $fobj) {
+        // get extension object
+        $this->getExtensionsObject();
 
-		$extjsParams = null;
-		$tcaExtensions = array();
+        // get all extensions for this user
+        $Extensions = $this->extObj->getExtensions();
 
-		// get configuration object
-		$this->getConfigurationObject($extjsParams);
+        if (is_array($Extensions)) {
+            foreach ($Extensions as $Extension) {
+                $Value = array(
+                    '0' => $Extension['ExtensionKey'],    // label
+                    '1' => $Extension['ExtensionKey']        // value
+                );
 
-		// get extension object
-		$this->getExtensionsObject();
+                array_push($tcaExtensions, $Value);
+            }
+        }
 
-		// get all extensions for this user
-		$Extensions = $this->extObj->getExtensions();
-
-		if(is_array($Extensions)) {
-			foreach($Extensions as $Extension) {
-				$Value = array(
-					'0' => $Extension['ExtensionKey'],    // label
-					'1' => $Extension['ExtensionKey']        // value
-				);
-
-				array_push($tcaExtensions, $Value);
-			}
-		}
-
-		$PA['items'] = $tcaExtensions;
-	}
+        $PA['items'] = $tcaExtensions;
+    }
 
 
-	/**
-	 * @param  $PA
-	 * @param  $fobj
-	 * @return void
-	 */
-	public function getLanguages($PA, $fobj) {
+    /**
+     * @param  $PA
+     * @param  $fobj
+     * @return void
+     */
+    public function getLanguages($PA, $fobj)
+    {
 
-		$extjsParams = null;
-		$tcaLanguages = array();
+        $extjsParams = null;
+        $tcaLanguages = array();
 
-		// get configuration object
-		$this->getConfigurationObject($extjsParams);
+        // get configuration object
+        $this->getConfigurationObject($extjsParams);
 
-		// get available languages
-		$Languages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
+        // get available languages
+        $Languages = $this->confObj->getApplicationConfiguration('AvailableLanguages');
 
-		if(is_array($Languages)) {
-			foreach($Languages as $Language) {
-				$Value = array(
-					'0' => $Language['LanguageName'],        // label
-					'1' => $Language['LanguageKey']            // value
-				);
+        if (is_array($Languages)) {
+            foreach ($Languages as $Language) {
+                $Value = array(
+                    '0' => $Language['LanguageName'],        // label
+                    '1' => $Language['LanguageKey']            // value
+                );
 
-				array_push($tcaLanguages, $Value);
-			}
-		}
-
-
-		$PA['items'] = $tcaLanguages;
-	}
+                array_push($tcaLanguages, $Value);
+            }
+        }
 
 
-	/**
-	 *
-	 */
-	private function getConfigurationObject($extjsParams) {
-
-		if(!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
-			$this->confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', $extjsParams);
-		}
-
-	}
+        $PA['items'] = $tcaLanguages;
+    }
 
 
-	/**
-	 *
-	 */
-	private function getExtensionsObject() {
-		if(!is_object($this->extObj) && !($this->extObj instanceof Extensions)) {
-			$this->extObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\Extensions', $this->confObj);
-		}
-	}
+    /**
+     *
+     */
+    private function getConfigurationObject($extjsParams)
+    {
+
+        if (!is_object($this->confObj) && !($this->confObj instanceof Configuration)) {
+            $this->confObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Configuration', $extjsParams);
+        }
+
+    }
+
+
+    /**
+     *
+     */
+    private function getExtensionsObject()
+    {
+        if (!is_object($this->extObj) && !($this->extObj instanceof Extensions)) {
+            $this->extObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\Extensions', $this->confObj);
+        }
+    }
 }

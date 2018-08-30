@@ -1,4 +1,5 @@
 <?php
+
 namespace Snowflake\Snowbabel\Record;
 
 /***************************************************************
@@ -33,389 +34,397 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @package Snowflake\Snowbabel\Record
  */
-class Labels {
+class Labels
+{
 
 
-	/**
-	 * @var Configuration
-	 */
+    /**
+     * @var Configuration
+     */
     protected $confObj;
 
 
-	/**
-	 * @var Languages
-	 */
+    /**
+     * @var Languages
+     */
     protected $langObj;
 
 
-	/**
-	 * @var Database
-	 */
+    /**
+     * @var Database
+     */
     protected $Db;
 
 
-	/**
-	 * @var Translations
-	 */
+    /**
+     * @var Translations
+     */
     protected $SystemTranslation;
 
 
-	/**
-	 * @var
-	 */
+    /**
+     * @var
+     */
     protected $debug;
 
 
-	/**
-	 * @var
-	 */
+    /**
+     * @var
+     */
     protected $CurrentTableId;
 
 
-	/**
-	 * @var array
-	 */
+    /**
+     * @var array
+     */
     protected $Languages;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $ColumnsConfiguration;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $ShowColumnLabel;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $ShowColumnDefault;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $IsAdmin;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $PermittedExtensions;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $Labels;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $SearchMode;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $SearchString;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $ExtensionId;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $ListViewStart;
 
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     protected $ListViewLimit;
 
 
-	/**
-	 * @param  $confObj
-	 */
-	public function __construct($confObj) {
+    /**
+     * @param Configuration $confObj
+     */
+    public function __construct($confObj)
+    {
+        $this->confObj = $confObj;
+        $this->Db = $this->confObj->getDb();
+        $this->debug = $confObj->getDebug();
 
-		$this->confObj = $confObj;
-		$this->Db = $this->confObj->getDb();
-		$this->debug = $confObj->debug;
+        // Get Current TableId
+        $this->CurrentTableId = $this->Db->getCurrentTableId();
 
-		// Get Current TableId
-		$this->CurrentTableId = $this->Db->getCurrentTableId();
+        // get User params
+        $this->ColumnsConfiguration = $this->confObj->getUserConfigurationColumns();
 
-		// get User params
-		$this->ColumnsConfiguration = $this->confObj->getUserConfigurationColumns();
+        $this->ShowColumnLabel = $this->ColumnsConfiguration['ShowColumnLabel'];
+        $this->ShowColumnDefault = $this->ColumnsConfiguration['ShowColumnDefault'];
 
-		$this->ShowColumnLabel = $this->ColumnsConfiguration['ShowColumnLabel'];
-		$this->ShowColumnDefault = $this->ColumnsConfiguration['ShowColumnDefault'];
+        $this->IsAdmin = $this->confObj->getUserConfigurationIsAdmin();
+        $this->PermittedExtensions = $this->confObj->getUserConfiguration('PermittedExtensions');
 
-		$this->IsAdmin = $this->confObj->getUserConfigurationIsAdmin();
-		$this->PermittedExtensions = $this->confObj->getUserConfiguration('PermittedExtensions');
+        // extjs params
+        $this->SearchString = $this->confObj->getExtjsConfiguration('SearchString');
+        $this->ExtensionId = $this->confObj->getExtjsConfiguration('ExtensionId');
 
-		// extjs params
-		$this->SearchString = $this->confObj->getExtjsConfiguration('SearchString');
-		$this->ExtensionId = $this->confObj->getExtjsConfiguration('ExtensionId');
+        $this->Dir = $this->confObj->getExtjsConfiguration('dir');
+        $this->Sort = $this->confObj->getExtjsConfiguration('sort');
 
-		$this->Dir = $this->confObj->getExtjsConfiguration('dir');
-		$this->Sort = $this->confObj->getExtjsConfiguration('sort');
+        $this->ListViewStart = $this->confObj->getExtjsConfigurationListViewStart();
+        $this->ListViewLimit = $this->confObj->getExtjsConfigurationListViewLimit();
+
+        $this->TranslationId = $this->confObj->getExtjsConfiguration('TranslationId');
+        $this->TranslationValue = $this->confObj->getExtjsConfiguration('TranslationValue');
+
+        // get language object
+        $this->getLanguageObject();
+
+        // get available languages
+        $this->Languages = $this->langObj->getLanguages();
+
+    }
+
+
+    /**
+     * @return void
+     */
+    public function setMetaData()
+    {
 
-		$this->ListViewStart = $this->confObj->getExtjsConfigurationListViewStart();
-		$this->ListViewLimit = $this->confObj->getExtjsConfigurationListViewLimit();
+        // Set metadata to configure grid properties
+        $MetaData['metaData']['idProperty'] = 'RecordId';
+        $MetaData['metaData']['root'] = 'LabelRows';
 
-		$this->TranslationId = $this->confObj->getExtjsConfiguration('TranslationId');
-		$this->TranslationValue = $this->confObj->getExtjsConfiguration('TranslationValue');
-
-		// get language object
-		$this->getLanguageObject();
+        // Set field for totalcounts -> paging
+        $MetaData['metaData']['totalProperty'] = 'ResultCount';
 
-		// get available languages
-		$this->Languages = $this->langObj->getLanguages();
+        // Set standard sorting
+        $MetaData['metaData']['sortInfo']['field'] = $this->Sort ? $this->Sort : 'LabelName';
+        $MetaData['metaData']['sortInfo']['direction'] = $this->Dir ? $this->Dir : 'ASC';
 
-	}
+        // Set fields
+        $MetaData['metaData']['fields'] = array();
+        array_push($MetaData['metaData']['fields'], 'LabelId');
+        array_push($MetaData['metaData']['fields'], 'LabelName');
+        array_push($MetaData['metaData']['fields'], 'LabelDefault');
 
+        // Add fields for selected languages
+        if (is_array($this->Languages)) {
+            foreach ($this->Languages as $Language) {
 
-	/**
-	 * @return void
-	 */
-	public function setMetaData() {
+                if ($Language['LanguageSelected']) {
 
-		// Set metadata to configure grid properties
-		$MetaData['metaData']['idProperty'] = 'RecordId';
-		$MetaData['metaData']['root'] = 'LabelRows';
+                    array_push($MetaData['metaData']['fields'], 'TranslationId_' . $Language['LanguageKey']);
+                    array_push($MetaData['metaData']['fields'], 'TranslationValue_' . $Language['LanguageKey']);
 
-		// Set field for totalcounts -> paging
-		$MetaData['metaData']['totalProperty'] = 'ResultCount';
+                }
 
-		// Set standard sorting
-		$MetaData['metaData']['sortInfo']['field'] = $this->Sort ? $this->Sort : 'LabelName';
-		$MetaData['metaData']['sortInfo']['direction'] = $this->Dir ? $this->Dir : 'ASC';
+            }
+        }
 
-		// Set fields
-		$MetaData['metaData']['fields'] = array();
-		array_push($MetaData['metaData']['fields'], 'LabelId');
-		array_push($MetaData['metaData']['fields'], 'LabelName');
-		array_push($MetaData['metaData']['fields'], 'LabelDefault');
+        // Set columns
+        $MetaData['columns'] = array(
 
-		// Add fields for selected languages
-		if(is_array($this->Languages)) {
-			foreach($this->Languages as $Language) {
+            array(
+                'header' => 'LabelId',
+                'dataIndex' => 'LabelId',
+                'hidden' => true
+            ),
 
-				if($Language['LanguageSelected']) {
+            array(
+                'header' => $this->confObj->getLL('translation_listview_GridHeaderLabel'),
+                'dataIndex' => 'LabelName',
+                'sortable' => true,
+                'hidden' => !$this->ShowColumnLabel
+            ),
 
-					array_push($MetaData['metaData']['fields'], 'TranslationId_' . $Language['LanguageKey']);
-					array_push($MetaData['metaData']['fields'], 'TranslationValue_' . $Language['LanguageKey']);
+            array(
+                'header' => $this->confObj->getLL('translation_listview_GridHeaderDefault'),
+                'dataIndex' => 'LabelDefault',
+                'sortable' => true,
+                'hidden' => !$this->ShowColumnDefault
+            )
 
-				}
+        );
 
-			}
-		}
+        // Add Columns For Selected Languages
+        if (is_array($this->Languages)) {
+            foreach ($this->Languages as $Language) {
 
-		// Set columns
-		$MetaData['columns'] = array(
+                if ($Language['LanguageSelected']) {
 
-			array(
-				'header' => 'LabelId',
-				'dataIndex' => 'LabelId',
-				'hidden' => true
-			),
+                    // Translation Id
+                    $addColumn = array(
+                        'header' => 'TranslationId_' . $Language['LanguageKey'],
+                        'dataIndex' => 'TranslationId_' . $Language['LanguageKey'],
+                        'hidden' => true
+                    );
 
-			array(
-				'header' => $this->confObj->getLL('translation_listview_GridHeaderLabel'),
-				'dataIndex' => 'LabelName',
-				'sortable' => true,
-				'hidden' => !$this->ShowColumnLabel
-			),
+                    array_push($MetaData['columns'], $addColumn);
 
-			array(
-				'header' => $this->confObj->getLL('translation_listview_GridHeaderDefault'),
-				'dataIndex' => 'LabelDefault',
-				'sortable' => true,
-				'hidden' => !$this->ShowColumnDefault
-			)
+                    // Translation Value
+                    $addColumn = array(
+                        'header' => $Language['LanguageName'],
+                        'dataIndex' => 'TranslationValue_' . $Language['LanguageKey'],
+                        'sortable' => true,
+                        'editor' => array(
+                            'xtype' => 'textarea',
+                            'multiline' => true,
+                            'grow' => true,
+                            'growMin' => 30,
+                            'growMax' => 200
+                        ),
+                        'renderer' => 'CellPreRenderer'
+                    );
 
-		);
+                    array_push($MetaData['columns'], $addColumn);
 
-		// Add Columns For Selected Languages
-		if(is_array($this->Languages)) {
-			foreach($this->Languages as $Language) {
+                }
+            }
+        }
 
-				if($Language['LanguageSelected']) {
+        // Add MetaData
+        $this->Labels = $MetaData;
 
-					// Translation Id
-					$addColumn = array(
-						'header' => 'TranslationId_' . $Language['LanguageKey'],
-						'dataIndex' => 'TranslationId_' . $Language['LanguageKey'],
-						'hidden' => true
-					);
+        // Add Data Array
+        $this->Labels['LabelRows'] = array();
 
-					array_push($MetaData['columns'], $addColumn);
+    }
 
-					// Translation Value
-					$addColumn = array(
-						'header' => $Language['LanguageName'],
-						'dataIndex' => 'TranslationValue_' . $Language['LanguageKey'],
-						'sortable' => true,
-						'editor' => array(
-							'xtype' => 'textarea',
-							'multiline' => true,
-							'grow' => true,
-							'growMin' => 30,
-							'growMax' => 200
-						),
-						'renderer' => 'CellPreRenderer'
-					);
 
-					array_push($MetaData['columns'], $addColumn);
+    /**
+     * @return
+     */
+    public function getSearchGlobal()
+    {
 
-				}
-			}
-		}
+        $this->SearchMode = 'global';
 
-		// Add MetaData
-		$this->Labels = $MetaData;
+        return $this->getLabels();
 
-		// Add Data Array
-		$this->Labels['LabelRows'] = array();
+    }
 
-	}
 
+    /**
+     * @return
+     */
+    public function getSearchExtension()
+    {
 
-	/**
-	 * @return
-	 */
-	public function getSearchGlobal() {
+        $this->SearchMode = 'extension';
 
-		$this->SearchMode = 'global';
+        return $this->getLabels();
 
-		return $this->getLabels();
+    }
 
-	}
 
+    /**
+     * @return
+     */
+    public function getLabels()
+    {
 
-	/**
-	 * @return
-	 */
-	public function getSearchExtension() {
+        if (!$this->IsAdmin && $this->PermittedExtensions == '') {
+            $this->Labels['LabelRows'] = null;
+        } else {
+            $Languages = array();
 
-		$this->SearchMode = 'extension';
+            if (is_array($this->Languages)) {
+                foreach ($this->Languages as $Language) {
+                    if ($Language['LanguageSelected']) {
+                        array_push($Languages, $Language['LanguageKey']);
+                    }
+                }
+            }
 
-		return $this->getLabels();
+            $Conf = array(
+                'ExtensionId' => $this->SearchMode == 'global' ? '' : $this->ExtensionId,
+                'Sort' => $this->Sort ? $this->Sort : 'LabelName',
+                'Dir' => $this->Dir ? $this->Dir : 'ASC',
+                'Limit' => $this->ListViewStart . ',' . $this->ListViewLimit,
+                'Search' => !$this->SearchString ? '' : $this->SearchString,
+                'Languages' => $Languages,
+                'Debug' => '0',
+            );
 
-	}
+            $Translations = $this->Db->getTranslations($this->CurrentTableId, $Conf, $Languages);
 
+            if ($Translations) {
 
-	/**
-	 * @return
-	 */
-	public function getLabels() {
+                // Because Of Performance Do Not Select Translation Selects, Only Need Labels
+                if (!$this->SearchString) {
+                    $Conf['Fields'] = 'tx_snowbabel_indexing_labels_' . $this->CurrentTableId . '.uid';
+                    $this->Labels['ResultCount'] = $this->Db->getLabels($this->CurrentTableId, $Conf, true);
+                } else {
+                    $this->Labels['ResultCount'] = $this->Db->getTranslations($this->CurrentTableId, $Conf, $Languages, true);
+                }
 
-		if(!$this->IsAdmin && $this->PermittedExtensions == '') {
-			$this->Labels['LabelRows'] = null;
-		} else {
-			$Languages = array();
 
-			if(is_array($this->Languages)) {
-				foreach($this->Languages as $Language) {
-					if($Language['LanguageSelected']) {
-						array_push($Languages, $Language['LanguageKey']);
-					}
-				}
-			}
+            }
 
-			$Conf = array(
-				'ExtensionId' => $this->SearchMode == 'global' ? '' : $this->ExtensionId,
-				'Sort' => $this->Sort ? $this->Sort : 'LabelName',
-				'Dir' => $this->Dir ? $this->Dir : 'ASC',
-				'Limit' => $this->ListViewStart . ',' . $this->ListViewLimit,
-				'Search' => !$this->SearchString ? '' : $this->SearchString,
-				'Languages' => $Languages,
-				'Debug' => '0',
-			);
+            // Add Result To Array
+            $this->Labels['LabelRows'] = $Translations;
+        }
 
-			$Translations = $this->Db->getTranslations($this->CurrentTableId, $Conf, $Languages);
+        return $this->Labels;
+    }
 
-			if($Translations) {
 
-				// Because Of Performance Do Not Select Translation Selects, Only Need Labels
-				if(!$this->SearchString) {
-					$Conf['Fields'] = 'tx_snowbabel_indexing_labels_' . $this->CurrentTableId . '.uid';
-					$this->Labels['ResultCount'] = $this->Db->getLabels($this->CurrentTableId, $Conf, true);
-				} else {
-					$this->Labels['ResultCount'] = $this->Db->getTranslations($this->CurrentTableId, $Conf, $Languages, true);
-				}
+    /**
+     * @return void
+     */
+    public function updateTranslation()
+    {
 
+        if ($this->TranslationId) {
 
-			}
+            // DATABASE
 
-			// Add Result To Array
-			$this->Labels['LabelRows'] = $Translations;
-		}
+            $this->Db->setTranslation($this->TranslationId, $this->TranslationValue, $this->CurrentTableId);
 
-		return $this->Labels;
-	}
+            // SYSTEM
 
+            $Conf = array(
+                'TranslationId' => $this->TranslationId
+            );
 
-	/**
-	 * @return void
-	 */
-	public function updateTranslation() {
+            // Get Full Translation Data From DB
+            $Translation = $this->Db->getTranslation($this->CurrentTableId, $Conf);
 
-		if($this->TranslationId) {
+            // Init SystemTranslations
+            $this->initSystemTranslations();
 
-			// DATABASE
+            // Update SystemTranslations With DB Values
+            $this->SystemTranslation->updateTranslation($Translation[0]);
 
-			$this->Db->setTranslation($this->TranslationId, $this->TranslationValue, $this->CurrentTableId);
+        }
 
-			// SYSTEM
+    }
 
-			$Conf = array(
-				'TranslationId' => $this->TranslationId
-			);
 
-			// Get Full Translation Data From DB
-			$Translation = $this->Db->getTranslation($this->CurrentTableId, $Conf);
+    /**
+     *
+     */
+    private function getLanguageObject()
+    {
+        if (!is_object($this->langObj) && !($this->langObj instanceof Languages)) {
+            $this->langObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Languages', $this->confObj);
+        }
+    }
 
-			// Init SystemTranslations
-			$this->initSystemTranslations();
 
-			// Update SystemTranslations With DB Values
-			$this->SystemTranslation->updateTranslation($Translation[0]);
-
-		}
-
-	}
-
-
-	/**
-	 *
-	 */
-	private function getLanguageObject() {
-		if(!is_object($this->langObj) && !($this->langObj instanceof Languages)) {
-			$this->langObj = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Record\\Languages', $this->confObj);
-		}
-	}
-
-
-	/**
-	 * @return void
-	 */
-	private function initSystemTranslations() {
-		if(!is_object($this->SystemTranslation) && !($this->SystemTranslation instanceof Translations)) {
-			$this->SystemTranslation = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
-			$this->SystemTranslation->init($this->confObj);
-		}
-	}
+    /**
+     * @return void
+     */
+    private function initSystemTranslations()
+    {
+        if (!is_object($this->SystemTranslation) && !($this->SystemTranslation instanceof Translations)) {
+            $this->SystemTranslation = GeneralUtility::makeInstance('Snowflake\\Snowbabel\\Service\\Translations');
+            $this->SystemTranslation->init($this->confObj);
+        }
+    }
 }

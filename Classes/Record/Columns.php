@@ -1,4 +1,5 @@
 <?php
+
 namespace Snowflake\Snowbabel\Record;
 
 /***************************************************************
@@ -24,101 +25,107 @@ namespace Snowflake\Snowbabel\Record;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Snowflake\Snowbabel\Service\Configuration;
+
 /**
  * Class Columns
  *
  * @package Snowflake\Snowbabel\Record
  */
-class Columns {
+class Columns
+{
 
 
-	/**
-	 * @var \Snowflake\Snowbabel\Service\Configuration
-	 */
+    /**
+     * @var \Snowflake\Snowbabel\Service\Configuration
+     */
     protected $confObj;
 
 
-	/**
-	 * @var
-	 */
+    /**
+     * @var
+     */
     protected $debug;
 
 
-	/**
-	 * @var
-	 */
+    /**
+     * @var
+     */
     protected $ColumnsConfiguration;
 
 
-	/**
-	 * @var array
-	 */
+    /**
+     * @var array
+     */
     protected $Columns = array();
 
 
-	/**
-	 * @param $confObj
-	 */
-	public function __construct($confObj) {
+    /**
+     * @param Configuration $confObj
+     */
+    public function __construct($confObj)
+    {
+        $this->confObj = $confObj;
 
-		$this->confObj = $confObj;
+        $this->debug = $confObj->getDebug();
 
-		$this->debug = $confObj->debug;
+        // get Application params
 
-		// get Application params
+        // get Extension params
 
-		// get Extension params
+        // get User parasm
+        $this->ColumnsConfiguration = $this->confObj->getUserConfigurationColumns();
 
-		// get User parasm
-		$this->ColumnsConfiguration = $this->confObj->getUserConfigurationColumns();
-
-		$this->initColumns();
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getColumns() {
-		// get columns
-		return $this->Columns;
-	}
+        $this->initColumns();
+    }
 
 
-	/**
-	 * @return void
-	 */
-	private function initColumns() {
-
-		if(is_array($this->ColumnsConfiguration)) {
-			foreach($this->ColumnsConfiguration as $Id => $Property) {
-
-				$Label = $this->getColumnLabel($Id);
-
-				array_push($this->Columns, array(
-					'ColumnId' => $Id,
-					'ColumnName' => $Label,
-					'ColumnSelected' => $Property
-				));
-
-			}
-		}
-
-	}
+    /**
+     * @return array
+     */
+    public function getColumns()
+    {
+        // get columns
+        return $this->Columns;
+    }
 
 
-	/**
-	 * @param $Id
-	 * @return string
-	 */
-	private function getColumnLabel($Id) {
+    /**
+     * @return void
+     */
+    private function initColumns()
+    {
 
-		$LabelName = 'translation_columnselection_' . $Id;
+        if (is_array($this->ColumnsConfiguration)) {
+            foreach ($this->ColumnsConfiguration as $Id => $Property) {
 
-		$Label = $this->confObj->getLL($LabelName);
+                $Label = $this->getColumnLabel($Id);
 
-		return $Label;
+                array_push($this->Columns, array(
+                    'ColumnId' => $Id,
+                    'ColumnName' => $Label,
+                    'ColumnSelected' => $Property
+                ));
 
-	}
+            }
+        }
+
+    }
+
+
+    /**
+     * @param $Id
+     * @return string
+     */
+    private function getColumnLabel($Id)
+    {
+
+        $LabelName = 'translation_columnselection_' . $Id;
+
+        $Label = $this->confObj->getLL($LabelName);
+
+        return $Label;
+
+    }
 
 }
