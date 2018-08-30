@@ -37,49 +37,49 @@ class Languages {
 	/**
 	 * @var Configuration
 	 */
-	private $confObj;
+    protected $confObj;
 
 
 	/**
 	 *
 	 */
-	private $debug;
+    protected $debug;
 
 
 	/**
 	 *
 	 */
-	private $UserLanguages = array();
+    protected $UserLanguages = array();
 
 
 	/**
 	 *
 	 */
-	private $AvailableLanguages;
+    protected $AvailableLanguages;
 
 
 	/**
 	 *
 	 */
-	private $IsAdmin;
+    protected $IsAdmin;
 
 
 	/**
 	 *
 	 */
-	private $PermittedLanguages;
+    protected $PermittedLanguages;
 
 
 	/**
 	 *
 	 */
-	private $AllocatedGroups;
+    protected $AllocatedGroups;
 
 
 	/**
 	 *
 	 */
-	private $SelectedLanguages;
+    protected $SelectedLanguages;
 
 
 	/**

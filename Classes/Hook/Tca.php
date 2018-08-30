@@ -39,13 +39,13 @@ class Tca {
 	/**
 	 * @var	Configuration
 	 */
-	private $confObj;
+    protected $confObj;
 
 
 	/**
 	 * @var	Extensions
 	 */
-	private $extObj;
+	protected $extObj;
 
 
 	/**

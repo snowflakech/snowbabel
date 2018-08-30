@@ -37,7 +37,7 @@ class Database {
 	/**
 	 * @var
 	 */
-	private $debug;
+    protected $debug;
 
 
 	/**

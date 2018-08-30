@@ -41,25 +41,25 @@ class Indexing extends AbstractTask {
 	/**
 	 * @var Configuration
 	 */
-	private $confObj;
+    protected $confObj;
 
 
 	/**
 	 * @var Translations
 	 */
-	private $SystemTranslation;
+    protected $SystemTranslation;
 
 
 	/**
 	 * @var Database
 	 */
-	private $Db;
+    protected $Db;
 
 
 	/**
 	 * @var number
 	 */
-	private $CurrentTableId;
+    protected $CurrentTableId;
 
 
 	/**

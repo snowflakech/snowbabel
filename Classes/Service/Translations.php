@@ -38,102 +38,102 @@ class Translations {
 	/**
 	 * @var Configuration
 	 */
-	private $confObj;
+    protected $confObj;
 
 
 	/**
 	 * @var
 	 */
-	private $CopyDefaultLanguage;
+    protected $CopyDefaultLanguage;
 
 
 	/**
 	 * @var
 	 */
-	private $AvailableLanguages;
+    protected $AvailableLanguages;
 
 
 	/**
 	 * @var
 	 */
-	private $ApprovedExtensions;
+    protected $ApprovedExtensions;
 
 
 	/**
 	 * @var
 	 */
-	private $LocalExtensionPath;
+    protected $LocalExtensionPath;
 
 
 	/**
 	 * @var
 	 */
-	private $SystemExtensionPath;
+    protected $SystemExtensionPath;
 
 
 	/**
 	 * @var
 	 */
-	private $GlobalExtensionPath;
+    protected $GlobalExtensionPath;
 
 
 	/**
 	 * @var
 	 */
-	private $SitePath;
+    protected $SitePath;
 
 
 	/**
 	 * @var
 	 */
-	private $L10nPath;
+    protected $L10nPath;
 
 
 	/**
 	 * @var
 	 */
-	private $LoadedExtensions;
+    protected $LoadedExtensions;
 
 
 	/**
 	 * @var string
 	 */
-	private $CacheTranslationsPath = '';
+    protected $CacheTranslationsPath = '';
 
 
 	/**
 	 * @var string
 	 */
-	private $CacheTranslationLanguage = '';
+    protected $CacheTranslationLanguage = '';
 
 
 	/**
 	 * @var
 	 */
-	private $CachedTranslations;
+    protected $CachedTranslations;
 
 
 	/**
 	 * @var
 	 */
-	private $CachedOriginalTranslations;
+    protected $CachedOriginalTranslations;
 
 
 	/**
 	 * @var
 	 */
-	private $CacheFilePath = '';
+    protected $CacheFilePath = '';
 
 
 	/**
 	 * @var
 	 */
-	private $CacheLanguageFile = array();
+    protected $CacheLanguageFile = array();
 
     /**
 	 * @var
 	 */
-	private $languageFactory;
+    protected $languageFactory;
 
 
 	/**

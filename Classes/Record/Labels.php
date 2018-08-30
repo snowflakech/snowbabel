@@ -39,109 +39,109 @@ class Labels {
 	/**
 	 * @var Configuration
 	 */
-	private $confObj;
+    protected $confObj;
 
 
 	/**
 	 * @var Languages
 	 */
-	private $langObj;
+    protected $langObj;
 
 
 	/**
 	 * @var Database
 	 */
-	private $Db;
+    protected $Db;
 
 
 	/**
 	 * @var Translations
 	 */
-	private $SystemTranslation;
+    protected $SystemTranslation;
 
 
 	/**
 	 * @var
 	 */
-	private $debug;
+    protected $debug;
 
 
 	/**
 	 * @var
 	 */
-	private $CurrentTableId;
+    protected $CurrentTableId;
 
 
 	/**
 	 * @var array
 	 */
-	private $Languages;
+    protected $Languages;
 
 
 	/**
 	 *
 	 */
-	private $ColumnsConfiguration;
+    protected $ColumnsConfiguration;
 
 
 	/**
 	 *
 	 */
-	private $ShowColumnLabel;
+    protected $ShowColumnLabel;
 
 
 	/**
 	 *
 	 */
-	private $ShowColumnDefault;
+    protected $ShowColumnDefault;
 
 
 	/**
 	 *
 	 */
-	private $IsAdmin;
+    protected $IsAdmin;
 
 
 	/**
 	 *
 	 */
-	private $PermittedExtensions;
+    protected $PermittedExtensions;
 
 
 	/**
 	 *
 	 */
-	private $Labels;
+    protected $Labels;
 
 
 	/**
 	 *
 	 */
-	private $SearchMode;
+    protected $SearchMode;
 
 
 	/**
 	 *
 	 */
-	private $SearchString;
+    protected $SearchString;
 
 
 	/**
 	 *
 	 */
-	private $ExtensionId;
+    protected $ExtensionId;
 
 
 	/**
 	 *
 	 */
-	private $ListViewStart;
+    protected $ListViewStart;
 
 
 	/**
 	 *
 	 */
-	private $ListViewLimit;
+    protected $ListViewLimit;
 
 
 	/**

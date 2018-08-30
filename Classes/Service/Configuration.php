@@ -39,42 +39,42 @@ class Configuration {
 	/**
 	 * @var ConfigurationManager
 	 */
-	private $configurationManager;
+    protected $configurationManager;
 
 	/**
 	 * @var
 	 */
-	private $configuration;
+    protected $configuration;
 
 
 	/**
 	 * @var Database
 	 */
-	private $db;
+    protected $db;
 
 
 	/**
 	 * @var string
 	 */
-	private $xmlPath = '';
+    protected $xmlPath = '';
 
 
 	/**
 	 * @var
 	 */
-	public $debug;
+    protected $debug;
 
 
 	/**
 	 * @var mixed
 	 */
-	private $extjsParams;
+    protected $extjsParams;
 
 
 	/**
 	 * @var array
 	 */
-	private $StandartValues = array(
+    protected $StandartValues = array(
 		'LocalExtensionPath' => 'typo3conf/ext/',
 		'SystemExtensionPath' => 'typo3/sysext/',
 		'GlobalExtensionPath' => 'typo3/ext/',

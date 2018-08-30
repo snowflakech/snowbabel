@@ -35,67 +35,67 @@ class Extensions {
 	/**
 	 * @var \Snowflake\Snowbabel\Service\Configuration
 	 */
-	private $confObj;
+    protected $confObj;
 
 
 	/**
 	 * @var \Snowflake\Snowbabel\Service\Database
 	 */
-	private $Db;
+    protected $Db;
 
 
 	/**
 	 *
 	 */
-	private $debug;
+    protected $debug;
 
 
 	/**
 	 * @var
 	 */
-	private $CurrentTableId;
+    protected $CurrentTableId;
 
 
 	/**
 	 *
 	 */
-	private $ShowLocalExtensions;
+    protected $ShowLocalExtensions;
 
 
 	/**
 	 *
 	 */
-	private $ShowSystemExtensions;
+    protected $ShowSystemExtensions;
 
 
 	/**
 	 *
 	 */
-	private $ShowGlobalExtensions;
+    protected $ShowGlobalExtensions;
 
 
 	/**
 	 *
 	 */
-	private $ApprovedExtensions;
+    protected $ApprovedExtensions;
 
 
 	/**
 	 *
 	 */
-	private $ShowOnlyLoadedExtensions;
+    protected $ShowOnlyLoadedExtensions;
 
 
 	/**
 	 *
 	 */
-	private $IsAdmin;
+    protected $IsAdmin;
 
 
 	/**
 	 *
 	 */
-	private $PermittedExtensions;
+    protected $PermittedExtensions;
 
 
 	/**

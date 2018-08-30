@@ -43,37 +43,37 @@ class ExtDirectServer {
 	/**
 	 * @var	Configuration
 	 */
-	private $confObj;
+    protected $confObj;
 
 
 	/**
 	 * @var	Extensions
 	 */
-	private $extObj;
+    protected $extObj;
 
 
 	/**
 	 * @var	Labels
 	 */
-	private $labelsObj;
+    protected $labelsObj;
 
 
 	/**
 	 * @var	Languages
 	 */
-	private $langObj;
+    protected $langObj;
 
 
 	/**
 	 * @var	Columns
 	 */
-	private $colObj;
+    protected $colObj;
 
 
 	/**
 	 * @var	Translations
 	 */
-	private $systemTranslationObj;
+    protected $systemTranslationObj;
 
 
 	/**

@@ -35,25 +35,25 @@ class Columns {
 	/**
 	 * @var \Snowflake\Snowbabel\Service\Configuration
 	 */
-	private $confObj;
+    protected $confObj;
 
 
 	/**
 	 * @var
 	 */
-	private $debug;
+    protected $debug;
 
 
 	/**
 	 * @var
 	 */
-	private $ColumnsConfiguration;
+    protected $ColumnsConfiguration;
 
 
 	/**
 	 * @var array
 	 */
-	private $Columns = array();
+    protected $Columns = array();
 
 
 	/**
