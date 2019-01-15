@@ -24,5 +24,5 @@ $EM_CONF[$_EXTKEY] = array(
 	'author' => 'Daniel Alder, Ricky Mathew, Anu Bhuvanendran Nair',
 	'author_email' => 'ricky.mk@pitsolutions.com, anu.bn@pitsolutions.com',
 	'author_company' => 'PIT Solutions Pvt Ltd',
-	'version' => '5.1.0'
+	'version' => '5.2.0'
 );

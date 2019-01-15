@@ -14,6 +14,13 @@ CREATE TABLE be_users (
 	tx_snowbabel_languages TEXT
 );
 
+#
+# Add field to table 'static_languages'
+#
+CREATE TABLE static_languages (
+	tx_snowbabel_override_language_key varchar(5) DEFAULT NULL
+);
+
 CREATE TABLE tx_snowbabel_users (
  uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
