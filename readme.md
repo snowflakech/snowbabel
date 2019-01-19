@@ -17,10 +17,6 @@ A collection (comparison) of the main functionality of this product or of the di
 		<td>x</td>
 	</tr>
 	<tr>
-		<td><strong>Future proof due to TYPO3 Ext JS API</strong></td>
-		<td>x</td>
-	</tr>
-	<tr>
 		<td><strong>Easy to use</strong></td>
 		<td>x</td>
 	</tr>
@@ -60,7 +56,8 @@ Installation
 -------------
 
  - Add snowbabel extension
- - Run install tool db compare making sure tables were created
+ - Run install tool db compare making sure tables are created
+ - Run Upgrade Wizard
  - Configure snowbabel via 'Settings' module
  - Run indexing task
 
