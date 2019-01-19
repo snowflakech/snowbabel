@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" product-name="snowbabel">
+		<header/>
+		<body>
+			<trans-unit id="static_languages.tx_snowbabel_override_language_key" xml:space="preserve">
+				<source>ISO code for this language (snowbabel)</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

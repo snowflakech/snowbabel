@@ -234,7 +234,9 @@ class Database
 
                     $Languages[$Key]['LanguageNameEn'] = $Language['lg_name_en'];
                     $Languages[$Key]['LanguageNameLocal'] = $Language['lg_name_local'];
-                    $Languages[$Key]['LanguageKey'] = strtolower($Language['lg_iso_2']);
+
+                    $Languages[$Key]['LanguageKey'] = $Language['tx_snowbabel_override_language_key'] ?: $Language['lg_iso_2'];
+                    $Languages[$Key]['LanguageKey'] = strtolower($Languages[$Key]['LanguageKey']);
 
                     if ($LanguageId) {
                         return $Languages[$Key];
@@ -729,19 +731,19 @@ class Database
             foreach ($Languages as $Language) {
 
                 // FORM
-                $Table .= ',' . $Table4 . ' trans_' . $Language;
+                $Table .= ',' . $Table4 . ' `trans_' . $Language . '`';
 
                 // SELECT
-                $Fields .= ',trans_' . $Language . '.uid as TranslationId_' . $Language;
-                $Fields .= ',trans_' . $Language . '.TranslationValue as TranslationValue_' . $Language;
+                $Fields .= ',`trans_' . $Language . '`.uid as `TranslationId_' . $Language . '`';
+                $Fields .= ',`trans_' . $Language . '`.TranslationValue as `TranslationValue_' . $Language . '`';
 
                 // WHERE
-                array_push($Where['AND'], 'Labels.uid = trans_' . $Language . '.LabelId');
-                array_push($Where['AND'], 'trans_' . $Language . '.TranslationLanguage = \'' . $Language . '\'');
+                array_push($Where['AND'], 'Labels.uid = `trans_' . $Language . '`.LabelId');
+                array_push($Where['AND'], '`trans_' . $Language . '`.TranslationLanguage = \'' . $Language . '\'');
 
                 // SEARCH
                 if ($Conf['Search']) {
-                    array_push($Where['SEARCH_OR'], 'trans_' . $Language . '.TranslationValue LIKE \'%' . $Conf['Search'] . '%\'');
+                    array_push($Where['SEARCH_OR'], '`trans_' . $Language . '`.TranslationValue LIKE \'%' . $Conf['Search'] . '%\'');
                 }
 
             }
