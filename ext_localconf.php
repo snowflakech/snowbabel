@@ -16,3 +16,5 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Snowflake\\Snow
 	'description' => 'Indexes all translation on current installation',
 	'additionalFields' => '',
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['InitOverrideLanguageKey'] = \Snowflake\Snowbabel\Updates\InitOverrideLanguageKey::class;
