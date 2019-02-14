@@ -235,8 +235,7 @@ class Database
                     $Languages[$Key]['LanguageNameEn'] = $Language['lg_name_en'];
                     $Languages[$Key]['LanguageNameLocal'] = $Language['lg_name_local'];
 
-                    $Languages[$Key]['LanguageKey'] = $Language['tx_snowbabel_override_language_key'] ?: $Language['lg_iso_2'];
-                    $Languages[$Key]['LanguageKey'] = strtolower($Languages[$Key]['LanguageKey']);
+                    $Languages[$Key]['LanguageKey'] = $Language['tx_snowbabel_override_language_key'] ?: strtolower($Language['lg_iso_2']);
 
                     if ($LanguageId) {
                         return $Languages[$Key];

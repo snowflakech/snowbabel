@@ -53,7 +53,7 @@ class InitOverrideLanguageKey extends AbstractUpdate {
     public function checkForUpdate(&$description)
     {
         $description = 'Snowbabel must initialize a field in database to avoid conflicts between some ' .
-            'languages (DE, DE-CH and DE-AT for example).';
+            'languages (de, de_CH and de_AT for example).';
 
         return count($this->listLanguagesToUpgrade());
     }
@@ -83,7 +83,7 @@ class InitOverrideLanguageKey extends AbstractUpdate {
                     $queryBuilder->expr()->in('lg_iso_2', $queryBuilder->createNamedParameter($multipleLanguages, Connection::PARAM_STR_ARRAY)),
                     $queryBuilder->expr()->neq('lg_country_iso_2', $queryBuilder->createNamedParameter('', Connection::PARAM_STR))
                 )
-                ->set('tx_snowbabel_override_language_key', 'CONCAT(lg_iso_2, "-", lg_country_iso_2)', FALSE)
+                ->set('tx_snowbabel_override_language_key', 'CONCAT(LOWER(lg_iso_2), "_", UPPER(lg_country_iso_2))', FALSE)
                 ->execute();
 
             $dbQueries[] = $queryBuilder->getSQL();
