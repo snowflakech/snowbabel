@@ -45,18 +45,7 @@ class SettingsController extends ActionController
         $compatibility           = 1;
         //snowbabel_generals script path for versions 7 and 8
         $snowbabel_generals_path = 'JavaScript/Miscellaneous/snowbabel_generals_compatible.js';
-        $version                 = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version());
-        $version7                = VersionNumberUtility::convertVersionNumberToInteger(7);
-        $version8                = VersionNumberUtility::convertVersionNumberToInteger(8);
-        if ($version < $version7) {
-            $compatibility           = 0;
-            //snowbabel_generals script path for versions below 7
-            $snowbabel_generals_path = 'JavaScript/Miscellaneous/snowbabel_generals.js';
-        }
-        if ($version >= $version8) {
-            //Template path for versions greater than or equal to 8.
-            $this->view->setTemplatePathAndFileName(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('snowbabel') . 'Resources/Private/Templates/Settings/IndexCompatible.html');
-        }
+        
         $this->view->assign('compatibility', $compatibility);
         $this->view->assign('snowbabel_generals_path', $snowbabel_generals_path);
     }

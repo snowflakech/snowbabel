@@ -1,18 +1,19 @@
 {namespace snowbabel=Snowflake\Snowbabel\ViewHelpers}
+<f:format.raw>
 <snowbabel:container
-		loadExtJs="true"
-		loadExtJsTheme="true"
-		enableExtJsDebug="false"
-		includeCssFiles="{
-			0: '{f:uri.resource(path:\'Css/Settings.css\')}'
-		}"
-		includeJsFiles="{
-			0: 'ajax.php?ajaxID=ExtDirect::getAPI&namespace=TYPO3.Snowbabel',
-			1: '{f:uri.resource(path:\'JavaScript/Ux/MultiSelect.js\')}',
-			2: '{f:uri.resource(path:\'JavaScript/Ux/ItemSelector.js\')}',
-			3: '{f:uri.resource(path:\'{snowbabel_generals_path}\')}',
-			4: '{f:uri.resource(path:\'JavaScript/Settings/snowbabel_generalsettings.js\')}',
-			5: '{f:uri.resource(path:\'JavaScript/Settings/snowbabel_viewports.js\')}',
-			9: '{f:uri.resource(path:\'JavaScript/Settings/snowbabel_app.js\')}'
-		}"
-		addJsInlineFile="EXT:snowbabel/Resources/Private/Language/locallang_settings.xlf" />
+        loadExtJs="true"
+        loadExtJsTheme="true"
+        enableExtJsDebug="false"
+        includeCssFiles="{
+            0: '{f:uri.resource(path:\'Css/Settings.css\')}'
+        }"
+        includeJsFiles="{
+            0: '{f:uri.resource(path:\'JavaScript/Ux/MultiSelect.js\')}',
+            1: '{f:uri.resource(path:\'JavaScript/Ux/ItemSelector.js\')}',
+            2: '{f:uri.resource(path:\'{snowbabel_generals_path}\')}',
+            3: '{f:uri.resource(path:\'JavaScript/Settings/snowbabel_generalsettings.js\')}',
+            4: '{f:uri.resource(path:\'JavaScript/Settings/snowbabel_viewports.js\')}',
+            5: '{f:uri.resource(path:\'JavaScript/Settings/snowbabel_app.js\')}'
+        }"
+        addJsInlineFile="EXT:snowbabel/Resources/Private/Language/locallang_settings.xlf" />
+</f:format.raw>
