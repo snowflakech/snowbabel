@@ -1,4 +1,5 @@
 <?php
+
 namespace Snowflake\Snowbabel\Controller;
 
 /***************************************************************
@@ -24,7 +25,6 @@ namespace Snowflake\Snowbabel\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -40,12 +40,12 @@ class SettingsController extends ActionController
      *
      * @return void
      */
-    public function indexAction()
+    public function indexAction(): void
     {
-        $compatibility           = 1;
+        $compatibility = 1;
         //snowbabel_generals script path for versions 7 and 8
         $snowbabel_generals_path = 'JavaScript/Miscellaneous/snowbabel_generals_compatible.js';
-        
+
         $this->view->assign('compatibility', $compatibility);
         $this->view->assign('snowbabel_generals_path', $snowbabel_generals_path);
     }
