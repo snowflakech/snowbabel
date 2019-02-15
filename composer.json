@@ -2,14 +2,50 @@
     "name": "snowflakech/snowbabel",
     "description": "Translation Extension.Snowflake productions gmbh was the pioneers of this extension and handed over this to PIT Solutions Pvt Ltd in 2016 and sponsored by BIBUS AG.",
     "type": "typo3-cms-extension",
-    "version": "5.2.0",
-    "require": {
-        "typo3/cms-core": ">=8.7,<9",
-        "sjbr/static-info-tables": "^6.7.4"
-    },
+    "version": "5.3.0",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Bernhard Sirlinger",
+            "email": "bernhard@sirlinger.de"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Snowflake\\Snowbabel\\": "Classes/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Snowflake\\Snowbabel\\": "Tests/"
+        }
+    },
+    "config": {
+        "bin-dir": ".build/bin",
+        "discard-changes": true,
+        "optimize-autoloader": true,
+        "vendor-dir": ".build/vendor"
+    },
+    "extra": {
+        "typo3/cms": {
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".build/web"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "mkdir -p .build/web/typo3conf/ext/",
+            "[ -L .build/web/typo3conf/ext/snowbabel ] || ln -snvf ../../../../. .build/web/typo3conf/ext/snowbabel"
+        ]
+    },
+    "require": {
+        "php": "^7.2",
+        "typo3/cms-core": ">=8.7,<9",
+        "sjbr/static-info-tables": "^6.7.4"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.14.0",
+        "roave/security-advisories": "dev-master"
     }
 }
