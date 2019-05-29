@@ -707,6 +707,7 @@ class Translations
             $OriginalTranslationPath = $FileInfo['Dirname'] . $LanguageKey . '.' . $FileInfo['Basename'];
 
             // Get Path To l10n Location
+            // llXmlAutoFileName is deprecated (error on start of Scheduler task, TYPO3 9.5), AbstractXmlParser should be used.
             $TranslationFileName = GeneralUtility::llXmlAutoFileName($FilePath, $LanguageKey);
             $TranslationFilePath = GeneralUtility::getFileAbsFileName($TranslationFileName);
 
